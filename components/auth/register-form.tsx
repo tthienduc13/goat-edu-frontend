@@ -8,32 +8,33 @@ import { RegisterSchema } from "@/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 
-import { CardWrapper } from "@/components/auth/card-wrapper";
-
+import { InputField } from "@/components/input-field";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
+import { Checkbox } from "../ui/checkbox";
+import { CardWrapper } from "./card-wrapper";
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof RegisterSchema>>({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    trigger,
+    formState: { errors, isValid },
+  } = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
+    mode: "onChange",
     defaultValues: {
       email: "",
+      fullname: "",
+      username: "",
       password: "",
     },
   });
@@ -54,60 +55,76 @@ export const RegisterForm = () => {
 
   return (
     <CardWrapper
-      headerTitle="Create an account"
-      headerLabel="Enter your email below to create your account"
+      headerTitle="Sign up"
+      // headerLabel="Sign up"
       backButtonHref="/auth/login"
       backButtonLabel="Already have an account?"
-      showSocial
+      backButtonColor="white"
     >
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isPending}
-                      {...field}
-                      placeholder="john.doe@example.com"
-                      type="email"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isPending}
-                      {...field}
-                      placeholder="*******"
-                      type="password"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <FormError message={error} />
-          <FormSuccess message={success} />
-          <Button disabled={isPending} type="submit" className="w-full">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
+        <div className="w-full flex flex-col gap-y-4">
+          <InputField
+            name="email"
+            label="Email"
+            placeholder="Email"
+            type="email"
+            register={register}
+            error={errors.email}
+          />
+          <InputField
+            name="fullname"
+            label="Full name"
+            placeholder="Full name"
+            type="text"
+            register={register}
+            error={errors.fullname}
+          />
+          <InputField
+            name="password"
+            label="Password"
+            placeholder="Password"
+            type="password"
+            register={register}
+            error={errors.password}
+            isValid={isValid}
+            watch={watch}
+          />
+          <InputField
+            name="username"
+            label="Enter a username"
+            placeholder="Enter a username"
+            type="text"
+            register={register}
+            error={errors.username}
+          />
+        </div>
+        <FormError message={error} />
+        <FormSuccess message={success} />
+        <span className="pb-4 mt-4 h-full block typo-subhead text-[#cfd6e6] border-b border-slate-600">
+          Your email will be used to send you product and community updates
+        </span>
+        <div className="items-top flex space-x-2 py-4  border-b border-slate-600 text-muted-foreground ">
+          <Checkbox id="terms1" />
+          <label
+            htmlFor="terms1"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            I don’t want to receive updates and promotions via email
+          </label>
+        </div>
+        <div className="p-3">
+          <Button
+            disabled={isPending}
+            variant="secondary"
+            type="submit"
+            className="w-full"
+            size="lg"
+          >
             {isPending && <Spinner size="xs" className="mr-2" />}
             <div>Create an account</div>
           </Button>
-        </form>
-      </Form>
+        </div>
+      </form>
     </CardWrapper>
   );
 };

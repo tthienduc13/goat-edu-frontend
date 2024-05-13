@@ -8,29 +8,26 @@ import { LoginSchema } from "@/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-
-import { CardWrapper } from "@/components/auth/card-wrapper";
+import { InputField } from "@/components/input-field";
 
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
+import { BackButton } from "./back-button";
+import { CardWrapper } from "./card-wrapper";
 
 export const LoginForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
@@ -54,60 +51,54 @@ export const LoginForm = () => {
 
   return (
     <CardWrapper
-      headerTitle="Welcome Back"
-      headerLabel="Enter your email to login to system"
+      headerTitle="Log in"
       backButtonHref="/auth/register"
-      backButtonLabel="Don't have an account"
+      backButtonLabel="Not a member yet?"
+      backButtonColor="white"
       showSocial
     >
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isPending}
-                      {...field}
-                      placeholder="john.doe@example.com"
-                      type="email"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isPending}
-                      {...field}
-                      placeholder="*******"
-                      type="password"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+        <div className="w-full flex flex-col gap-y-4">
+          <InputField
+            name="email"
+            label="Email"
+            placeholder="Email"
+            type="email"
+            register={register}
+            error={errors.email}
+          />
+          {/* Password */}
+          <InputField
+            name="password"
+            label="Password"
+            placeholder="Password"
+            type="password"
+            register={register}
+            error={errors.password}
+          />
+          <div className="flex flex-row  w-full py-5 justify-between items-center ">
+            <div className="max-w-[150px]">
+              <BackButton
+                color="default"
+                href="/auth/reset"
+                label="Forgot password?"
+              />
+            </div>
+            <Button
+              disabled={isPending}
+              variant="secondary"
+              size="lg"
+              type="submit"
+              className="max-w-[150px] w-full"
+            >
+              {isPending && <Spinner size="xs" className="mr-2 " />}
+              <div>Login</div>
+            </Button>
           </div>
-          <FormError message={error} />
-          <FormSuccess message={success} />
-          <Button disabled={isPending} type="submit" className="w-full">
-            {isPending && <Spinner size="xs" className="mr-2 " />}
-            <div>Login</div>
-          </Button>
-        </form>
-      </Form>
+        </div>
+        <FormError message={error} />
+        <FormSuccess message={success} />
+      </form>
     </CardWrapper>
   );
 };
