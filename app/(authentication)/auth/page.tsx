@@ -418,9 +418,9 @@ const AuthPage = () => {
         </div>
       </div>
       <div>
-        <div className="flex flex-row items-center justify-center py-20 h-screen md:h-auto bg-transparent relative max-w-[1000px] w-full">
-          <div className="absolute w-full  h-[600px] ">
-            <World data={sampleArcs} globeConfig={globeConfig} />;
+        <div className=" w-[600px] hidden md:flex flex-row items-center justify-center py-20 h-screen md:h-auto bg-transparent relative">
+          <div className=" w-full  h-[600px] ">
+            <World data={sampleArcs} globeConfig={globeConfig} />
           </div>
         </div>
       </div>
