@@ -3,7 +3,7 @@
 import * as z from "zod";
 
 import { useState, useTransition } from "react";
-import { ForgotPasswordSchema } from "@/schemas";
+import { NewPasswordSchema } from "@/schemas";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +16,7 @@ import { InputField } from "@/components/input-field";
 import { FormSuccess } from "@/components/form-success";
 import { CardWrapper } from "./card-wrapper";
 
-export const ResetForm = () => {
+export const NewPasswordForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -24,16 +24,17 @@ export const ResetForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<z.infer<typeof ForgotPasswordSchema>>({
-    resolver: zodResolver(ForgotPasswordSchema),
+    watch,
+    formState: { errors, isValid },
+  } = useForm<z.infer<typeof NewPasswordSchema>>({
+    resolver: zodResolver(NewPasswordSchema),
     mode: "onChange",
     defaultValues: {
-      email: "",
+      password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof ForgotPasswordSchema>) => {
+  const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
     setError("");
     setSuccess("");
 
@@ -49,8 +50,8 @@ export const ResetForm = () => {
 
   return (
     <CardWrapper
-      headerTitle="Reset password"
-      headerLabel="Enter the email address you registered with and we will send you a verification code."
+      headerTitle="Change password"
+      headerLabel="Please enter your new password. A password strength meter will guide you if your password is strong enough."
       backButtonHref="/auth/login"
       backButtonLabel="Back to login"
       backButtonColor="white"
@@ -58,12 +59,14 @@ export const ResetForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
         <div className="w-full flex flex-col gap-y-4">
           <InputField
-            name="email"
-            label="Email"
-            placeholder="Email"
-            type="email"
+            name="password"
+            label="Password"
+            placeholder="Create new password"
+            type="password"
             register={register}
-            error={errors.email}
+            error={errors.password}
+            isValid={isValid}
+            watch={watch}
           />
         </div>
         <FormError message={error} />
@@ -77,7 +80,7 @@ export const ResetForm = () => {
             size="lg"
           >
             {isPending && <Spinner size="xs" className="mr-2" />}
-            <div>Send verification code</div>
+            <div>Change password</div>
           </Button>
         </div>
       </form>
@@ -85,4 +88,4 @@ export const ResetForm = () => {
   );
 };
 
-export default ResetForm;
+export default NewPasswordForm;

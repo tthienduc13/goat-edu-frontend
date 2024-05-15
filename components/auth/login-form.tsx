@@ -25,7 +25,6 @@ export const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isValid },
   } = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
