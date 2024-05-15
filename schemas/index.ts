@@ -22,3 +22,7 @@ export const RegisterSchema = z.object({
     .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
     .regex(/[0-9]/, "Password must contain at least one number"),
 });
+
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email({ message: "Email is required" }),
+});

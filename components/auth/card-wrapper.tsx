@@ -14,7 +14,7 @@ import { Options } from "./options";
 
 interface CardWrapperProps {
   children: React.ReactNode;
-  headerTitle: string;
+  headerTitle?: string;
   headerLabel?: string;
   backButtonLabel: string;
   backButtonHref: string;
