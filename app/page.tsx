@@ -1,10 +1,12 @@
 import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/logo";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-row items-center gap-x-10 p-24">
+      <Logo size="lg" />
       <Hint label="To login page">
         <Link href="/auth/login">
           <Button>Login</Button>
