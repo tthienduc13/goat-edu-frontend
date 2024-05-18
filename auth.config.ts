@@ -4,6 +4,7 @@ import Facebook from "next-auth/providers/facebook";
 import Google from "next-auth/providers/google";
 
 import { LoginSchema } from "@/schemas";
+import { login } from "./api/auth/auth";
 
 export default {
   providers: [
@@ -17,12 +18,27 @@ export default {
     }),
     Credentials({
       async authorize(credentials) {
-        const validatedFields = LoginSchema.safeParse(credentials);
-
-        if (validatedFields.success) {
+        try {
+          const validatedFields = LoginSchema.safeParse(credentials);
+          if (validatedFields.success) {
+            const { username, password } = validatedFields.data;
+            const response = await login({
+              username: username,
+              password: password,
+            });
+            const user = response.data.data.user;
+            if (user) {
+              return { ...user, token: response.data.data.token };
+            } else {
+              return null;
+            }
+          }
+        } catch (error) {
+          console.error(error);
+          return null;
         }
-        return null;
       },
     }),
   ],
+  secret: process.env.JWT_SCERET,
 } satisfies NextAuthConfig;

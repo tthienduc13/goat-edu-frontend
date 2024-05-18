@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-
+import { AuthError } from "next-auth";
 import { useState, useTransition } from "react";
 import { LoginSchema } from "@/schemas";
 
@@ -16,36 +16,55 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { BackButton } from "./back-button";
 import { CardWrapper } from "./card-wrapper";
+import { useLogin } from "@/api/auth/use-login";
+import { signIn } from "@/auth";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { Login } from "@/actions/login";
 
 export const LoginForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition();
-
+  const loginMutation = useLogin();
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setError("");
     setSuccess("");
 
-    console.log(values);
+    try {
+      // const response = await loginMutation.mutateAsync(values);
+      // if (!response.data) setError("Something went wrong!");
+      // console.log(response.data);
+      // response.data.status == "200"
+      //   ? setSuccess(response.data.message)
+      //   : setError(response.data.message);
 
-    // startTransition(() => {
-    //   Login(values).then((data) => {
-    //     setError(data.error);
-    //     setSuccess(data.success);
-    //   });
-    // });
+      // reset();
+
+      await Login(values);
+    } catch (error) {
+      if (error instanceof AuthError) {
+        switch (error.type) {
+          case "CredentialsSignin":
+            return { error: "Invalid credentials!" };
+          default:
+            return { error: "Something went wrong!" };
+        }
+      }
+
+      throw error;
+    }
   };
 
   return (
@@ -59,12 +78,12 @@ export const LoginForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <div className="w-full flex flex-col gap-y-4">
           <InputField
-            name="email"
-            label="Email"
-            placeholder="Email"
-            type="email"
+            name="username"
+            label="Username"
+            placeholder="Username"
+            type="string"
             register={register}
-            error={errors.email}
+            error={errors.username}
           />
           {/* Password */}
           <InputField
@@ -84,13 +103,15 @@ export const LoginForm = () => {
               />
             </div>
             <Button
-              disabled={isPending}
+              disabled={loginMutation.isPending}
               variant="secondary"
               size="lg"
               type="submit"
               className="max-w-[150px] w-full"
             >
-              {isPending && <Spinner size="xs" className="mr-2 " />}
+              {loginMutation.isPending && (
+                <Spinner size="xs" className="mr-2 " />
+              )}
               <div>Login</div>
             </Button>
           </div>

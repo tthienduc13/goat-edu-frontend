@@ -4,4 +4,4 @@ const NewPasswordPage = () => {
   return <NewPasswordForm />;
 };
 
-export default NewPasswordForm;
+export default NewPasswordPage;

@@ -5,9 +5,7 @@ interface PasswordProgressBarProps {
   password: string;
 }
 
-export const PasswordProgressBar: React.FC<PasswordProgressBarProps> = ({
-  password,
-}) => {
+export const PasswordProgressBar = ({ password }: PasswordProgressBarProps) => {
   const [score, setScore] = useState(0);
 
   useEffect(() => {
@@ -23,24 +21,23 @@ export const PasswordProgressBar: React.FC<PasswordProgressBarProps> = ({
       { regex: /[a-z]/, score: 15 },
       { regex: /[A-Z]/, score: 15 },
       { regex: /[0-9]/, score: 15 },
+      { regex: /[!@#$%^&*]/, score: 15 },
     ];
-
     criteria.forEach(({ regex, score }) => {
       if (regex.test(password)) {
         strength += score;
       }
     });
 
-    return Math.min(strength, 60); // Max score is 100
+    return Math.min(strength, 75);
   };
-  console.log(score);
 
   return (
     <div
       style={{ width: `${score}%` }}
       className={cn(
         "absolute bottom-0 h-[3px] rounded-[10px] transition-all",
-        score < 60 ? "bg-destructive" : "bg-emerald-500"
+        score < 75 ? "bg-destructive" : "bg-emerald-500"
       )}
     ></div>
   );
