@@ -8,7 +8,7 @@ const font = Poppins({
 });
 
 interface HeaderProps {
-  title: string;
+  title?: string;
   label?: string;
 }
 

@@ -400,26 +400,41 @@ const AuthPage = () => {
   ];
   return (
     <main className="text-white my-8 px-6 flex flex-wrap justify-between items-center w-full max-w-[1200px] flex-grow">
-      <div className="flex flex-1 flex-col max-w-[440px] w-full">
-        <h1 className="mb-4 font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#fc538d]  to-[#ce3df3] text-5xl leading-[56px]  ">
-          Where students suffer together
-        </h1>
-        <h2 className="text-white mb-8  text-[23px] leading-[30px]">
-          We know how hard it is to be in your dream univeristy. It doesn&apos;t
-          have to be. Personalized news feed, support community and search, much
-          better than what&rsquo;s out there. Maybe ;)
-        </h2>
-        <div className="flex overflow-y-auto z-1 flex-col w-full rounded max-w-full">
-          <CheckEmailForm />
-          <Options label="Or sign up with" />
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 20,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 1.5,
+        }}
+        className="div"
+      >
+        <div className="flex flex-1 flex-col max-w-[440px] w-full">
+          <h1 className="mb-4 font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#fc538d]  to-[#ce3df3] text-5xl leading-[56px]  ">
+            Where students suffer together
+          </h1>
+          <h2 className="text-white mb-8  text-[23px] leading-[30px]">
+            We know how hard it is to be in your dream univeristy. It
+            doesn&apos;t have to be. Personalized news feed, support community
+            and search, much better than what&rsquo;s out there. Maybe ;)
+          </h2>
+          <div className="flex overflow-y-auto z-1 flex-col w-full rounded max-w-full">
+            <CheckEmailForm />
+            <Options label="Or sign up with" />
+          </div>
+          <div className="flex pb-8 justify-between">
+            <Social />
+          </div>
         </div>
-        <div className="flex pb-8 justify-between">
-          <Social />
-        </div>
-      </div>
+      </motion.div>
       <div>
-        <div className="flex flex-row items-center justify-center py-20 h-screen md:h-auto bg-transparent relative max-w-[1000px] w-full">
-          <div className="absolute w-full  h-[600px] ">
+        <div className=" w-[600px] hidden md:flex flex-row items-center justify-center py-20 h-screen md:h-auto bg-transparent relative">
+          <div className=" w-full h-[600px] ">
             <World data={sampleArcs} globeConfig={globeConfig} />
           </div>
         </div>
