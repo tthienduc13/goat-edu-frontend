@@ -17,8 +17,8 @@ export const ReactQueryProvider = ({ children }: ReactQueryProviderProps) => {
             refetchOnWindowFocus: false,
             refetchOnMount: false,
             retry: 1,
-            staleTime: 6 * 1000,
-            refetchInterval: 6 * 1000,
+            // staleTime: 6 * 1000,
+            // refetchInterval: 6 * 1000,
           },
         },
       })
