@@ -4,4 +4,6 @@ const ErrorPage = () => {
   return <ErrorCard />;
 };
 
+ErrorPage.theme = "dark";
+
 export default ErrorPage;
