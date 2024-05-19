@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { AppProvider } from "@/providers/app-provider";
-import { ThemeProvider } from "@/providers/theme-provider";
 import { ReactQueryProvider } from "@/providers/react-query-provider";
+import SessionProviderApp from "@/providers/session-proivder";
+import { cookies } from "next/headers";
+import dynamic from "next/dynamic";
+import { Toaster } from "sonner";
+
+const AppThemeProvider = dynamic(() => import("@/providers/theme-provider"), {
+  ssr: false,
+});
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,17 +23,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const theme = cookies().get("__theme__")?.value || "dark";
+
   return (
-    <html lang="en">
+    <html lang="en" style={theme !== "system" ? { colorScheme: theme } : {}}>
       <body className={inter.className}>
-        {/* <ThemeProvider
-          attribute="className"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        > */}
-        <ReactQueryProvider>{children}</ReactQueryProvider>
-        {/* </ThemeProvider> */}
+        <SessionProviderApp>
+          <ReactQueryProvider>
+            <AppThemeProvider
+              attribute="class"
+              defaultTheme={theme}
+              enableSystem
+            >
+              {children}
+              <Toaster position="bottom-left" />
+            </AppThemeProvider>
+          </ReactQueryProvider>
+        </SessionProviderApp>
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 import { ReactQueryProvider } from "./react-query-provider";
+import SessionProviderApp from "./session-proivder";
 import { ThemeProvider } from "./theme-provider";
 
 interface AppProviderProps {
@@ -6,12 +7,16 @@ interface AppProviderProps {
 }
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  <ThemeProvider
-    attribute="class"
-    defaultTheme="system"
-    enableSystem
-    disableTransitionOnChange
-  >
-    <ReactQueryProvider>{children}</ReactQueryProvider>
-  </ThemeProvider>;
+  <SessionProviderApp>
+    <ReactQueryProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="dark"
+        enableSystem
+        disableTransitionOnChange
+      >
+        {children}
+      </ThemeProvider>
+    </ReactQueryProvider>
+  </SessionProviderApp>;
 };

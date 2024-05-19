@@ -16,6 +16,7 @@ import { InputField } from "@/components/input-field";
 import { FormSuccess } from "@/components/form-success";
 import { Checkbox } from "../ui/checkbox";
 import { CardWrapper } from "./card-wrapper";
+import { toast } from "sonner";
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");

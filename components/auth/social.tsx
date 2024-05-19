@@ -15,12 +15,12 @@ export const Social = () => {
     });
   };
   return (
-    <div className="flex items-center w-full flex-col gap-y-4">
+    <div className="flex  items-center w-full flex-col gap-y-4">
       <Hint side="bottom" sideOffset={10} label="Login with Google">
         <Button
           size="lg"
           className="w-full"
-          variant="outline"
+          variant="default"
           onClick={() => onClick("google")}
         >
           <FcGoogle className="h-5 w-5" />
@@ -30,7 +30,7 @@ export const Social = () => {
         <Button
           size="lg"
           className="w-full"
-          variant="outline"
+          variant="default"
           onClick={() => onClick("facebook")}
         >
           <FaFacebookF className="h-5 w-5 text-[#1877f2]" />
