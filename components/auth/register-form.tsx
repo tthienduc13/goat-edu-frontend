@@ -17,6 +17,7 @@ import { FormSuccess } from "@/components/form-success";
 import { Checkbox } from "../ui/checkbox";
 import { CardWrapper } from "./card-wrapper";
 import { toast } from "sonner";
+import { Register } from "@/actions/register";
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -43,21 +44,18 @@ export const RegisterForm = () => {
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError("");
     setSuccess("");
-    toast.success("ấdfasf");
-    console.log(values);
 
-    // startTransition(() => {
-    //   Login(values).then((data) => {
-    //     setError(data.error);
-    //     setSuccess(data.success);
-    //   });
-    // });
+    startTransition(() => {
+      Register(values).then((data) => {
+        setError(data.error);
+        setSuccess(data.success);
+      });
+    });
   };
 
   return (
     <CardWrapper
       headerTitle="Sign up"
-      // headerLabel="Sign up"
       backButtonHref="/auth/login"
       backButtonLabel="Already have an account?"
       backButtonColor="white"
@@ -98,9 +96,9 @@ export const RegisterForm = () => {
             register={register}
             error={errors.username}
           />
+          <FormError message={error} />
+          <FormSuccess message={success} />
         </div>
-        <FormError message={error} />
-        <FormSuccess message={success} />
         <span className="pb-4 mt-4 h-full block typo-subhead text-[#cfd6e6] border-b border-slate-600">
           Your email will be used to send you product and community updates
         </span>

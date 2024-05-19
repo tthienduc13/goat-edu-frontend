@@ -18,12 +18,13 @@ export const Login = async (values: z.infer<typeof LoginSchema>) => {
   const { username, password } = validatedFields.data;
 
   try {
-    await signIn("credentials", {
+    const response = await signIn("credentials", {
       username,
       password,
       redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
-    toast.success("Login successfully");
+
+    console.log(response);
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
