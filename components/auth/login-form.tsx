@@ -1,8 +1,9 @@
 "use client";
 
 import * as z from "zod";
+
 import { AuthError } from "next-auth";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { LoginSchema } from "@/schemas";
 
 import { useForm } from "react-hook-form";
@@ -14,11 +15,11 @@ import { InputField } from "@/components/input-field";
 
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { BackButton } from "./back-button";
-import { CardWrapper } from "./card-wrapper";
+
+import { BackButton } from "@/components/auth/back-button";
+import { CardWrapper } from "@/components/auth/card-wrapper";
+
 import { useLogin } from "@/api/auth/use-login";
-import { signIn } from "@/auth";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { Login } from "@/actions/login";
 
 export const LoginForm = () => {
@@ -104,7 +105,7 @@ export const LoginForm = () => {
             </div>
             <Button
               disabled={loginMutation.isPending}
-              variant="secondary"
+              variant="default"
               size="lg"
               type="submit"
               className="max-w-[150px] w-full"

@@ -43,7 +43,7 @@ export const RegisterForm = () => {
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError("");
     setSuccess("");
-
+    toast.success("ấdfasf");
     console.log(values);
 
     // startTransition(() => {
@@ -116,7 +116,7 @@ export const RegisterForm = () => {
         <div className="p-3">
           <Button
             disabled={isPending}
-            variant="secondary"
+            variant="default"
             type="submit"
             className="w-full"
             size="lg"

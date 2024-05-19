@@ -11,7 +11,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 
 export const Navbar = () => {
   return (
-    <div className="h-16 w-full dark:bg-black flex items-center px-10 border-b-[1px] ">
+    <div className="h-16 fixed z-50 top-0 left-0 w-full dark:bg-black flex items-center px-10 border-b-[1px] ">
       <Logo size="lg" />
       <SearchInput />
       <div className="flex items-center gap-x-2">
