@@ -33,7 +33,7 @@ export default function RootLayout({
               enableSystem
             >
               {children}
-              <Toaster position="bottom-left" />
+              <Toaster position="bottom-left" richColors={true} />
             </AppThemeProvider>
           </ReactQueryProvider>
         </SessionProviderApp>
