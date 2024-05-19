@@ -37,7 +37,6 @@ export const CardWrapper = ({
         <CardHeader>
           <Header title={headerTitle} label={headerLabel} />
         </CardHeader>
-
         <CardContent className="flex flex-col mt-6 w-full gap-2 self-center place-items-center flex-1 pb-2 md:px-[60px] px-6">
           {showSocial && (
             <div className="pb-2  w-full  ">
