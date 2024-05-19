@@ -6,14 +6,17 @@ import type { ThemeProviderProps } from "next-themes/dist/types";
 import { useEffect } from "react";
 
 // Application theme provider
-function AppThemeProvider({ children, ...props }: ThemeProviderProps) {
+export const AppThemeProvider = ({
+  children,
+  ...props
+}: ThemeProviderProps) => {
   return (
     <ThemeProvider enableColorScheme {...props}>
       <AppThemeProviderHelper />
       {children}
     </ThemeProvider>
   );
-}
+};
 
 // Helper component to set theme in cookie
 function AppThemeProviderHelper() {
@@ -28,5 +31,3 @@ function AppThemeProviderHelper() {
 
   return null;
 }
-
-export default AppThemeProvider;

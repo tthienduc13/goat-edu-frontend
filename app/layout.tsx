@@ -4,12 +4,9 @@ import "./globals.css";
 import { ReactQueryProvider } from "@/providers/react-query-provider";
 import SessionProviderApp from "@/providers/session-proivder";
 import { cookies } from "next/headers";
-import dynamic from "next/dynamic";
 import { Toaster } from "sonner";
 
-const AppThemeProvider = dynamic(() => import("@/providers/theme-provider"), {
-  ssr: false,
-});
+import { AppThemeProvider } from "@/providers/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
