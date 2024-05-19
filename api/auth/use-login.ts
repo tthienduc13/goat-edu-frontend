@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { login } from "./auth";
+import { login } from ".";
 import * as z from "zod";
 import { LoginSchema } from "@/schemas";
 

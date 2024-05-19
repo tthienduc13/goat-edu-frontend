@@ -1,4 +1,4 @@
-import { getRoleById, getRoleByName } from "@/api/role/roles";
+import { getRoleById, getRoleByName } from "@/api/role";
 import { createQueryKeys } from "@lukemorales/query-key-factory";
 
 export const roles = createQueryKeys("roles", {

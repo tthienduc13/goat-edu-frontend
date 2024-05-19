@@ -10,10 +10,10 @@ export const getAllRole = async () => {
   return await axiosClient.get(END_POINT.GET_ALL);
 };
 
-export const getRoleById = (id: string) => {
-  return axiosClient.get(`${END_POINT.GET_BY_ID}${id}`);
+export const getRoleById = async (id: string) => {
+  return await axiosClient.get(`${END_POINT.GET_BY_ID}${id}`);
 };
 
-export const getRoleByName = (name: string) => {
-  return axiosClient.get(`${END_POINT.GET_BY_NAME}${name}`);
+export const getRoleByName = async (name: string) => {
+  return await axiosClient.get(`${END_POINT.GET_BY_NAME}${name}`);
 };

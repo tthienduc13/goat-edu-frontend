@@ -1,27 +1,11 @@
 export type TSFixMe = any;
-export interface User {
-  id: string;
+
+export type User = {
+  userId: string;
   username: string;
-  password: string;
+  fullname: string;
   email: string;
-  phoneNumber: string;
-  subscription: string;
-  subscriptionEnd: Date;
-  provider: string;
+  image: string;
   emailVerify: boolean;
-  roleId: string;
-  walletId: string;
-  createdAt: Date;
-  updatedAt: Date;
   role: string;
-  wallet: string;
-  achievements: any[];
-  answers: any[];
-  discussions: any[];
-  enrollments: any[];
-  flashcards: any[];
-  notes: any[];
-  notifications: any[];
-  reports: any[];
-  isDeleted: boolean;
-}
+};

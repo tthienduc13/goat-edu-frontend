@@ -4,7 +4,7 @@ import Facebook from "next-auth/providers/facebook";
 import Google from "next-auth/providers/google";
 
 import { LoginSchema } from "@/schemas";
-import { login } from "./api/auth/auth";
+import { login } from "./api/auth";
 
 export default {
   providers: [
@@ -26,9 +26,9 @@ export default {
               username: username,
               password: password,
             });
-            const user = response.data.data.user;
+            const user = response.data.data;
             if (user) {
-              return { ...user, token: response.data.data.token };
+              return { ...user };
             } else {
               return null;
             }
