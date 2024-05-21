@@ -21,10 +21,17 @@ import { CardWrapper } from "@/components/auth/card-wrapper";
 
 import { useLogin } from "@/api/auth/use-login";
 import { Login } from "@/actions/login";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const callbackUrl = searchParams.get("callbackUrl");
+
+  const [formError, setFormError] = useState<string | undefined>("");
+  const [formSuccess, setFormSuccess] = useState<string | undefined>("");
   const loginMutation = useLogin();
   const {
     reset,
@@ -40,20 +47,23 @@ export const LoginForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
-    setError("");
-    setSuccess("");
+    setFormError("");
+    setFormSuccess("");
 
     try {
-      // const response = await loginMutation.mutateAsync(values);
-      // if (!response.data) setError("Something went wrong!");
-      // console.log(response.data);
-      // response.data.status == "200"
-      //   ? setSuccess(response.data.message)
-      //   : setError(response.data.message);
-
-      // reset();
-
-      await Login(values);
+      await Login(values, callbackUrl)
+        .then((data) => {
+          if (data?.error) {
+            reset();
+            setFormError(data.error);
+          }
+          if (data?.success) {
+            reset();
+            router.push("/browse");
+            setFormSuccess(data.success);
+          }
+        })
+        .catch(() => setFormError("Something went wrong!"));
     } catch (error) {
       if (error instanceof AuthError) {
         switch (error.type) {
@@ -117,8 +127,8 @@ export const LoginForm = () => {
             </Button>
           </div>
         </div>
-        <FormError message={error} />
-        <FormSuccess message={success} />
+        <FormError message={formError} />
+        <FormSuccess message={formSuccess} />
       </form>
     </CardWrapper>
   );

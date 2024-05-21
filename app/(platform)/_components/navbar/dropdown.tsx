@@ -1,8 +1,3 @@
-import { Hint } from "@/components/hint";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { AvatarFallback } from "@radix-ui/react-avatar";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import {
   Cloud,
   CreditCard,
@@ -20,6 +15,7 @@ import {
   Users,
 } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,36 +30,14 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogoutButton } from "@/components/auth/logout-button";
-import { User as UserType } from "next-auth";
 
-interface UserButtonProps {
-  user: UserType;
-}
-
-export const UserButton = ({ user }: UserButtonProps) => {
-  console.log("user in button", user);
+export function DropdownMenuDemo() {
   return (
     <DropdownMenu>
-      <Hint label="Profile settings" side="left" sideOffset={10}>
-        <DropdownMenuTrigger asChild>
-          <Button asChild variant="custom" className="pr-0 h-10 cursor-pointer">
-            <div className="flex gap-x-4 h-10">
-              <div className="flex gap-x-1 items-center">
-                <CreditCard />
-                <div>123.123vnd</div>
-              </div>
-              <Avatar className="rounded-md">
-                <AvatarImage src={user?.image!} />
-                <AvatarFallback className="w-full h-full flex items-center justify-center bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]">
-                  GE
-                </AvatarFallback>
-              </Avatar>
-            </div>
-          </Button>
-        </DropdownMenuTrigger>
-      </Hint>
-      <DropdownMenuContent sideOffset={10} align="start" className="w-56">
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">Open</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -139,10 +113,10 @@ export const UserButton = ({ user }: UserButtonProps) => {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LogOut className="mr-2 h-4 w-4" />
-          <LogoutButton>Log out</LogoutButton>
+          <span>Log out</span>
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
+}

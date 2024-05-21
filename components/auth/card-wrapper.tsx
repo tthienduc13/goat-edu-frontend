@@ -33,7 +33,7 @@ export const CardWrapper = ({
 }: CardWrapperProps) => {
   return (
     <div className="flex mx-auto flex-wrap justify-center w-full px-6 max-w-[1200px] flex-grow">
-      <Card className="flex bg-transparent border-none overflow-y-auto z-1 flex-col max-w-[480px] w-full h-full text-white">
+      <Card className="flex bg-transparent border-none overflow-y-auto z-1 flex-col max-w-[480px] w-full h-full ">
         <CardHeader>
           <Header title={headerTitle} label={headerLabel} />
         </CardHeader>

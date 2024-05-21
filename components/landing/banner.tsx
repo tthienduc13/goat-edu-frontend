@@ -22,13 +22,14 @@ export const Banner = () => {
               phải lo khi NOKIA anh chai Hi bitch! Khi em chào anh
             </h4>
           </div>
-          <Hint label="To register page">
-            <Link href="/auth/register">
-              <Button className="px-[30px] py-[30px] text-base bg-[#a8b3cf14]">
-                Sign up now
-              </Button>
-            </Link>
-          </Hint>
+          {/* <Hint label="To register page">
+            <Button
+              asChild
+              className="px-[30px] py-[30px] text-base bg-[#a8b3cf14]"
+            >
+              <Link href="/auth/register">Sign up now</Link>
+            </Button>
+          </Hint> */}
         </div>
       </div>
     </div>

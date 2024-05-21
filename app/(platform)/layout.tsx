@@ -1,20 +1,26 @@
 import { Sidebar } from "./_components/sidebar";
 import { Navbar } from "./_components/navbar";
+import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
+import { BackgroundBeams } from "@/components/ui/background-beams";
 
 interface PlatformLayoutProps {
   children: React.ReactNode;
 }
 
-const PlatformLayout = ({ children }: PlatformLayoutProps) => {
+const PlatformLayout = async ({ children }: PlatformLayoutProps) => {
+  const session = await auth();
   return (
-    <main className="h-screen w-full relative ">
-      <Navbar />
-      <Sidebar />
-      <div className=" top-[64px] pl-[240px] h-[2000px] dark:bg-grid-small-white/[0.2] bg-grid-small-black/[0.2] relative flex ">
-        <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
-        {children}
-      </div>
-    </main>
+    <SessionProvider session={session}>
+      <main className=" z-10 w-full h-[2000px] flex relative ">
+        <Navbar />
+        <Sidebar />
+        <div className=" z-5 bg-inherit overflow-hidden pt-16 pl-[240px]   flex ">
+          {children}
+        </div>
+        <BackgroundBeams className="z-[-1]" />
+      </main>
+    </SessionProvider>
   );
 };
 

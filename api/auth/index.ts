@@ -20,6 +20,6 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     email: values.email,
     password: values.password,
     fullname: values.fullname,
-    roleId: "a47c3ec7-5f22-4856-b80c-e341a7f58748",
+    roleId: values.role,
   });
 };

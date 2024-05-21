@@ -13,6 +13,7 @@ interface BackButtonProps {
 export const BackButton = ({ href, label, color }: BackButtonProps) => {
   return (
     <Button
+      asChild
       variant="link"
       className={cn(
         "font-normal",

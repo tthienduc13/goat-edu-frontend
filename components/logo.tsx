@@ -1,12 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Poppins } from "next/font/google";
 import localFont from "next/font/local";
 
-import LogoLight from "@/public/logo_light.svg";
 import { cn } from "@/lib/utils";
 
-import { Arrow, TooltipArrow } from "@radix-ui/react-tooltip";
 import { SparklesCore } from "./ui/sparkles";
 
 const headingFont = localFont({

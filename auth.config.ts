@@ -28,7 +28,7 @@ export default {
             });
             const user = response.data.data;
             if (user) {
-              return { ...user };
+              return user;
             } else {
               return null;
             }
