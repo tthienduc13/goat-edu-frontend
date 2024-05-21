@@ -18,33 +18,58 @@ export const SocialNetwork = () => {
       <div className="bg-slate-400 block w-[1220px] h-[1px] my-2"></div>
       <div className="w-[1220px] flex flex-row py-8 justify-between">
         <div className="flex flex-col">
-          <div>
-            <Button size="icon" variant="ghost" className="rounded-full">
+          {/* <div>
+            <Button
+              asChild
+              size="icon"
+              variant="ghost"
+              className="rounded-full"
+            >
               <Link href="">
                 <FaTiktok />
               </Link>
             </Button>
-            <Button size="icon" variant="ghost" className="rounded-full">
+            <Button
+              asChild
+              size="icon"
+              variant="ghost"
+              className="rounded-full"
+            >
               <Link href="">
                 <FaTwitter />
               </Link>
             </Button>
-            <Button size="icon" variant="ghost" className="rounded-full">
+            <Button
+              asChild
+              size="icon"
+              variant="ghost"
+              className="rounded-full"
+            >
               <Link href="">
                 <FaFacebook />
               </Link>
             </Button>
-            <Button size="icon" variant="ghost" className="rounded-full">
+            <Button
+              asChild
+              size="icon"
+              variant="ghost"
+              className="rounded-full"
+            >
               <Link href="">
                 <FaInstagram />
               </Link>
             </Button>
-            <Button size="icon" variant="ghost" className="rounded-full">
+            <Button
+              asChild
+              size="icon"
+              variant="ghost"
+              className="rounded-full"
+            >
               <Link href="">
                 <FaYoutube />
               </Link>
             </Button>
-          </div>
+          </div> */}
           <p className="leading-7 [&:not(:first-child)]:mt-6">
             @2024 Goat.edu, Inc.
           </p>

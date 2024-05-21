@@ -146,27 +146,27 @@ export const Header = () => {
         onChange={handleChange}
         onSubmit={onSubmit}
       />
-      <div className="flex space-x-5">
+      {/* <div className="flex space-x-5">
         <Hint label="To create flashcards">
-          <Link href="/auth/login">
-            <Button size="icon">
+          <Button size="icon" asChild>
+            <Link href="/auth/login">
               <Plus />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </Hint>
         <div className="space-x-2">
           <Hint label="To login page">
-            <Link href="/auth/login">
-              <Button>Login</Button>
-            </Link>
+            <Button asChild>
+              <Link href="/auth/login"> Login</Link>
+            </Button>
           </Hint>
           <Hint label="To register page">
-            <Link href="/auth/register">
-              <Button>Sign up</Button>
-            </Link>
+            <Button asChild>
+              <Link href="/auth/register">Sign up</Link>
+            </Button>
           </Hint>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -5,12 +5,8 @@ export const CheckEmailSchema = z.object({
 });
 
 export const LoginSchema = z.object({
-  username: z.string().min(1, {
-    message: "Username is required",
-  }),
-  password: z.string().min(1, {
-    message: "Password is required",
-  }),
+  username: z.string({ required_error: "Username is required" }),
+  password: z.string({ required_error: "Password is required" }),
 });
 
 export const RegisterSchema = z.object({
@@ -18,7 +14,7 @@ export const RegisterSchema = z.object({
   username: z.string().min(4, "Username needs a minimum length of 4"),
   email: z.string().email("This field is required"),
   password: z
-    .string()
+    .string({ required_error: "Password is required" })
     .min(6, "Password needs a minimum length of 6")
     .regex(/[a-z]/, "Password must contain at least one lowercase letter")
     .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
@@ -27,6 +23,7 @@ export const RegisterSchema = z.object({
       /[!@#$%^&*]/,
       "Password must contain at least one special character"
     ),
+  role: z.string({ required_error: "Please select your role" }),
 });
 
 export const ForgotPasswordSchema = z.object({
