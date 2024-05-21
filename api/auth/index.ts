@@ -1,5 +1,6 @@
 import { LoginSchema, RegisterSchema } from "@/schemas";
 import axiosClient from "../axios";
+import https from "https";
 import * as z from "zod";
 
 const ENDPOINT = {
@@ -8,10 +9,18 @@ const ENDPOINT = {
 };
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
-  return await axiosClient.post(ENDPOINT.LOGIN, {
-    username: values.username,
-    password: values.password,
-  });
+  return await axiosClient.post(
+    ENDPOINT.LOGIN,
+    {
+      username: values.username,
+      password: values.password,
+    },
+    {
+      httpsAgent: new https.Agent({
+        rejectUnauthorized: false,
+      }),
+    }
+  );
 };
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
