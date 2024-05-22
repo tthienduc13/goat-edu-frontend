@@ -10,7 +10,7 @@ export const useRoles = (): UseQueryResult<Role[]> => {
   });
 };
 
-export const useRoleById = (id: string) => {
+export const useRoleById = (id: string): UseQueryResult<Role> => {
   return useQuery(queries.roles.id(id));
 };
 

@@ -1,3 +1,4 @@
+import { Role } from "@/types/role";
 import axiosClient from "../axios";
 
 export const END_POINT = {
@@ -6,7 +7,7 @@ export const END_POINT = {
   GET_BY_NAME: "/role/name?name=",
 };
 
-export const getAllRole = async () => {
+export const getAllRole = async (): Promise<Role[]> => {
   const response = await axiosClient.get(END_POINT.GET_ALL);
   return response.data;
 };
