@@ -42,7 +42,6 @@ interface UserButtonProps {
 }
 
 export const UserButton = ({ user }: UserButtonProps) => {
-  console.log("user in button", user);
   return (
     <DropdownMenu>
       <Hint label="Profile settings" side="left" sideOffset={10}>
