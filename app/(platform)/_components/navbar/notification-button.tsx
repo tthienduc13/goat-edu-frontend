@@ -9,8 +9,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { notifications } from "@/queries/notification";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
-import { Bell, Ellipsis } from "lucide-react";
+import { Bell, Ellipsis, Link } from "lucide-react";
 import { User as UserType } from "next-auth";
 import { useState } from "react";
 
@@ -21,33 +22,48 @@ interface NotificationButtonProps {
 const data = [
   {
     id: "1",
-    notificationName: "New Message",
+    notificationName: "New Achievement",
+    notificationMessage:
+      "Congratuation ! you have reached the final stage of Math",
     userId: "user1",
-    readAt: new Date("2023-05-01T10:30:00Z"),
+    createAt: new Date("2023-05-02T14:20:00Z"),
+    readAt: new Date("2023-05-02T14:45:00Z"),
   },
   {
-    id: "2",
-    notificationName: "Order Shipped",
-    userId: "user2",
-    readAt: new Date("2023-05-10T15:20:00Z"),
-  },
-  {
-    id: "3",
-    notificationName: "Account Upgrade",
-    userId: "user3",
-    readAt: new Date("2023-04-28T08:45:00Z"),
-  },
-  {
-    id: "4",
-    notificationName: "Subscription Renewal",
+    id: "1",
+    notificationName: "New Achievement",
+    notificationMessage:
+      "Congratuation ! you have reached the final stage of Math",
     userId: "user1",
-    readAt: new Date("2023-05-15T13:00:00Z"),
+    createAt: new Date("2023-06-15T08:10:00Z"),
+    readAt: new Date("2023-06-15T08:35:00Z"),
   },
   {
-    id: "5",
-    notificationName: "New Connection Request",
-    userId: "user4",
-    readAt: new Date("2023-05-07T18:10:00Z"),
+    id: "1",
+    notificationName: "New Achievement",
+    notificationMessage:
+      "Congratuation ! you have reached the final stage of Math",
+    userId: "user1",
+    createAt: new Date("2023-07-21T17:00:00Z"),
+    readAt: new Date("2023-07-21T17:25:00Z"),
+  },
+  {
+    id: "1",
+    notificationName: "New Achievement",
+    notificationMessage:
+      "Congratuation ! you have reached the final stage of Math",
+    userId: "user1",
+    createAt: new Date("2023-08-05T11:55:00Z"),
+    readAt: new Date("2023-08-05T12:20:00Z"),
+  },
+  {
+    id: "1",
+    notificationName: "New Achievement",
+    notificationMessage:
+      "Congratuation ! you have reached the final stage of Math",
+    userId: "user1",
+    createAt: new Date("2023-09-30T09:15:00Z"),
+    readAt: new Date("2023-09-30T09:40:00Z"),
   },
 ];
 
@@ -83,30 +99,54 @@ export const NotificationButton = () =>
               </DropdownMenuTrigger>
             </DropdownMenu>
           </DropdownMenuLabel>
-          <DropdownMenuGroup className="flex flex-row px-4 gap-x-4">
+          <DropdownMenuGroup className="flex flex-row px-4 justify-between">
+            <div className="space-x-4">
+              <Button
+                onClick={() => setIsChosenType("All")}
+                size="sm"
+                variant={isChosenType == "All" ? "default" : "secondary"}
+                className="rounded-3xl"
+              >
+                All
+              </Button>
+              <Button
+                onClick={() => setIsChosenType("Unread")}
+                size="sm"
+                variant={isChosenType == "Unread" ? "default" : "secondary"}
+                className="rounded-3xl"
+              >
+                Unread
+              </Button>
+            </div>
             <Button
-              onClick={() => setIsChosenType("All")}
+              onClick={() => {}}
               size="sm"
-              variant={isChosenType == "All" ? "default" : "secondary"}
+              variant="link"
               className="rounded-3xl"
             >
-              All
-            </Button>
-            <Button
-              onClick={() => setIsChosenType("Unread")}
-              size="sm"
-              variant={isChosenType == "Unread" ? "default" : "secondary"}
-              className="rounded-3xl"
-            >
-              Unread
+              See all
             </Button>
           </DropdownMenuGroup>
-          <DropdownMenuGroup>
+          <DropdownMenuGroup className="mt-4">
             {data?.map((data) => (
-              <DropdownMenuItem key={data.id}>
-                {data.notificationName}
+              <DropdownMenuItem
+                className="h-25 flex flex-col items-start space-y-1"
+                key={data.id}
+              >
+                <p className="notification-title text-base font-semibold tracking-tight">
+                  {data.notificationName}
+                </p>
+                <p className="notification-message">
+                  {data.notificationMessage}
+                </p>
+                <p className="text-xs">{data.createAt.toLocaleString()}</p>
               </DropdownMenuItem>
             ))}
+          </DropdownMenuGroup>
+          <DropdownMenuGroup>
+            <Button className="w-full mt-2" variant="ghost">
+              Show more
+            </Button>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
