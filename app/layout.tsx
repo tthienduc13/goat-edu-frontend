@@ -25,7 +25,11 @@ export default async function RootLayout({
   const theme = cookies().get("__theme__")?.value || "dark";
 
   return (
-    <html lang="en" style={theme !== "system" ? { colorScheme: theme } : {}}>
+    <html
+      lang="en"
+      style={theme !== "system" ? { colorScheme: theme } : {}}
+      suppressHydrationWarning={true}
+    >
       <body className={inter.className}>
         <Suspense fallback={<Loading />}>
           <ReactQueryProvider>

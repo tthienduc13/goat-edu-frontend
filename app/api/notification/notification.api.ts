@@ -1,4 +1,4 @@
-import axiosClient from "../axios";
+import axiosClient from "@/lib/axiosClient";
 
 export const END_POINT = {
   GET_BY_ID: "/notification",
