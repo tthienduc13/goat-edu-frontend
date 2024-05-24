@@ -1,6 +1,6 @@
 import { queries } from "@/queries/index";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { getAllRole } from ".";
+import { getAllRole } from "./role.api";
 import { Role } from "@/types/role";
 
 export const useRoles = (): UseQueryResult<Role[]> => {

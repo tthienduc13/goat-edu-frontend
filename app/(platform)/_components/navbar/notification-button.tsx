@@ -1,4 +1,4 @@
-import { useNotificationByUser } from "@/api/notification/use-notification";
+import { useNotificationByUser } from "@/app/api/notification/notification.query";
 import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
 import {

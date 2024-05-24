@@ -4,7 +4,7 @@ import Facebook from "next-auth/providers/facebook";
 import Google from "next-auth/providers/google";
 
 import { LoginSchema } from "@/schemas";
-import { login } from "./api/auth";
+import { login } from "@/app/api/auth/auth.api";
 
 export default {
   providers: [

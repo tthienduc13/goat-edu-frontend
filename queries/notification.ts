@@ -1,4 +1,7 @@
-import { getNotificationById, getNotificationByUser } from "@/api/notification";
+import {
+  getNotificationById,
+  getNotificationByUser,
+} from "@/app/api/notification/notification.api";
 import { createQueryKeys } from "@lukemorales/query-key-factory";
 
 export const notifications = createQueryKeys("notifications", {

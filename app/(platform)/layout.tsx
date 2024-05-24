@@ -15,7 +15,7 @@ const PlatformLayout = async ({ children }: PlatformLayoutProps) => {
       <main className=" z-10 w-full h-[2000px] flex relative ">
         <Navbar />
         <Sidebar />
-        <div className=" z-5 bg-inherit overflow-hidden pt-16 pl-[240px]   flex ">
+        <div className=" z-5 bg-inherit overflow-hidden pt-16 pl-[240px] flex ">
           {children}
         </div>
         <BackgroundBeams className="z-[-1]" />

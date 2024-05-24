@@ -1,5 +1,6 @@
+import axiosClient from "@/lib/axiosClient";
+
 import { Role } from "@/types/role";
-import axiosClient from "../axios";
 
 export const END_POINT = {
   GET_ALL: "/role",
