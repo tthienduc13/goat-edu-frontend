@@ -37,16 +37,16 @@ export const CardWrapper = ({
         <CardHeader>
           <Header title={headerTitle} label={headerLabel} />
         </CardHeader>
-        <CardContent className="flex flex-col mt-6 w-full gap-2 self-center place-items-center flex-1 pb-2 md:px-[60px] px-6">
+        <CardContent className="flex flex-col mt-6 w-full self-center place-items-center flex-1 pb-2 md:px-[60px] px-6">
           {showSocial && (
-            <div className="pb-2  w-full  ">
+            <div className="w-full  ">
               <Social />
               <Options label="Or" />
             </div>
           )}
           {children}
         </CardContent>
-        <CardFooter className="flex flex-col w-full gap-2 self-center place-items-center flex-1 pb-2 md:px-[60px] px-6">
+        <CardFooter className="flex flex-col w-full  self-center place-items-center flex-1 pb-2 md:px-[60px] px-6">
           <BackButton
             label={backButtonLabel}
             href={backButtonHref}

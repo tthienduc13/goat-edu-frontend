@@ -3,7 +3,7 @@
 import * as z from "zod";
 
 import { RegisterSchema } from "@/schemas";
-import { register } from "@/api/auth";
+import { register } from "@/app/api/auth/auth.api";
 
 export const Register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);

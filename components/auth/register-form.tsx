@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/command";
 
 import { Register } from "@/actions/register";
-import { useRoles } from "@/api/role/use-role";
+import { useRoles } from "@/app/api/role/role.query";
 import {
   Form,
   FormControl,

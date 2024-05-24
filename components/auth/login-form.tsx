@@ -3,7 +3,7 @@
 import * as z from "zod";
 
 import { AuthError } from "next-auth";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { LoginSchema } from "@/schemas";
 
 import { useForm } from "react-hook-form";
@@ -19,7 +19,6 @@ import { FormSuccess } from "@/components/form-success";
 import { BackButton } from "@/components/auth/back-button";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 
-import { useLogin } from "@/api/auth/use-login";
 import { Login } from "@/actions/login";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -32,7 +31,7 @@ export const LoginForm = () => {
 
   const [formError, setFormError] = useState<string | undefined>("");
   const [formSuccess, setFormSuccess] = useState<string | undefined>("");
-  const loginMutation = useLogin();
+  const [isPending, startTransition] = useTransition();
   const {
     reset,
     register,
@@ -51,19 +50,21 @@ export const LoginForm = () => {
     setFormSuccess("");
 
     try {
-      await Login(values, callbackUrl)
-        .then((data) => {
-          if (data?.error) {
-            reset();
-            setFormError(data.error);
-          }
-          if (data?.success) {
-            reset();
-            router.push("/browse");
-            setFormSuccess(data.success);
-          }
-        })
-        .catch(() => setFormError("Something went wrong!"));
+      startTransition(() => {
+        Login(values, callbackUrl)
+          .then((data) => {
+            if (data?.error) {
+              reset();
+              setFormError(data.error);
+            }
+            if (data?.success) {
+              reset();
+              router.push("/browse");
+              setFormSuccess(data.success);
+            }
+          })
+          .catch(() => setFormError("Something went wrong!"));
+      });
     } catch (error) {
       if (error instanceof AuthError) {
         switch (error.type) {
@@ -96,7 +97,6 @@ export const LoginForm = () => {
             register={register}
             error={errors.username}
           />
-          {/* Password */}
           <InputField
             name="password"
             label="Password"
@@ -105,7 +105,7 @@ export const LoginForm = () => {
             register={register}
             error={errors.password}
           />
-          <div className="flex flex-row  w-full py-5 justify-between items-center ">
+          <div className="flex flex-row w-full py-5 justify-between items-center ">
             <div className="max-w-[150px]">
               <BackButton
                 color="default"
@@ -114,15 +114,13 @@ export const LoginForm = () => {
               />
             </div>
             <Button
-              disabled={loginMutation.isPending}
+              disabled={isPending}
               variant="default"
               size="lg"
               type="submit"
               className="max-w-[150px] w-full"
             >
-              {loginMutation.isPending && (
-                <Spinner size="xs" className="mr-2 " />
-              )}
+              {isPending && <Spinner size="xs" className="mr-2 " />}
               <div>Login</div>
             </Button>
           </div>
