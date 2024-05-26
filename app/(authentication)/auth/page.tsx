@@ -428,7 +428,7 @@ const AuthPage = () => {
             <Options label="Or sign up with" />
           </div>
           <div className="flex pb-8 justify-between">
-            <Social />
+            <Social isPending={false} />
           </div>
         </div>
       </motion.div>
