@@ -9,12 +9,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 
 import { FormError } from "@/components/form-error";
 import { InputField } from "@/components/input-field";
 import { FormSuccess } from "@/components/form-success";
 import { CardWrapper } from "./card-wrapper";
+import { LoaderCircle } from "lucide-react";
 
 export const ResetForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -54,6 +54,7 @@ export const ResetForm = () => {
       backButtonHref="/auth/login"
       backButtonLabel="Back to login"
       backButtonColor="white"
+      isPending={isPending}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
         <div className="w-full flex flex-col gap-y-4">
@@ -76,7 +77,9 @@ export const ResetForm = () => {
             className="w-full"
             size="lg"
           >
-            {isPending && <Spinner size="xs" className="mr-2" />}
+            {isPending && (
+              <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+            )}
             <div>Send verification code</div>
           </Button>
         </div>

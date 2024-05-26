@@ -10,10 +10,9 @@ import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, LoaderCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { Checkbox } from "@/components/ui/checkbox";
 
 import { FormError } from "@/components/form-error";
@@ -88,6 +87,7 @@ export const RegisterForm = () => {
       backButtonHref="/auth/login"
       backButtonLabel="Already have an account?"
       backButtonColor="white"
+      isPending={isPending}
     >
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
@@ -204,7 +204,9 @@ export const RegisterForm = () => {
               className="w-full"
               size="lg"
             >
-              {isPending && <Spinner size="xs" className="mr-2" />}
+              {isPending && (
+                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+              )}
               <div>Create an account</div>
             </Button>
           </div>

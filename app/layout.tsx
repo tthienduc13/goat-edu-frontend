@@ -9,6 +9,7 @@ import { AppThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
 import { Loading } from "@/components/auth/loading";
+import { Header } from "@/components/landing/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,7 +39,10 @@ export default async function RootLayout({
               defaultTheme={theme}
               enableSystem
             >
-              {children}
+              <Header />
+              <div className="absolute w-full left-0 top-[64px] flex flex-col items-center justify-center">
+                {children}
+              </div>
               <Toaster position="bottom-left" richColors={true} />
             </AppThemeProvider>
           </ReactQueryProvider>

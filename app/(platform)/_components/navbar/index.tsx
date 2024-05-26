@@ -4,26 +4,28 @@ import { Logo } from "@/components/logo";
 import { SearchInput } from "./search-input";
 import { UserButton } from "./user-button";
 import { NotificationButton } from "./notification-button";
+import { CreateButton } from "./create-button";
 
-import { Hint } from "@/components/hint";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { useSidebar } from "@/hooks/use-sidebar";
+import { cn } from "@/lib/utils";
 
 export const Navbar = () => {
   // const user = useCurrentUser();
   // if (!user) return null;
+  const { isOpen } = useSidebar();
   return (
-    <div className="h-16 bg-background fixed z-10 top-0 left-0 w-full  flex items-center px-10 border-b-[1px] ">
-      <Logo size="lg" />
+    <div
+      className={cn(
+        "h-16 bg-background fixed z-10 top-0  w-full  flex justify-center items-center px-10 ",
+        isOpen ? "left-[240px]" : "left-[78px]",
+        isOpen ? "w-[calc(100%-240px)]" : "w-[calc(100%-78px)]"
+      )}
+    >
       <SearchInput />
       <div className="flex items-center gap-x-2">
-        <Hint label="Create" sideOffset={10}>
-          <Button className="h-10 w-10" variant="custom" size="icon">
-            <Plus />
-          </Button>
-        </Hint>
+        <CreateButton />
         <NotificationButton
         // user={user}
         />

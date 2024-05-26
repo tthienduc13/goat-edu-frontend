@@ -18,6 +18,7 @@ import {
   User,
   UserPlus,
   Users,
+  Wallet,
 } from "lucide-react";
 
 import {
@@ -55,7 +56,7 @@ export const UserButton = () =>
             >
               <div className="flex gap-x-4 h-10">
                 <div className="flex gap-x-1 items-center">
-                  <CreditCard />
+                  <Wallet className="h-4 w-4" />
                   <div>123.123vnd</div>
                 </div>
                 <Avatar className="rounded-md">
