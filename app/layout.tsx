@@ -39,10 +39,7 @@ export default async function RootLayout({
               defaultTheme={theme}
               enableSystem
             >
-              <Header />
-              <div className="absolute w-full left-0 top-[64px] flex flex-col items-center justify-center">
-                {children}
-              </div>
+              {children}
               <Toaster position="bottom-left" richColors={true} />
             </AppThemeProvider>
           </ReactQueryProvider>

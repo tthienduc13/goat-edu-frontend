@@ -8,6 +8,7 @@ export const ErrorCard = () => {
       backButtonHref="/auth/login"
       backButtonLabel="Back to login"
       backButtonColor="white"
+      isPending={false}
     >
       <div className="w-full flex items-center justify-center">
         <ExclamationTriangleIcon className="h-5 w-5 text-destructive" />
