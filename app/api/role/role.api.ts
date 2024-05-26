@@ -13,12 +13,12 @@ export const getAllRole = async (): Promise<Role[]> => {
   return response.data;
 };
 
-export const getRoleById = async (id: string) => {
+export const getRoleById = async (id: string): Promise<Role> => {
   const response = await axiosClient.get(`${END_POINT.GET_BY_ID}/${id}`);
   return response.data;
 };
 
-export const getRoleByName = async (name: string) => {
+export const getRoleByName = async (name: string): Promise<Role> => {
   const response = await axiosClient.get(`${END_POINT.GET_BY_NAME}${name}`);
   return response.data;
 };

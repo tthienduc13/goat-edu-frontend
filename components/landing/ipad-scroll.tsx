@@ -1,10 +1,11 @@
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
 import Image from "next/image";
+import SampleImage from "@/assets/sample.png";
 
 export const IpadScroll = () => {
   return (
-    <div className="ipad-scroll flex flex-col overflow-hidden">
+    <div className="ipad-scroll flex flex-col gap-y-10 overflow-hidden">
       <ContainerScroll
         titleComponent={
           <>
@@ -18,7 +19,7 @@ export const IpadScroll = () => {
         }
       >
         <Image
-          src={`/linear.webp`}
+          src={SampleImage}
           alt="hero"
           height={720}
           width={1400}

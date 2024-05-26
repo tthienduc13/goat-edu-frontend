@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { InputField } from "@/components/input-field";
 
 import { FormError } from "@/components/form-error";
@@ -22,6 +21,8 @@ import { CardWrapper } from "@/components/auth/card-wrapper";
 import { Login } from "@/actions/login";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+
+import { LoaderCircle } from "lucide-react";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -85,6 +86,7 @@ export const LoginForm = () => {
       backButtonHref="/auth/register"
       backButtonLabel="Not a member yet?"
       backButtonColor="white"
+      isPending={isPending}
       showSocial
     >
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
@@ -120,7 +122,9 @@ export const LoginForm = () => {
               type="submit"
               className="max-w-[150px] w-full"
             >
-              {isPending && <Spinner size="xs" className="mr-2 " />}
+              {isPending && (
+                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+              )}
               <div>Login</div>
             </Button>
           </div>
