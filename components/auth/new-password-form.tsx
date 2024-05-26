@@ -9,12 +9,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 
 import { FormError } from "@/components/form-error";
 import { InputField } from "@/components/input-field";
 import { FormSuccess } from "@/components/form-success";
 import { CardWrapper } from "./card-wrapper";
+import { LoaderCircle } from "lucide-react";
 
 export const NewPasswordForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -55,6 +55,7 @@ export const NewPasswordForm = () => {
       backButtonHref="/auth/login"
       backButtonLabel="Back to login"
       backButtonColor="white"
+      isPending={isPending}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
         <div className="w-full flex flex-col gap-y-4">
@@ -79,7 +80,9 @@ export const NewPasswordForm = () => {
             className="w-full"
             size="lg"
           >
-            {isPending && <Spinner size="xs" className="mr-2" />}
+            {isPending && (
+              <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+            )}
             <div>Change password</div>
           </Button>
         </div>

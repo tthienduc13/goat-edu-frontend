@@ -1,8 +1,6 @@
 "use client";
 
-import { Logout } from "@/actions/logout";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { useSession } from "next-auth/react";
+import { useKeyboardShortcut } from "@/hooks/use-shorcut-keyboard";
 
 const BrowsePage = () => {
   return (

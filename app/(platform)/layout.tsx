@@ -1,6 +1,9 @@
 import { Sidebar } from "./_components/sidebar";
 import { Navbar } from "./_components/navbar";
+import { Main } from "./_components/main";
+
 import { auth } from "@/auth";
+
 import { SessionProvider } from "next-auth/react";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 
@@ -15,9 +18,7 @@ const PlatformLayout = async ({ children }: PlatformLayoutProps) => {
       <main className=" z-10 w-full h-[2000px] flex relative ">
         <Navbar />
         <Sidebar />
-        <div className=" z-5 bg-inherit overflow-hidden pt-16 pl-[240px] flex ">
-          {children}
-        </div>
+        <Main>{children}</Main>
         <BackgroundBeams className="z-[-1]" />
       </main>
     </SessionProvider>
