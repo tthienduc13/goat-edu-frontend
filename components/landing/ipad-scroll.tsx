@@ -5,7 +5,7 @@ import SampleImage from "@/assets/sample.png";
 
 export const IpadScroll = () => {
   return (
-    <div className="ipad-scroll flex flex-col gap-y-10 overflow-hidden">
+    <div className="flex flex-col gap-y-10 overflow-hidden">
       <ContainerScroll
         titleComponent={
           <>

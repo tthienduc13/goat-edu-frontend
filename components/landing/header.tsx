@@ -87,7 +87,7 @@ export const Header = () => {
 
   return (
     <div className="h-16 z-50 bg-background fixed top-0 left-0 w-full  flex items-center px-10 ">
-      <Logo size="lg" />
+      <Logo size="lg" isLanding={true} />
       <Navbar />
       <PlaceholdersAndVanishInput
         placeholders={placeholders}
@@ -116,7 +116,6 @@ export const Header = () => {
           </Button>
         </Hint>
       </div>
-      <ModeToggle />
     </div>
   );
 };
