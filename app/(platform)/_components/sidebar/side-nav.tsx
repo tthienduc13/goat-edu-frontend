@@ -37,7 +37,7 @@ export const SideNav = ({ items, setOpen, className }: SideNavProps) => {
       setLastOpenItem(openItem);
       setOpenItem("");
     }
-  }, [isOpen]);
+  }, [isOpen, lastOpenItem, openItem]);
 
   return (
     <nav className="space-y-2 flex flex-col">

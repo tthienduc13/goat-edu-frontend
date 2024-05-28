@@ -15,7 +15,7 @@ const PlatformLayout = async ({ children }: PlatformLayoutProps) => {
   const session = await auth();
   return (
     <SessionProvider session={session}>
-      <main className=" z-10 w-full flex relative ">
+      <main className=" z-10 min-h-[calc(100vh-64px)] w-full flex relative ">
         <Navbar />
         <Sidebar />
         <Main>{children}</Main>

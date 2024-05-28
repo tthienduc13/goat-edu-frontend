@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React from "react";
 import { WobbleCard } from "../ui/wooble-card";
+import SampleImage from "@/assets/sample.png";
 
 export const Production = () => {
   return (
@@ -20,7 +21,7 @@ export const Production = () => {
           </p>
         </div>
         <Image
-          src="/linear.webp"
+          src={SampleImage}
           width={500}
           height={500}
           alt="linear demo image"
@@ -47,7 +48,7 @@ export const Production = () => {
           </p>
         </div>
         <Image
-          src="/linear.webp"
+          src={SampleImage}
           width={500}
           height={500}
           alt="linear demo image"

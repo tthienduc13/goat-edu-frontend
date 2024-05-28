@@ -40,7 +40,7 @@ export default async function RootLayout({
               enableSystem
             >
               {children}
-              <Toaster position="bottom-left" richColors={true} />
+              <Toaster position="bottom-right" richColors={false} />
             </AppThemeProvider>
           </ReactQueryProvider>
         </Suspense>

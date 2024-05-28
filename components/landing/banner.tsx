@@ -12,10 +12,6 @@ export const Banner = () => {
       <Boxes />
       <div className="absolute inset-0 w-full h-full bg-background z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
       <h1 className=" ml-[100px] z-20 text-4xl font-extrabold tracking-tight lg:text-5xl w-[560px] mb-4 leading-relaxed lg:leading-snug">
-        <TextRevealCard
-          text="Ghệ iu nhất hệ mặt trời."
-          revealText="Ghệ iu nhất hệ mặt trăng."
-        ></TextRevealCard>
         <Highlight className="text-black dark:text-white">
           Ghệ iu nhất hệ mặt trời.
         </Highlight>
