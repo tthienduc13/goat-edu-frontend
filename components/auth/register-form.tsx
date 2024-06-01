@@ -5,41 +5,37 @@ import * as z from "zod";
 import { useState, useTransition } from "react";
 import { RegisterSchema } from "@/schemas";
 
-import { cn } from "@/lib/utils";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Check, ChevronsUpDown, LoaderCircle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 
-import { FormError } from "@/components/form-error";
-import { InputField } from "@/components/input-field";
-import { FormSuccess } from "@/components/form-success";
+import { FormError } from "@/components/forms/form-error";
+import { InputField } from "@/components/custom/input-field";
+import { FormSuccess } from "@/components/forms/form-success";
 import { CardWrapper } from "@/components/auth/card-wrapper";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
 
-import { Register } from "@/actions/register";
-import { useRoles } from "@/app/api/role/role.query";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
+
+import { Register } from "@/actions/register";
+import { useRoles } from "@/app/api/role/role.query";
+import { Role } from "@/types/role";
 
 export const RegisterForm = () => {
   const { data, isLoading, error } = useRoles();
@@ -87,23 +83,27 @@ export const RegisterForm = () => {
       backButtonHref="/auth/login"
       backButtonLabel="Already have an account?"
       backButtonColor="white"
-      isPending={isPending}
     >
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
           <div className="w-full flex flex-col gap-y-4">
-            <InputField
+            <FormField
               name="email"
-              label="Email"
-              placeholder="Email"
-              type="email"
-              register={register}
-              error={errors.email}
+              render={() => (
+                <InputField
+                  name="email"
+                  label="Email"
+                  placeholder="Email"
+                  type="email"
+                  register={register}
+                  error={errors.email}
+                />
+              )}
             />
             <InputField
               name="fullname"
-              label="Full name"
-              placeholder="Full name"
+              label="Fullname"
+              placeholder="Fullname"
               type="text"
               register={register}
               error={errors.fullname}
@@ -130,53 +130,27 @@ export const RegisterForm = () => {
               control={form.control}
               name="role"
               render={({ field }) => (
-                <FormItem className="flex flex-col w-full ">
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          className={cn(
-                            "w-full h-10 justify-between bg-[#a8b3cf14]",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value
-                            ? data?.find((role) => role.id === field.value)
-                                ?.roleName
-                            : "Select role"}
-                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[360px] bg-[#a8b3cf14] p-0">
-                      <Command className="w-[360px]">
-                        <CommandList className="w-[360px]">
-                          {data?.map((role) => (
-                            <CommandItem
-                              className="w-[360px]"
-                              value={role.roleName}
-                              key={role.id}
-                              onSelect={() => {
-                                form.setValue("role", role.id);
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  role.id === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {role.roleName}
-                            </CommandItem>
-                          ))}
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
+                <FormItem className="flex flex-col w-full h-10 ">
+                  <Select
+                    disabled={isPending}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    value={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select your role" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {data?.map((role: Role) => (
+                        <SelectItem key={role.id} value={role.id}>
+                          {role.roleName}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
                   <FormMessage className="text-muted-foreground" />
                 </FormItem>
               )}
@@ -198,7 +172,7 @@ export const RegisterForm = () => {
           </div>
           <div className=" gap-x-3 py-3">
             <Button
-              disabled={isPending}
+              disabled={isPending || isLoading}
               variant="default"
               type="submit"
               className="w-full"

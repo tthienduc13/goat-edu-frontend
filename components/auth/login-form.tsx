@@ -10,10 +10,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
-import { InputField } from "@/components/input-field";
+import { InputField } from "@/components/custom/input-field";
 
-import { FormError } from "@/components/form-error";
-import { FormSuccess } from "@/components/form-success";
+import { FormError } from "@/components/forms/form-error";
+import { FormSuccess } from "@/components/forms/form-success";
 
 import { BackButton } from "@/components/auth/back-button";
 import { CardWrapper } from "@/components/auth/card-wrapper";
@@ -40,10 +40,6 @@ export const LoginForm = () => {
     formState: { errors, isValid },
   } = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      username: "",
-      password: "",
-    },
   });
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
@@ -86,7 +82,6 @@ export const LoginForm = () => {
       backButtonHref="/auth/register"
       backButtonLabel="Not a member yet?"
       backButtonColor="white"
-      isPending={isPending}
       showSocial
     >
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">

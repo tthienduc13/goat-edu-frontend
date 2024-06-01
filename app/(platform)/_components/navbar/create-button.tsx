@@ -1,4 +1,4 @@
-import { Hint } from "@/components/hint";
+import { Hint } from "@/components/custom/hint";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

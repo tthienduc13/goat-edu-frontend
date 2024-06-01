@@ -31,5 +31,3 @@ export const apiAuthPrefix = "/api/auth";
  * @type {string}
  */
 export const DEFAULT_LOGIN_REDIRECT = "/browse";
-
-export const NEXT_PUBLIC_API_BASE_URL = "https://localhost:7260/api";

@@ -1,5 +1,5 @@
 import { useNotificationByUser } from "@/app/api/notification/notification.query";
-import { Hint } from "@/components/hint";
+import { Hint } from "@/components/custom/hint";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,11 +11,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { notifications } from "@/queries/notification";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
-import { Bell, Ellipsis, Link } from "lucide-react";
+import { Bell } from "lucide-react";
 import { User as UserType } from "next-auth";
 import { useState } from "react";
 import { EmptyNotification } from "./empty-notification";
 import { Notification } from "@/types/notification";
+import { MoreButton } from "@/components/custom/more-button";
 
 interface NotificationButtonProps {
   user: UserType;
@@ -94,17 +95,7 @@ export const NotificationButton = () =>
         <DropdownMenuContent sideOffset={10} align="center" className="w-96">
           <DropdownMenuLabel className="flex flex-row justify-between items-center">
             <p className="text-xl">Notifications</p>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  className="rounded-full h-7 w-7"
-                  size="icon"
-                  variant="ghost"
-                >
-                  <Ellipsis className="w-5" />
-                </Button>
-              </DropdownMenuTrigger>
-            </DropdownMenu>
+            <MoreButton />
           </DropdownMenuLabel>
           <DropdownMenuGroup>
             {data.length ? (

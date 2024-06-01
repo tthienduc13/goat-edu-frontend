@@ -7,7 +7,7 @@ import { SideNav } from "./side-nav";
 
 import { NavItems } from "@/constants/side-nav";
 import { useSidebar } from "@/hooks/use-sidebar";
-import { Logo } from "@/components/logo";
+import { Logo } from "@/components/custom/logo";
 
 export const Sidebar = () => {
   const { isOpen, toggle } = useSidebar();

@@ -26,7 +26,7 @@ export default {
               username: username,
               password: password,
             });
-            const user = response.data.data;
+            const user = response.data;
             if (user) {
               return user;
             } else {

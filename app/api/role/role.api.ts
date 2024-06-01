@@ -10,7 +10,10 @@ export const END_POINT = {
 
 export const getAllRole = async (): Promise<Role[]> => {
   const response = await axiosClient.get(END_POINT.GET_ALL);
-  return response.data;
+  const filteredRoles = response.data.filter(
+    (role: Role) => role.roleName === "Student" || role.roleName === "Teacher"
+  );
+  return filteredRoles;
 };
 
 export const getRoleById = async (id: string): Promise<Role> => {

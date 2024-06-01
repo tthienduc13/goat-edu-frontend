@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Hint } from "./hint";
+import { Hint } from "./custom/hint";
 
 export const ModeToggle = () => {
   const { setTheme } = useTheme();
