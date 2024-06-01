@@ -1,4 +1,4 @@
-import { CheckIcon } from "@/components/icons/check-icon";
+import { CheckIcon } from "@/components/custom-icons/check-icon";
 
 export const EmptyNotification = () => {
   return (

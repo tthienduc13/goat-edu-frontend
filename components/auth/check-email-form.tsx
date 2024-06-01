@@ -11,9 +11,9 @@ import { CheckEmailSchema } from "@/schemas";
 import { MoveRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { InputField } from "@/components/input-field";
+import { InputField } from "@/components/custom/input-field";
 
-import { FormError } from "@/components/form-error";
+import { FormError } from "@/components/forms/form-error";
 
 import {
   Form,

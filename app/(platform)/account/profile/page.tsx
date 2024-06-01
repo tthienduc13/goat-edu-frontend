@@ -1,6 +1,6 @@
 "use client";
 
-import { InputField } from "@/components/input-field";
+import { InputField } from "@/components/custom/input-field";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

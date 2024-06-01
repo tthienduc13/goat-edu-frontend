@@ -1,13 +1,12 @@
 "use client";
 
-import { toast } from "sonner";
+import { DiscussionCard } from "@/components/custom/discussion-card";
 
 const BrowsePage = () => {
   return (
-    <div className="h-full w-full p-10">
-      <button onClick={() => toast.success("aaa")} type="submit">
-        alert
-      </button>
+    <div className="h-full w-full p-10 ">
+      <h1>Discussion</h1>
+      <DiscussionCard />
     </div>
   );
 };

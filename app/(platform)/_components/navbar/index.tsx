@@ -1,5 +1,5 @@
 "use client";
-import { Logo } from "@/components/logo";
+import { Logo } from "@/components/custom/logo";
 
 import { SearchInput } from "./search-input";
 import { UserButton } from "./user-button";

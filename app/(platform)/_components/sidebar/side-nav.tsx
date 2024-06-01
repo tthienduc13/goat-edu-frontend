@@ -16,7 +16,7 @@ import {
 
 import { useEffect, useState } from "react";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
-import { Hint } from "@/components/hint";
+import { Hint } from "@/components/custom/hint";
 
 interface SideNavProps {
   items: NavItem[];
@@ -86,7 +86,7 @@ export const SideNav = ({ items, setOpen, className }: SideNavProps) => {
                     className={cn(
                       buttonVariants({ variant: "ghost" }),
                       "flex ml-4 h-12 items-center justify-start",
-                      path === children.href && "bg-muted hover:bg-muted"
+                      path === children.href && "bg-accent hover:bg-accent"
                     )}
                   >
                     {!isOpen ? (
@@ -122,7 +122,7 @@ export const SideNav = ({ items, setOpen, className }: SideNavProps) => {
             className={cn(
               buttonVariants({ variant: "ghost" }),
               "flex h-12 items-center justify-start",
-              path === item.href && "bg-muted hover:bg-muted"
+              path === item.href && "bg-accent hover:bg-accent"
             )}
           >
             {!isOpen ? (

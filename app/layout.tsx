@@ -10,6 +10,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
 import { Loading } from "@/components/auth/loading";
 import { Header } from "@/components/landing/header";
+import { TooltipProvider } from "@/components/plate-ui/tooltip";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,7 +40,7 @@ export default async function RootLayout({
               defaultTheme={theme}
               enableSystem
             >
-              {children}
+              <TooltipProvider> {children}</TooltipProvider>
               <Toaster position="bottom-right" richColors={false} />
             </AppThemeProvider>
           </ReactQueryProvider>

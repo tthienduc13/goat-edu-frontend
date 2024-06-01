@@ -10,7 +10,7 @@ const ENDPOINT = {
 };
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
-  return await axiosClient.post(
+  const response = await axiosClient.post(
     ENDPOINT.LOGIN,
     {
       username: values.username,
@@ -22,6 +22,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       }),
     }
   );
+  return response.data;
 };
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {

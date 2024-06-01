@@ -1,4 +1,4 @@
-import { Hint } from "@/components/hint";
+import { Hint } from "@/components/custom/hint";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { AvatarFallback } from "@radix-ui/react-avatar";
@@ -38,6 +38,7 @@ import {
 import { LogoutButton } from "@/components/auth/logout-button";
 import { User as UserType } from "next-auth";
 import Link from "next/link";
+import { UserAvatar } from "@/components/custom/user-avatar";
 
 interface UserButtonProps {
   user: UserType;
@@ -60,14 +61,7 @@ export const UserButton = () =>
                   <Wallet className="h-4 w-4" />
                   <div>123.123vnd</div>
                 </div>
-                <Avatar className="rounded-md">
-                  <AvatarImage
-                  // src={user?.image!}
-                  />
-                  <AvatarFallback className="w-full h-full flex items-center justify-center bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]">
-                    GE
-                  </AvatarFallback>
-                </Avatar>
+                <UserAvatar shape="square" />
               </div>
             </Button>
           </DropdownMenuTrigger>

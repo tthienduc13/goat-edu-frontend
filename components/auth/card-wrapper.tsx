@@ -20,7 +20,6 @@ interface CardWrapperProps {
   backButtonHref: string;
   showSocial?: boolean;
   backButtonColor: "default" | "white";
-  isPending: boolean;
 }
 
 export const CardWrapper = ({
@@ -31,7 +30,6 @@ export const CardWrapper = ({
   backButtonLabel,
   backButtonHref,
   showSocial,
-  isPending,
 }: CardWrapperProps) => {
   return (
     <div className="flex mx-auto flex-wrap justify-center w-full px-6 max-w-[1200px] flex-grow">
@@ -42,7 +40,7 @@ export const CardWrapper = ({
         <CardContent className="flex flex-col mt-6 w-full self-center place-items-center flex-1 pb-2 md:px-[60px] px-6">
           {showSocial && (
             <div className="w-full  ">
-              <Social isPending={isPending} />
+              <Social />
               <Options label="Or" />
             </div>
           )}

@@ -4,7 +4,7 @@ interface AccountLayoutProps {
   children: React.ReactNode;
 }
 
-const AccountLayout = async ({ children }: AccountLayoutProps) => {
+const AccountLayout = ({ children }: AccountLayoutProps) => {
   return (
     <main className="flex flex-row mx-auto py-8 h-[calc(100vh-64px)] w-full">
       <Sidebar />

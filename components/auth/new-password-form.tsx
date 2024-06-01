@@ -10,9 +10,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
 
-import { FormError } from "@/components/form-error";
-import { InputField } from "@/components/input-field";
-import { FormSuccess } from "@/components/form-success";
+import { FormError } from "@/components/forms/form-error";
+import { InputField } from "@/components/custom/input-field";
+import { FormSuccess } from "@/components/forms/form-success";
 import { CardWrapper } from "./card-wrapper";
 import { LoaderCircle } from "lucide-react";
 
@@ -55,7 +55,6 @@ export const NewPasswordForm = () => {
       backButtonHref="/auth/login"
       backButtonLabel="Back to login"
       backButtonColor="white"
-      isPending={isPending}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
         <div className="w-full flex flex-col gap-y-4">
