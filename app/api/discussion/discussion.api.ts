@@ -1,15 +1,15 @@
 import axiosClient from "@/lib/axiosClient";
-import { Notification } from "@/types/notification";
+import { Discussion } from "@/types/discussion";
 
 export const END_POINT = {
-  GET_BY_ID: "/notification",
+  GET_BY_ID: "/discussion",
   GET_BY_USER: "/notification/user",
 };
 
-export const getNotificationById = async (
+export const getDiscussionById = async (
   id: string,
   token: string
-): Promise<Notification> => {
+): Promise<Discussion> => {
   const response = await axiosClient.get(`${END_POINT.GET_BY_ID}/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -18,12 +18,12 @@ export const getNotificationById = async (
   return response.data;
 };
 
-export const getNotificationByUser = async (
+export const getAllDiscussion = async (
   pageNumber: number,
   token: string
 ): Promise<Notification[]> => {
   const response = await axiosClient.get(
-    `${END_POINT.GET_BY_USER}?page_size=5&page_number=${pageNumber}`,
+    `${END_POINT.GET_BY_USER}?page_size=10&page_number=${pageNumber}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

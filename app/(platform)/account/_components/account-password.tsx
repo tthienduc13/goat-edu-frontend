@@ -7,7 +7,7 @@ import Image from "next/image";
 import EditIconAnimate from "@/assets/gif/edit.gif";
 import EditIconPause from "@/assets/gif/edit_pause.png";
 
-export const AccountInformation = () => {
+export const AccountPassword = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const handleEditClick = () => {
     setIsEdit(!isEdit);
@@ -15,7 +15,7 @@ export const AccountInformation = () => {
   return (
     <div className="w-full flex flex-col gap-y-6">
       <div className="w-full flex justify-between items-start">
-        <Header title="Account Information" />
+        <Header title="Change password" />
         <button
           className="w-[28px] h-[28px] flex items-center justify-center hover:scale-125 rounded-[50%] hover:border-[1px] hover:border-blue-700 cursor-pointer transition"
           onClick={handleEditClick}
@@ -28,7 +28,7 @@ export const AccountInformation = () => {
           />
         </button>
       </div>
-      <div>General Information form here</div>
+      <div>Change password form here</div>
     </div>
   );
 };

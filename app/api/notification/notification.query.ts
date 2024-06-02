@@ -1,10 +1,9 @@
-import { notifications } from "@/queries/notification";
 import { queries } from "@/queries";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getNotificationByUser } from "./notification.api";
 
-export const useNotificationById = (id: string) => {
-  return useQuery(queries.notifications.id(id));
+export const useNotificationById = (id: string, token: string) => {
+  return useQuery(queries.notifications.id(id, token));
 };
 
 export const useNotificationByUser = (token: string) => {

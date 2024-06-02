@@ -38,7 +38,7 @@ export const Sidebar = () => {
       <div className="border-t-[1px]">
         <UserItem isOpen={isOpen} />
       </div>
-      <div className="mt-3 flex-1 flex flex-col gap-y-2">
+      <div className="flex-1 flex flex-col gap-y-2">
         <SideNav items={NavItems} />
       </div>
       {isOpen && <SubcribeButton />}

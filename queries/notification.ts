@@ -5,9 +5,9 @@ import {
 import { createQueryKeys } from "@lukemorales/query-key-factory";
 
 export const notifications = createQueryKeys("notifications", {
-  id: (id: string) => ({
+  id: (id: string, token: string) => ({
     queryKey: [id],
-    queryFn: () => getNotificationById(id),
+    queryFn: () => getNotificationById(id, token),
   }),
   user: (pageNumber: number, token: string) => ({
     queryKey: [pageNumber],
