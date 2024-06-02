@@ -1,5 +1,5 @@
 const BrowsePage = () => {
-  return <div className="h-full w-full">aaa</div>;
+  return <div className="h-full w-full">aaaa</div>;
 };
 
 export default BrowsePage;
