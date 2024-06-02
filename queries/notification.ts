@@ -9,8 +9,8 @@ export const notifications = createQueryKeys("notifications", {
     queryKey: [id],
     queryFn: () => getNotificationById(id),
   }),
-  user: (userId: string, pageSize: number, pageNumber: number) => ({
-    queryKey: [userId, pageSize, pageNumber],
-    queryFn: () => getNotificationByUser(userId, pageSize, pageNumber),
+  user: (pageNumber: number, token: string) => ({
+    queryKey: [pageNumber],
+    queryFn: () => getNotificationByUser(pageNumber, token),
   }),
 });

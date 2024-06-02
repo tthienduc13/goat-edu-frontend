@@ -18,13 +18,14 @@ import { NewDiscussionSchema } from "@/schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import PlateEditor from "@/components/plate-editor";
-import ImageUpload from "@/components/custom/image-upload";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getImageData } from "@/lib/get-image-data";
 
 export const CreateForm = () => {
   const [preview, setPreview] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File>();
+  const [tags, setTags] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof NewDiscussionSchema>>({
     resolver: zodResolver(NewDiscussionSchema),
@@ -71,7 +72,6 @@ export const CreateForm = () => {
                 <FormItem>
                   <FormLabel>Circle Image</FormLabel>
                   <FormControl>
-                    {/* <ImageUpload /> */}
                     <Input
                       type="file"
                       {...rest}
@@ -101,18 +101,6 @@ export const CreateForm = () => {
         </div>
       </form>
     </Form>
+    // <TagField suggestions={[]} state={tags} setState={setTags} />
   );
 };
-
-function getImageData(event: React.ChangeEvent<HTMLInputElement>) {
-  const dataTransfer = new DataTransfer();
-
-  Array.from(event.target.files!).forEach((image) =>
-    dataTransfer.items.add(image)
-  );
-
-  const files = dataTransfer.files;
-  const displayUrl = URL.createObjectURL(event.target.files![0]);
-
-  return { files, displayUrl };
-}

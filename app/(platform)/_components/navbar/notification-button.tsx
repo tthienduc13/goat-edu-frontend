@@ -1,29 +1,17 @@
-import { useNotificationByUser } from "@/app/api/notification/notification.query";
+"use client";
 import { Hint } from "@/components/custom/hint";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { notifications } from "@/queries/notification";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 import { Bell } from "lucide-react";
-import { User as UserType } from "next-auth";
-import { useState } from "react";
-import { EmptyNotification } from "./empty-notification";
-import { Notification } from "@/types/notification";
 import { MoreButton } from "@/components/custom/more-button";
+import { NotificationList } from "./notification-list";
 
-interface NotificationButtonProps {
-  user: UserType;
-}
-
-// const data = [
-//   {
 //     id: "1",
 //     notificationName: "New Achievement",
 //     notificationMessage:
@@ -70,63 +58,27 @@ interface NotificationButtonProps {
 //   },
 // ];
 
-const data: Notification[] = [];
-export const NotificationButton = () =>
-  // { user }: NotificationButtonProps
-  {
-    // const { data, isLoading, error } = useNotificationByUser(user.id!, 10, 1);
-
-    // if (isLoading) return <div>Is Loading...</div>;
-
-    // if (!data.length) {
-    //   return;
-    // }
-
-    // return <EmptyNotification />;
-    return (
-      <DropdownMenu>
-        <Hint label="Notification" sideOffset={10}>
-          <DropdownMenuTrigger asChild>
-            <Button className="h-10 w-10" variant="custom" size="icon">
-              <Bell />
-            </Button>
-          </DropdownMenuTrigger>
-        </Hint>
-        <DropdownMenuContent sideOffset={10} align="center" className="w-96">
-          <DropdownMenuLabel className="flex flex-row justify-between items-center">
-            <p className="text-xl">Notifications</p>
-            <MoreButton />
-          </DropdownMenuLabel>
-          <DropdownMenuGroup>
-            {data.length ? (
-              data?.map((data) => (
-                <DropdownMenuItem
-                  className="h-25 flex flex-col items-start space-y-1"
-                  key={data.id}
-                >
-                  <p className="notification-title text-base font-semibold tracking-tight">
-                    {data.notificationName}
-                  </p>
-                  <p className="notification-message">
-                    {data.notificationMessage}
-                  </p>
-                  <p className="text-xs">{data.createAt.toLocaleString()}</p>
-                </DropdownMenuItem>
-              ))
-            ) : (
-              <EmptyNotification />
-            )}
-          </DropdownMenuGroup>
-          <DropdownMenuGroup>
-            {data.length ? (
-              <Button className="w-full mt-2" variant="ghost">
-                Show more
-              </Button>
-            ) : (
-              ""
-            )}
-          </DropdownMenuGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-  };
+export const NotificationButton = () => {
+  return (
+    <DropdownMenu>
+      <Hint label="Notification" sideOffset={10}>
+        <DropdownMenuTrigger asChild>
+          <Button className="h-10 w-10" variant="custom" size="icon">
+            <Bell />
+          </Button>
+        </DropdownMenuTrigger>
+      </Hint>
+      <DropdownMenuContent
+        sideOffset={10}
+        align="center"
+        className="w-96 max-h-[300px] overflow-y-scroll"
+      >
+        <DropdownMenuLabel className="flex flex-row justify-between items-center">
+          <p className="text-xl">Notifications</p>
+          <MoreButton />
+        </DropdownMenuLabel>
+        <DropdownMenuGroup>{/* <NotificationList /> */}</DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};

@@ -14,12 +14,16 @@ export const getNotificationById = async (
 };
 
 export const getNotificationByUser = async (
-  userId: string,
-  pageSize: number,
-  pageNumber: number
+  pageNumber: number,
+  token: string
 ): Promise<Notification[]> => {
   const response = await axiosClient.get(
-    `${END_POINT.GET_BY_USER}?UserId=${userId}&PageSize=${pageSize}&PageNumber=${pageNumber}`
+    `${END_POINT.GET_BY_USER}?page_size=5&page_number=${pageNumber}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
   return response.data;
 };
