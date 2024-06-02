@@ -3,6 +3,8 @@
 // import { TagifySettings } from "@yaireo/tagify";
 // import "./tag.styling.scss";
 
+// const suggestion = ["a", "b", "c"];
+
 // interface TagFieldProps {
 //   suggestions: string[];
 //   setState: React.Dispatch<React.SetStateAction<string[]>>;
@@ -47,7 +49,7 @@
 //       >
 //         <Tags
 //           onChange={handleChange}
-//           whitelist={suggestions}
+//           whitelist={suggestion}
 //           placeholder="Add or create your own tags"
 //           value={state}
 //           settings={{

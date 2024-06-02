@@ -3,6 +3,5 @@ export type Notification = {
   notificationName: string;
   notificationMessage: string;
   userId: string;
-  createAt: Date;
   readAt: Date;
 };

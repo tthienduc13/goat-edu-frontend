@@ -6,7 +6,7 @@ interface AccountLayoutProps {
 
 const AccountLayout = ({ children }: AccountLayoutProps) => {
   return (
-    <main className="flex flex-row mx-auto py-8 h-[calc(100vh-64px)] w-full">
+    <main className="flex flex-row mx-auto h-[calc(100vh-64px)] w-full">
       <Sidebar />
       {children}
     </main>

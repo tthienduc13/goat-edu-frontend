@@ -19,7 +19,6 @@ const PlatformLayout = async ({ children }: PlatformLayoutProps) => {
         <Navbar />
         <Sidebar />
         <Main>{children}</Main>
-        <BackgroundBeams className="z-[-1]" />
       </main>
     </SessionProvider>
   );

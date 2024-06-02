@@ -1,3 +1,5 @@
+"use client";
+
 import { Hint } from "@/components/custom/hint";
 import { Button } from "@/components/ui/button";
 import {

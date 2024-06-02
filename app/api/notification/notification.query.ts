@@ -1,14 +1,19 @@
+import { notifications } from "@/queries/notification";
 import { queries } from "@/queries";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { getNotificationByUser } from "./notification.api";
 
 export const useNotificationById = (id: string) => {
   return useQuery(queries.notifications.id(id));
 };
 
-export const useNotificationByUser = (
-  userId: string,
-  pageSize: number,
-  pageNumber: number
-) => {
-  return useQuery(queries.notifications.user(userId, pageSize, pageNumber));
+export const useNotificationByUser = (token: string) => {
+  return useInfiniteQuery({
+    queryKey: ["notifications"],
+    initialPageParam: 1,
+    queryFn: ({ pageParam }) => getNotificationByUser(pageParam, token),
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length ? allPages.length + 1 : undefined;
+    },
+  });
 };

@@ -1,5 +1,6 @@
 import { DefaultSession, DefaultUser } from "next-auth";
 import { JWT, DefaultJWT } from "next-auth/jwt";
+import { Role } from "./types/role";
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
@@ -7,7 +8,7 @@ declare module "next-auth" {
     username: string;
     fullname: string;
     emailVerify: boolean;
-    role: string;
+    role: Role;
     token: string;
   }
 
@@ -16,7 +17,7 @@ declare module "next-auth" {
     username: string;
     fullname: string;
     emailVerify: boolean;
-    role: string;
+    role: Role;
     token: string;
   }
 }
@@ -27,7 +28,7 @@ declare module "next-auth/jwt" {
     username: string;
     fullname: string;
     emailVerify: boolean;
-    role: string;
+    role: Role;
     token: string;
   }
 }
