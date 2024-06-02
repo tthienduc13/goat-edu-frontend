@@ -1,6 +1,5 @@
 "use client";
 
-import { useCopyClipboard } from "@/hooks/use-copy-clipboard";
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -17,6 +16,7 @@ import {
   TwitterIcon,
   WhatsappIcon,
 } from "react-share";
+import { Wrapper } from "../_components/wrapper";
 
 const InviteFriend = () => {
   const shareUrl = "Goat.edu";
@@ -81,28 +81,29 @@ const InviteFriend = () => {
   ];
 
   return (
-    <div className="edit-profile-form flex flex-col space-y-5 w-[700px] h-[700px] overflow-y-scroll px-10 py-10 border-x-[0.8px] ">
-      <h3 className="scroll-m-20 text-2xl font-bold tracking-tight">
-        Invite friends
-      </h3>
-      <input className="w-full h-[46.4px]" value="link.123"></input>
-      <p className="font-semibold">or invite via</p>
-      <div className="flex flex-row flex-wrap gap-2 gap-y-4">
-        {socialLink?.map((data, index) => (
-          <div key={index} className="flex flex-col w-16 items-center">
-            <div className="overflow-hidden rounded-14">{data.logo}</div>
-            <span className="mt-1.5 max-w-16 overflow-hidden overflow-ellipsis text-center text-[11px] text-text-tertiary cursor-pointer">
-              {data.name}
-            </span>
+    <>
+      <Wrapper title="Invite friends">
+        <div className="flex flex-col gap-y-4">
+          <input className="w-full h-[46.4px]" placeholder="link here"></input>
+          <p className="font-semibold">or invite via</p>
+          <div className="flex flex-row flex-wrap gap-2 gap-y-4">
+            {socialLink?.map((data, index) => (
+              <div key={index} className="flex flex-col w-16 items-center">
+                <div className="overflow-hidden rounded-14">{data.logo}</div>
+                <span className="mt-1.5 max-w-16 overflow-hidden overflow-ellipsis text-center text-[11px] text-text-tertiary cursor-pointer">
+                  {data.name}
+                </span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <p className="font-bold">Friends you brought abroad</p>
-      <p>
-        Meet the students who joined Goat.edu through your invite. They might
-        just be your ticket to future rewards 😉
-      </p>
-    </div>
+          <p className="font-bold">Friends you brought abroad</p>
+          <p>
+            Meet the students who joined Goat.edu through your invite. They
+            might just be your ticket to future rewards 😉
+          </p>
+        </div>
+      </Wrapper>
+    </>
   );
 };
 

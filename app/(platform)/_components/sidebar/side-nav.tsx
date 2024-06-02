@@ -40,7 +40,7 @@ export const SideNav = ({ items, setOpen, className }: SideNavProps) => {
   }, [isOpen, lastOpenItem, openItem]);
 
   return (
-    <nav className="space-y-2 flex flex-col">
+    <nav className="space-y-2 flex flex-col items-center">
       {items.map((item) =>
         item.children ? (
           <Accordion
@@ -55,7 +55,7 @@ export const SideNav = ({ items, setOpen, className }: SideNavProps) => {
               <AccordionTrigger
                 className={cn(
                   buttonVariants({ variant: "ghost" }),
-                  "flex h-12 items-center justify-start hover:no-underline"
+                  "flex h-10 items-center justify-start hover:no-underline"
                 )}
               >
                 {!isOpen ? (
@@ -85,7 +85,7 @@ export const SideNav = ({ items, setOpen, className }: SideNavProps) => {
                     }}
                     className={cn(
                       buttonVariants({ variant: "ghost" }),
-                      "flex ml-4 h-12 items-center justify-start",
+                      "flex ml-4 h-10 items-center justify-start",
                       path === children.href && "bg-accent hover:bg-accent"
                     )}
                   >
@@ -121,7 +121,13 @@ export const SideNav = ({ items, setOpen, className }: SideNavProps) => {
             }}
             className={cn(
               buttonVariants({ variant: "ghost" }),
-              "flex h-12 items-center justify-start",
+              !isOpen &&
+                buttonVariants({
+                  variant: "ghost",
+                  size: "icon",
+                  className: "",
+                }),
+              "flex h-10 w-10 items-center",
               path === item.href && "bg-accent hover:bg-accent"
             )}
           >

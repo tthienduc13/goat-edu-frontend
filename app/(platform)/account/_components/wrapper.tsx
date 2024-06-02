@@ -11,7 +11,7 @@ interface WrapperProps {
 export const Wrapper = ({ children, title }: WrapperProps) => {
   return (
     <div className="w-[700px] border-x-[0.8px]">
-      <Card className="w-full border-none shadow-none bg-transparent h-full flex flex-col gap-y-5">
+      <Card className="w-full border-none shadow-none bg-transparent h-full overflow-y-scroll flex flex-col gap-y-5">
         <CardHeader className="text-xl font-bold border-b-[0.8px]">
           {title}
         </CardHeader>

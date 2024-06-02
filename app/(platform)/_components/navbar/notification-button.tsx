@@ -77,7 +77,9 @@ export const NotificationButton = () => {
           <p className="text-xl">Notifications</p>
           <MoreButton />
         </DropdownMenuLabel>
-        <DropdownMenuGroup>{/* <NotificationList /> */}</DropdownMenuGroup>
+        <DropdownMenuGroup>
+          <NotificationList />
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
