@@ -1,3 +1,4 @@
+import { usePathname } from "next/navigation";
 import { Sidebar } from "./_components/sidebar";
 
 interface AccountLayoutProps {

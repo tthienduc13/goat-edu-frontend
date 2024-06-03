@@ -18,7 +18,7 @@ import {
 } from "react-share";
 import { Wrapper } from "../_components/wrapper";
 
-const InviteFriend = () => {
+const InviteFriendPage = () => {
   const shareUrl = "Goat.edu";
 
   const socialLink = [
@@ -107,4 +107,4 @@ const InviteFriend = () => {
   );
 };
 
-export default InviteFriend;
+export default InviteFriendPage;

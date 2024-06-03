@@ -1,11 +1,22 @@
 import { NavItem } from "@/types/nav-item";
-import { BookOpenCheck, LayoutDashboard, LibraryBig } from "lucide-react";
+import {
+  BookOpenCheck,
+  BotMessageSquare,
+  LayoutDashboard,
+  LibraryBig,
+} from "lucide-react";
 
 export const NavItems: NavItem[] = [
   {
     title: "Dashboard",
     icon: LayoutDashboard,
     href: "/browse",
+    color: "text-sky-500",
+  },
+  {
+    title: "Discussion",
+    icon: BotMessageSquare,
+    href: "/discussed",
     color: "text-sky-500",
   },
   {

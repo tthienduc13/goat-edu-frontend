@@ -1,32 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
-import { ChevronRight, Users } from "lucide-react";
+import { AccountNav } from "@/constants/account-nav";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const AccountNav = [
-  {
-    title: "Profile",
-    href: "/account/profile",
-    symbol: (
-      <Avatar className="rounded-full  overflow-hidden h-6 w-6">
-        <AvatarImage
-        // src={user?.image!}
-        />
-        <AvatarFallback className="w-full text-sm h-full flex items-center justify-center bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]">
-          GE
-        </AvatarFallback>
-      </Avatar>
-    ),
-  },
-  {
-    title: "Invite",
-    href: "/account/invite",
-    symbol: <Users className="h-6 w-6" />,
-  },
-];
 
 export const Sidebar = () => {
   const pathname = usePathname();
