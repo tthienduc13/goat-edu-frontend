@@ -6,11 +6,41 @@ import Image from "next/image";
 
 import EditIconAnimate from "@/assets/gif/edit.gif";
 import EditIconPause from "@/assets/gif/edit_pause.png";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { EditProfileSchema } from "@/schemas";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export const AccountInformation = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [isPending, setIsPending] = useState<boolean>(false);
   const handleEditClick = () => {
     setIsEdit(!isEdit);
+  };
+
+  const form = useForm<z.infer<typeof EditProfileSchema>>({
+    resolver: zodResolver(EditProfileSchema),
+    mode: "onChange",
+    defaultValues: {
+      fullname: "",
+      phoneNumber: "",
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof EditProfileSchema>) => {
+    setIsPending(!isPending);
+    console.log(values);
+    setIsPending(false);
   };
   return (
     <div className="w-full flex flex-col gap-y-6">
@@ -28,7 +58,74 @@ export const AccountInformation = () => {
           />
         </button>
       </div>
-      <div>General Information form here</div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full space-y-5"
+        >
+          <FormItem>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+              <Input
+                type="Email"
+                placeholder="Enter the Email"
+                disabled={true}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+          <FormItem>
+            <FormLabel>Username</FormLabel>
+            <FormControl>
+              <Input type="text" placeholder="Enter username" disabled={true} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+          <FormField
+            control={form.control}
+            name="fullname"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Fullname</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Enter fullname"
+                    disabled={!isEdit || isPending}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="phoneNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone number</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Enter phone number"
+                    disabled={!isEdit || isPending}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {isEdit && (
+            <div className="flex justify-end">
+              <Button type="submit" disabled={isPending}>
+                Save
+              </Button>
+            </div>
+          )}
+        </form>
+      </Form>
     </div>
   );
 };
