@@ -3,7 +3,7 @@ import { SocialNetwork } from "./social-network";
 
 export const Footer = () => {
   return (
-    <div className="footer pt-16 border-t-[0.8px] border-slate-400">
+    <div className="max-w-[1320px] mx-auto">
       <SiteFooter />
       <SocialNetwork />
     </div>

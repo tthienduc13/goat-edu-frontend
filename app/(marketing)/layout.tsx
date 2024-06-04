@@ -1,3 +1,4 @@
+import { Footer } from "@/components/landing/footer";
 import { Header } from "@/components/landing/header";
 
 interface MarketingLayoutProps {
@@ -8,8 +9,9 @@ const MarketingLayout = async ({ children }: MarketingLayoutProps) => {
   return (
     <main>
       <Header />
-      <div className="absolute w-full left-0 top-[64px] flex flex-col items-center justify-center">
+      <div className=" w-full absolute flex flex-col gap-y-[120px] items-center justify-center">
         {children}
+        <Footer />
       </div>
     </main>
   );

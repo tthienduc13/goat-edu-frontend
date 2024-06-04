@@ -13,26 +13,36 @@ import { CommentIcon } from "@/components/custom-icons/comment-icon";
 import { FlagIcon } from "@/components/custom-icons/flag-icon";
 import { UpvoteIcon } from "@/components/custom-icons/upvote-icon";
 import { Discussion } from "@/types/discussion";
+import { cn } from "@/lib/utils";
+import { UpvoteButton } from "./upvote-button";
 
 interface DiscussedCardProps {
   data: Discussion;
+  isDetail?: boolean;
 }
 
-export const DiscussedCard = ({ data }: DiscussedCardProps) => {
+export const DiscussedCard = ({ data, isDetail }: DiscussedCardProps) => {
   return (
-    <Card className="border-none shadow-none hover:bg-secondary/80  dark:hover:bg-secondary/40 ">
+    <Card
+      className={cn(
+        "border-none shadow-none",
+        !isDetail && "hover:bg-secondary/80  dark:hover:bg-secondary/40"
+      )}
+    >
       <CardHeader>
         <div className="flex h-10 flex-row items-center gap-x-2">
           <Avatar className="h-10 w-10  rounded-md">
-            <AvatarImage src={data.userAndSubject.userImage ?? ""} />
+            <AvatarImage src={data.userAndSubject?.userImage ?? ""} />
             <AvatarFallback className="w-full text-sm h-full flex items-center justify-center bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]">
               GE
             </AvatarFallback>
           </Avatar>
           <div className="h-full flex flex-col justify-between flex-1">
-            <div className="font-bold">{data.userAndSubject.fullName}</div>
+            <div className="font-bold">
+              {data.userAndSubject?.fullName ?? "No name"}
+            </div>
             <span className="text-xs text-muted-foreground">
-              @{data.userAndSubject.userName}
+              @{data.userAndSubject?.userName ?? "No username"}
             </span>
           </div>
         </div>
@@ -52,16 +62,7 @@ export const DiscussedCard = ({ data }: DiscussedCardProps) => {
         </Link>
       </CardContent>
       <CardFooter className="flex flex-row gap-x-4">
-        <div className="flex items-center gap-x-1 flex-row">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="hover:bg-emerald-500/70 "
-          >
-            <UpvoteIcon />
-          </Button>
-          <span>{data.discussionVote}</span>
-        </div>
+        <UpvoteButton voteCount={data.discussionVote} />
         <div className="flex items-center gap-x-1 flex-row">
           <Button variant="ghost" size="icon" className="hover:bg-cyan-400/70">
             <CommentIcon />

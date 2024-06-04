@@ -4,7 +4,6 @@ import Link from "next/link";
 import { NavItem } from "@/types/nav-item";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useSidebar } from "@/hooks/use-sidebar";
 import { buttonVariants } from "@/components/ui/button";
 
 import {
@@ -14,66 +13,37 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-import { useEffect, useState } from "react";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
-import { Hint } from "@/components/custom/hint";
-
 interface SideNavProps {
   items: NavItem[];
   setOpen?: (open: boolean) => void;
-  className?: string;
 }
 
-export const SideNav = ({ items, setOpen, className }: SideNavProps) => {
+export const SideNav = ({ items, setOpen }: SideNavProps) => {
   const path = usePathname();
-  const { isOpen } = useSidebar();
-  const [openItem, setOpenItem] = useState("");
-  const [lastOpenItem, setLastOpenItem] = useState("");
-
-  useEffect(() => {
-    if (isOpen) {
-      setOpenItem(lastOpenItem);
-    } else {
-      setLastOpenItem(openItem);
-      setOpenItem("");
-    }
-  }, [isOpen, lastOpenItem, openItem]);
 
   return (
-    <nav className="space-y-2 flex flex-col items-center">
+    <nav className="space-y-2 w-full flex flex-col items-center">
       {items.map((item) =>
         item.children ? (
           <Accordion
             type="single"
             collapsible
-            className="space-y-2 flex flex-col"
+            className="space-y-2 flex flex-col w-full"
             key={item.title}
-            value={openItem}
-            onValueChange={setOpenItem}
           >
-            <AccordionItem value={item.title} className="border-none ">
+            <AccordionItem value={item.title} className="border-none w-full ">
               <AccordionTrigger
                 className={cn(
                   buttonVariants({ variant: "ghost" }),
-                  "flex h-10 items-center justify-start hover:no-underline"
+                  "flex w-full items-center justify-start hover:no-underline"
                 )}
               >
-                {!isOpen ? (
-                  <Hint label={item.title} side="left" sideOffset={20}>
-                    <div className="flex items-center w-full">
-                      <item.icon className="h-5 w-5" />
-                    </div>
-                  </Hint>
-                ) : (
-                  <div className="flex items-center w-full">
-                    <item.icon className="h-5 w-5" />
-                    {isOpen && (
-                      <span className={cn("text-base duration-200 ml-2")}>
-                        {item.title}
-                      </span>
-                    )}
-                  </div>
-                )}
+                <div className="flex items-center w-full">
+                  <item.icon className="h-5 w-5" />
+                  <span className={cn("text-base duration-200 ml-2")}>
+                    {item.title}
+                  </span>
+                </div>
               </AccordionTrigger>
               <AccordionContent>
                 {item.children.map((children) => (
@@ -85,28 +55,20 @@ export const SideNav = ({ items, setOpen, className }: SideNavProps) => {
                     }}
                     className={cn(
                       buttonVariants({ variant: "ghost" }),
-                      "flex ml-4 h-10 items-center justify-start",
+                      "flex ml-4 h-10 items-center justify-start w-full",
                       path === children.href && "bg-accent hover:bg-accent"
                     )}
                   >
-                    {!isOpen ? (
-                      <Hint label={item.title} side="left" sideOffset={20}>
-                        <div className="flex items-center">
-                          <children.icon className="h-5 w-5" />
-                        </div>
-                      </Hint>
-                    ) : (
-                      <div className="flex items-center">
-                        <children.icon className="h-5 w-5" />
-                        {isOpen && (
-                          <span
-                            className={cn("text-base duration-200 ml-2 flex-1")}
-                          >
-                            {children.title}
-                          </span>
+                    <div className="flex items-center w-full">
+                      <children.icon className="h-5 w-5" />
+                      <span
+                        className={cn(
+                          "text-base duration-200 w-full ml-2 flex-1"
                         )}
-                      </div>
-                    )}
+                      >
+                        {children.title}
+                      </span>
+                    </div>
                   </Link>
                 ))}
               </AccordionContent>
@@ -121,32 +83,16 @@ export const SideNav = ({ items, setOpen, className }: SideNavProps) => {
             }}
             className={cn(
               buttonVariants({ variant: "ghost" }),
-              !isOpen &&
-                buttonVariants({
-                  variant: "ghost",
-                  size: "icon",
-                  className: "",
-                }),
-              "flex h-10 w-10 items-center",
+              "flex items-center w-full justify-start",
               path === item.href && "bg-accent hover:bg-accent"
             )}
           >
-            {!isOpen ? (
-              <Hint label={item.title} side="left" sideOffset={20}>
-                <div className="flex items-center">
-                  <item.icon className="h-5 w-5" />
-                </div>
-              </Hint>
-            ) : (
-              <div className="flex items-center">
-                <item.icon className="h-5 w-5" />
-                {isOpen && (
-                  <span className={cn("text-base duration-200 ml-2 flex-1")}>
-                    {item.title}
-                  </span>
-                )}
-              </div>
-            )}
+            <div className="flex items-center">
+              <item.icon className="h-5 w-5" />
+              <span className={cn("text-base duration-200 ml-2 flex-1")}>
+                {item.title}
+              </span>
+            </div>
           </Link>
         )
       )}

@@ -123,8 +123,7 @@ export const Header = () => {
 const Navbar = () => {
   const [active, setActive] = useState<string | null>(null);
   return (
-    <div className="flex-1">
-      {" "}
+    <div className="flex-1 bg-transparent">
       <Menu setActive={setActive}>
         <HoveredLink href="/">
           <MenuItem setActive={setActive} item="Home"></MenuItem>

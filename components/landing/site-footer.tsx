@@ -1,6 +1,6 @@
 export const SiteFooter = () => {
   return (
-    <div className="site-footer flex flex-start justify-center  mb-8">
+    <div className=" flex flex-start justify-center mb-8">
       <div className="flex flex-row w-[1220px]">
         <div className="flex flex-col w-full">
           <h4 className="scroll-m-20 text-base font-bold tracking-tight mb-5">

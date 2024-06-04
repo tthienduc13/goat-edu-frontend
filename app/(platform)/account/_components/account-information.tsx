@@ -1,7 +1,7 @@
 "use client";
 
 import { Header } from "./header";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Image from "next/image";
 
 import EditIconAnimate from "@/assets/gif/edit.gif";
@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 
 export const AccountInformation = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [isPending, setIsPending] = useState<boolean>(false);
+  const [isPending, startTransition] = useTransition();
   const handleEditClick = () => {
     setIsEdit(!isEdit);
   };
@@ -38,9 +38,7 @@ export const AccountInformation = () => {
   });
 
   const onSubmit = (values: z.infer<typeof EditProfileSchema>) => {
-    setIsPending(!isPending);
     console.log(values);
-    setIsPending(false);
   };
   return (
     <div className="w-full flex flex-col gap-y-6">
@@ -118,9 +116,9 @@ export const AccountInformation = () => {
             )}
           />
           {isEdit && (
-            <div className="flex justify-end">
+            <div className="flex justify-end ">
               <Button type="submit" disabled={isPending}>
-                Save
+                Save Changes
               </Button>
             </div>
           )}

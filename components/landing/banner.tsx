@@ -1,24 +1,44 @@
-import { Highlight } from "@/components/ui/hero-highlight";
-import { Boxes } from "../ui/background-boxes";
-import { TextGenerateEffect } from "../ui/text-generate-effect";
-import { TextRevealCard } from "../ui/text-reveal-card";
+"use client";
 
-const words = `2 lít, Okk ở quầy thu anh để lại 2 lít Thoải mái buôn dưa lê chẳng phải
-lo khi NOKIA anh chai Hi bitch! Khi em chào anh`;
+import React from "react";
 
-export const Banner = () => {
+import { Button } from "@/components/ui/button";
+import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
+
+import { sampleArcs } from "@/data/globe-sample";
+import { globeConfig } from "@/data/globe-config";
+
+import { words } from "@/constants/banner-words";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const World = dynamic(
+  () => import("@/components/ui/globe").then((m) => m.World),
+  {
+    ssr: false,
+  }
+);
+
+export function Banner() {
   return (
-    <div className=" w-full h-[calc(100vh-64px)] relative overflow-hidden flex flex-col items-start justify-center">
-      <Boxes />
-      <div className="absolute inset-0 w-full h-full bg-background z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-      <h1 className=" ml-[100px] z-20 text-4xl font-extrabold tracking-tight lg:text-5xl w-[560px] mb-4 leading-relaxed lg:leading-snug">
-        <Highlight className="text-black dark:text-white">
-          Ghệ iu nhất hệ mặt trời.
-        </Highlight>
-      </h1>
-      <h4 className="ml-[100px] mb-20 z-20 text-xl font-semibold tracking-tight w-[560px]">
-        <TextGenerateEffect words={words} />
-      </h4>
+    <div className="h-[calc(100vh-64px)] w-full dark:bg-background bg-white  dark:bg-grid-small-white/[0.2] bg-grid-small-black/[0.2] relative flex items-center justify-center">
+      <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-background bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+      <div className="max-w-[1320px] w-full h-full flex items-center justify-between flex-row">
+        <div className="max-w-[700px] w-full flex flex-col items-center">
+          <div className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base ">
+            The road to champion starts here
+          </div>
+          <TypewriterEffectSmooth words={words} />
+          <Button>
+            <Link href="/auth/login"> Join with us</Link>
+          </Button>
+        </div>
+        <div className=" w-[600px] hidden md:flex flex-row items-center justify-center py-20 h-screen md:h-auto bg-transparent relative">
+          <div className=" w-full h-[600px] ">
+            <World data={sampleArcs} globeConfig={globeConfig} />
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
+}

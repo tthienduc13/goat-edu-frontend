@@ -1,12 +1,6 @@
 import * as z from "zod";
 
 const MAX_UPLOAD_SIZE = 1024 * 1024 * 10;
-const ACCEPTED_FILE_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-];
 
 export const CheckEmailSchema = z.object({
   email: z.string().email(),
@@ -104,4 +98,9 @@ export const ChangePasswordSchema = z.object({
       /[!@#$%^&*]/,
       "Password must contain at least one special character"
     ),
+});
+
+export const ReportSchema = z.object({
+  title: z.string().min(1, "Report title must be at least one character"),
+  content: z.string().min(1, "Report content must be at least one character"),
 });

@@ -8,13 +8,10 @@ interface MainProps {
 }
 
 export const Main = ({ children }: MainProps) => {
-  const { isOpen } = useSidebar();
   return (
     <main
       className={cn(
-        "z-5 w-full p-10 bg-inherit absolute top-16 transition-all duration-500 overflow-hidden flex",
-        isOpen ? "left-[240px]" : "left-[78px]",
-        isOpen ? "w-[calc(100%-240px)]" : "w-[calc(100%-78px)]"
+        "z-5 p-10 bg-inherit left-[240px] w-[calc(100%-240px)] absolute top-16 transition-all duration-500 overflow-hidden flex"
       )}
     >
       {children}

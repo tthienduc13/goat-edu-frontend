@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { UserAvatar } from "@/components/custom/user-avatar";
-import { MoreButton } from "./more-button";
+import { MoreButton } from "./buttons/more-button";
 import { FollowerPointerCard } from "@/components/ui/following-pointer";
 import sampleImage from "@/assets/sample.png";
 import Image from "next/image";
