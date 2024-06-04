@@ -15,7 +15,7 @@ export const getDiscussionById = async (
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data;
+  return response.data.data;
 };
 
 export const getAllDiscussion = async (

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 import { Bell } from "lucide-react";
-import { MoreButton } from "@/components/custom/more-button";
+import { MoreButton } from "@/components/custom/buttons/more-button";
 import { NotificationList } from "./notification-list";
 
 //     id: "1",

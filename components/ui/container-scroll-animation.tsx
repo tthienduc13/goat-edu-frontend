@@ -6,7 +6,7 @@ export const ContainerScroll = ({
   titleComponent,
   children,
 }: {
-  titleComponent: string | React.ReactNode;
+  titleComponent?: string | React.ReactNode;
   children: React.ReactNode;
 }) => {
   const containerRef = useRef<any>(null);

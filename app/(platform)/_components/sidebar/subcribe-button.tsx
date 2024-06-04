@@ -7,7 +7,7 @@ export const SubcribeButton = () => {
       <span className="text-muted-foreground text-center text-xs">
         Using ChatBot to solve your problem properly, quickly and perfect
       </span>
-      <Button className="w-full">Get Pro ✨</Button>
+      <Button className="w-full">Get PRO ✨</Button>
     </div>
   );
 };

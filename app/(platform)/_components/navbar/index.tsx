@@ -5,8 +5,8 @@ import { UserButton } from "./user-button";
 import { NotificationButton } from "./notification-button";
 import { CreateButton } from "./create-button";
 
-import { ModeToggle } from "@/components/mode-toggle";
 import { cn } from "@/lib/utils";
+import { UpgradeButton } from "@/components/custom/buttons/upgrade-button";
 
 export const Navbar = () => {
   return (
@@ -21,7 +21,7 @@ export const Navbar = () => {
         <CreateButton />
         <NotificationButton />
         <UserButton />
-        <ModeToggle />
+        {/* <UpgradeButton /> */}
       </div>
     </div>
   );
