@@ -4,13 +4,20 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
-import { World } from "@/components/ui/globe";
 
 import { sampleArcs } from "@/data/globe-sample";
 import { globeConfig } from "@/data/globe-config";
 
 import { words } from "@/constants/banner-words";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const World = dynamic(
+  () => import("@/components/ui/globe").then((m) => m.World),
+  {
+    ssr: false,
+  }
+);
 
 export function Banner() {
   return (
