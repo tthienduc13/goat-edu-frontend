@@ -3,7 +3,7 @@ interface CreateLayoutProps {
 }
 
 const CreateLayout = ({ children }: CreateLayoutProps) => {
-  return <main className="w-full h-full p-10">{children}</main>;
+  return <main className="w-full h-full">{children}</main>;
 };
 
 export default CreateLayout;

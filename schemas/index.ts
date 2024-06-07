@@ -101,6 +101,8 @@ export const ChangePasswordSchema = z.object({
 });
 
 export const ReportSchema = z.object({
-  title: z.string().min(1, "Report title must be at least one character"),
-  content: z.string().min(1, "Report content must be at least one character"),
+  reportTitle: z.string().min(1, "Report title must be at least one character"),
+  reportContent: z
+    .string()
+    .min(1, "Report content must be at least one character"),
 });

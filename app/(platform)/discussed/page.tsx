@@ -13,7 +13,7 @@ const DiscussedPage = () => {
   const observer = useRef<IntersectionObserver>();
 
   const { data, error, fetchNextPage, hasNextPage, isFetching, isLoading } =
-    useDiscussion(user?.token!);
+    useDiscussion(user?.token!, "Approved");
 
   const lastElementRef = useCallback(
     (node: HTMLDivElement) => {
