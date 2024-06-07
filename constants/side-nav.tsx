@@ -22,7 +22,7 @@ export const NavItems: NavItem[] = [
   {
     title: "Flashcard",
     icon: BotMessageSquare,
-    href: "/flashcards/1",
+    href: "/flashcards",
     color: "text-sky-500",
   },
   {
