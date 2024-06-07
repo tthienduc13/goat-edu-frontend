@@ -18,22 +18,39 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "../ui/dialog";
 import { toast } from "sonner";
+import { report } from "@/actions/report";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 export const ReportForm = () => {
+  const user = useCurrentUser();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof ReportSchema>>({
     resolver: zodResolver(ReportSchema),
     mode: "onChange",
     defaultValues: {
-      title: "",
-      content: "",
+      reportTitle: "",
+      reportContent: "",
     },
   });
 
   const onSubmit = (values: z.infer<typeof ReportSchema>) => {
-    toast.success("Report sent");
-    console.log(values);
+    startTransition(() => {
+      report(values, user?.token!)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            toast.error(data.error);
+          }
+          if (data?.success) {
+            form.reset();
+            toast.success(data.success);
+          }
+        })
+        .catch(() => {
+          toast.error("Something went wrong!");
+        });
+    });
   };
   return (
     <Form {...form}>
@@ -43,7 +60,7 @@ export const ReportForm = () => {
       >
         <FormField
           control={form.control}
-          name="title"
+          name="reportTitle"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Title</FormLabel>
@@ -61,7 +78,7 @@ export const ReportForm = () => {
         />
         <FormField
           control={form.control}
-          name="content"
+          name="reportContent"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Content</FormLabel>

@@ -5,6 +5,7 @@ import Google from "next-auth/providers/google";
 
 import { LoginSchema } from "@/schemas";
 import { login } from "@/app/api/auth/auth.api";
+import { toast } from "sonner";
 
 export default {
   providers: [
@@ -28,6 +29,9 @@ export default {
             });
             const user = response.data;
             if (user) {
+              if (user.role.roleName === "Admin") {
+                return null;
+              }
               return user;
             } else {
               return null;

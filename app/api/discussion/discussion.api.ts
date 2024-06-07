@@ -1,5 +1,5 @@
 import axiosClient from "@/lib/axiosClient";
-import { Discussion } from "@/types/discussion";
+import { Discussion, Status } from "@/types/discussion";
 
 export const END_POINT = {
   GET_BY_ID: "/discussion/",
@@ -19,16 +19,27 @@ export const getDiscussionById = async (
 };
 
 export const getAllDiscussion = async (
+  status: Status,
   pageNumber: number,
   token: string
 ): Promise<Discussion[]> => {
-  const response = await axiosClient.get(
-    `${END_POINT.GET_ALL}?page_size=6&page_number=${pageNumber}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return response.data;
+  try {
+    const queryParams = new URLSearchParams({
+      status,
+      page_size: "6",
+      page_number: pageNumber.toString(),
+    });
+    const response = await axiosClient.get(
+      `${END_POINT.GET_ALL}?${queryParams.toString()}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching discussions:", error);
+    throw error;
+  }
 };
