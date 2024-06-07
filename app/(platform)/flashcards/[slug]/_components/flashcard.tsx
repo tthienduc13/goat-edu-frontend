@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { Hint } from "@/components/custom/hint";
 import { SettingButton } from "./control/setting-button";
-import { Carousel } from "@/components/ui/carousel";
 
 // type FlashcardProps = {
 //   cardData: Array<{ frontSide: string; backSide: string }>;
