@@ -9,14 +9,11 @@ export type Discussion = {
   isSolved: boolean;
   status: Status;
   tags: Tag[];
+  createdAt: Date;
   userAndSubject: UserAndSubject;
 };
 
-enum Status {
-  "Unapproved",
-  "Approved",
-  "Vac",
-}
+export type Status = "Approved" | "Unapproved" | "Vac";
 
 type UserAndSubject = {
   userId: string;

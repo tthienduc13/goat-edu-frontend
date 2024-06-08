@@ -20,6 +20,12 @@ export const NavItems: NavItem[] = [
     color: "text-sky-500",
   },
   {
+    title: "Flashcard",
+    icon: BotMessageSquare,
+    href: "/flashcards",
+    color: "text-sky-500",
+  },
+  {
     title: "Courses",
     icon: LibraryBig,
     href: "/example",
