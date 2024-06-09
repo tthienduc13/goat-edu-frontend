@@ -26,6 +26,12 @@ export const NavItems: NavItem[] = [
     color: "text-sky-500",
   },
   {
+    title: "Subjects",
+    icon: BotMessageSquare,
+    href: "/subjects",
+    color: "text-sky-500",
+  },
+  {
     title: "Courses",
     icon: LibraryBig,
     href: "/example",

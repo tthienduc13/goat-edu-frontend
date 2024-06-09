@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   },
   description:
     "Welcome to GoatEdu, No.1 learning platform for National highschool exam",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default async function RootLayout({
