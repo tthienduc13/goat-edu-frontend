@@ -1,18 +1,10 @@
 "use client";
-import {
-  useSubjectByClasses,
-  useSubjects,
-} from "@/app/api/subject/subject.query";
+import { useSubjectByClasses } from "@/app/api/subject/subject.query";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { Subject } from "@/types/subject";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import { useEffect, useState } from "react";
 import { SubjectLoading } from "./_components/subject-loading";
-import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
+import { SubjectCard } from "./_components/subject-card";
 import { Button } from "@/components/ui/button";
-import { SubjectByClass } from "./_components/subject-by-class";
+import Link from "next/link";
 
 const SubjectPage = () => {
   const user = useCurrentUser();
@@ -37,7 +29,6 @@ const SubjectPage = () => {
     isLoading: isLoading12,
     error: error12,
   } = useSubjectByClasses(classes.class12, user?.token!);
-  console.log(data10);
   if (isLoading10 || isLoading11 || isLoading12) {
     return (
       <div className="flex flex-col w-full gap-y-8">
@@ -49,42 +40,27 @@ const SubjectPage = () => {
   }
   return (
     <div className="flex flex-col w-full gap-y-8">
-      <div className="class-10">
-        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-          Class 10
-        </h2>
-        <div className="w-full grid gap-y-4 grid-cols-4">
-          {data10?.map((data) => (
-            <div key={data.id} className="w-[280px] p-4 shadow-xl rounded-2xl">
-              <SubjectByClass data={data} />
-            </div>
-          ))}
+      {[
+        { className: "Class 1", title: "Class 10", data: data10 },
+        { className: "Class 2", title: "Class 11", data: data11 },
+        { className: "Class 3", title: "Class 12", data: data12 },
+      ].map(({ className, title, data }) => (
+        <div key={className} className="flex flex-col gap-y-10">
+          <div className="w-full flex flex-row justify-between items-center">
+            <h2 className=" text-3xl font-bold ">{title}</h2>
+            <Link href={`/subject/${className}`}>
+              <Button variant={"link"}>View more</Button>
+            </Link>
+          </div>
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {data?.map((data) => (
+              <div key={data.id}>
+                <SubjectCard data={data} />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="class-11">
-        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-          Class 11
-        </h2>
-        <div className="w-full grid gap-y-4 grid-cols-4">
-          {data11?.map((data) => (
-            <div key={data.id} className="w-[280px] p-4 shadow-xl rounded-2xl">
-              <SubjectByClass data={data} />
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="class-12">
-        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-          Class 12
-        </h2>
-        <div className="w-full grid gap-y-4 grid-cols-4">
-          {data12?.map((data) => (
-            <div key={data.id} className="w-[280px] p-4 shadow-xl rounded-2xl">
-              <SubjectByClass data={data} />
-            </div>
-          ))}
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

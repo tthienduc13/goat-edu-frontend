@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/accordion";
 import { useEffect, useState } from "react";
 import { useSubjectById } from "@/app/api/subject/subject.query";
-import Image from "next/image";
 import { SubjectDetailLoading } from "../_components/subject-detail-loading";
 import { useParams } from "next/navigation";
 
