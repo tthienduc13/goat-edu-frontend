@@ -53,7 +53,7 @@ export const UserButton = () => {
           </Button>
         </DropdownMenuTrigger>
       </Hint>
-      <DropdownMenuContent sideOffset={10} align="start" className="w-56">
+      <DropdownMenuContent sideOffset={10} align="end" className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

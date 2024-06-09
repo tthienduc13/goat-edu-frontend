@@ -2,8 +2,7 @@ export const defaultEditorContent = {
   type: "doc",
   content: [
     {
-      type: "heading",
-      attrs: { level: 2 },
+      type: "p",
       content: [{ type: "text", text: "Start with /" }],
     },
   ],

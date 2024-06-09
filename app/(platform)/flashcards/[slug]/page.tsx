@@ -7,9 +7,11 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { useFlashcardContentById } from "@/app/api/flashcard-content/flascard-content.query";
 import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
 
-const FlashcardPage = () => {
-  const { slug } = useParams();
+interface FlashcardPageProps {
+  params: { slug: string };
+}
 
+const FlashcardPage = ({ params: { slug } }: FlashcardPageProps) => {
   const user = useCurrentUser();
 
   const {

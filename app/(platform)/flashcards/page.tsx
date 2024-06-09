@@ -4,6 +4,7 @@ import { useFlashcards } from "@/app/api/flashcard/flashcard.query";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { currentUser } from "@/lib/auth";
 import Link from "next/link";
+import { Card } from "./_components/card";
 
 const FlashcardsPage = () => {
   const user = useCurrentUser();
@@ -14,11 +15,9 @@ const FlashcardsPage = () => {
   } = useFlashcards(1, user?.token!);
   return (
     <>
-      <div className="flex flex-col gap-y-5">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-5">
         {flashcardsData?.map((data) => (
-          <div key={data.id}>
-            <Link href={`/flashcards/${data.id}`}>{data.flashcardName}</Link>
-          </div>
+          <Card key={data.id} data={data} />
         ))}
       </div>
     </>
