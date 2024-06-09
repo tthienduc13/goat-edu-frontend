@@ -1,5 +1,5 @@
+"use client";
 import { motion } from "framer-motion";
-
 import { LampContainer } from "@/components/ui/lamp";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
