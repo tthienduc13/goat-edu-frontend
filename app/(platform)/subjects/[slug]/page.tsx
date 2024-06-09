@@ -43,16 +43,14 @@ const SubjectDetailPage = () => {
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwiVXNlcklkIjoiMDgzYTIyZDAtYjJiMC00MjUwLTkzYjQtZjk0OGMzMWY1NWQxIiwiUm9sZUlkIjoiMTkwNTk4ZmUtZGYzMS00ZWEyLWFiZTMtYWI5MDUwYmUwNjllIiwicm9sZSI6IkFkbWluIiwiRnVsbG5hbWUiOiJhZG1pbiBwcm8iLCJuYmYiOjE3MTc2MDM2NzQsImV4cCI6MTcxODIwODQ3NCwiaWF0IjoxNzE3NjAzNjc0LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.wyIZQpNJ4MBblLMzLyt88Tsj_fOfJGMHADRZ8M0c6pY";
   const { slug } = useParams();
-  console.log(slug);
   const { data, isLoading, error } = useSubjectById(slug as string, token);
-  console.log(data);
   const [openItems, setOpenItems] = useState<string[]>([]);
   const allItems = ["item-1", "item-2", "item-3"];
   const handleOpenAll = () => {
     if (openItems.length === allItems.length) {
-      setOpenItems([]); // Close all items
+      setOpenItems([]);
     } else {
-      setOpenItems(allItems); // Open all items
+      setOpenItems(allItems);
     }
   };
   if (isLoading) {
@@ -61,6 +59,9 @@ const SubjectDetailPage = () => {
         <SubjectDetailLoading />
       </div>
     );
+  }
+
+  if (error) {
   }
   return (
     <div className="flex flex-row w-full">

@@ -16,8 +16,7 @@ import { SubjectByClass } from "./_components/subject-by-class";
 
 const SubjectPage = () => {
   const user = useCurrentUser();
-  // const { data, isLoading, error } = useSubjects(token);
-  // const [subject, setSubject] = useState<Subject[]>([]);
+
   const classes = {
     class10: "Class 1",
     class11: "Class 2",

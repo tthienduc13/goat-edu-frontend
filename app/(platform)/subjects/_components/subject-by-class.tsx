@@ -27,7 +27,7 @@ export const SubjectByClass = ({ data }: SubjectByClassProps) => {
       </h4>
       <p className="font-medium mt-3 h-[100px] text-xs">{data.information}</p>
       <div className="mt-3">
-        <Link key={data.id} href={`/subject/${data.id}`}>
+        <Link key={data.id} href={`/subjects/${data.id}`}>
           <Badge variant="secondary">Enroll</Badge>
         </Link>
       </div>
