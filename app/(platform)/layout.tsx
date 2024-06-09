@@ -1,5 +1,3 @@
-import { Sidebar } from "./_components/sidebar";
-import { Navbar } from "./_components/navbar";
 import { Main } from "./_components/main";
 
 import { auth } from "@/auth";
