@@ -15,19 +15,27 @@ import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
 import { handleImageDrop, handleImagePaste } from "novel/plugins";
-import { uploadFn } from "./image-upload";
-import { slashCommand, suggestionItems } from "./slash-command";
-import { defaultExtensions } from "./extensions";
+
+import { uploadFn } from "@/components/novel/image-upload";
+import {
+  slashCommand,
+  suggestionItems,
+} from "@/components/novel/slash-command";
+import { defaultExtensions } from "@/components/novel/extensions";
 
 const hljs = require("highlight.js");
 
 const extensions = [...defaultExtensions, slashCommand];
 
-interface EditorProps {
+interface TailwindAdvancedEditorProps {
+  htmlContent: string;
   setHtmlContent: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Editor = ({ setHtmlContent }: EditorProps) => {
+const NoteEditor = ({
+  htmlContent,
+  setHtmlContent,
+}: TailwindAdvancedEditorProps) => {
   const [initialContent, setInitialContent] = useState<null | JSONContent>(
     null
   );
@@ -50,13 +58,13 @@ const Editor = ({ setHtmlContent }: EditorProps) => {
       const json = editor.getJSON();
       setCharsCount(editor.storage.characterCount.words());
       window.localStorage.setItem(
-        "html-content",
+        "note-html-content",
         highlightCodeblocks(editor.getHTML())
       );
       setHtmlContent(highlightCodeblocks(editor.getHTML()));
-      window.localStorage.setItem("novel-content", JSON.stringify(json));
+      window.localStorage.setItem("note-novel-content", JSON.stringify(json));
       window.localStorage.setItem(
-        "markdown",
+        "note-markdown",
         editor.storage.markdown.getMarkdown()
       );
       setSaveStatus("Saved");
@@ -64,17 +72,17 @@ const Editor = ({ setHtmlContent }: EditorProps) => {
     500
   );
 
-  // useEffect(() => {
-  //   const content = window.localStorage.getItem("novel-content");
-  //   if (content) setInitialContent(JSON.parse(content));
-  //   else setInitialContent(defaultEditorContent);
-  // }, []);
+  useEffect(() => {
+    const content = window.localStorage.getItem("note-novel-content");
+    if (content) setInitialContent(JSON.parse(content));
+    else setInitialContent(defaultEditorContent);
+  }, []);
 
-  // if (!initialContent) return null;
+  if (!initialContent) return null;
 
   return (
     <div className="relative w-full ">
-      <div className="flex absolute right-5 top-5 z-10  gap-2">
+      <div className="flex absolute right-5 top-0 z-10  gap-2">
         <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
           {saveStatus}
         </div>
@@ -92,7 +100,7 @@ const Editor = ({ setHtmlContent }: EditorProps) => {
         <EditorContent
           initialContent={defaultEditorContent}
           extensions={extensions}
-          className="relative min-h-[500px] w-full p-10 border-muted bg-background  sm:rounded-lg sm:border sm:shadow-lg"
+          className="relative min-h-[500px] w-full px-5 py-10  bg-background  "
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
@@ -143,4 +151,4 @@ const Editor = ({ setHtmlContent }: EditorProps) => {
   );
 };
 
-export default Editor;
+export default NoteEditor;
