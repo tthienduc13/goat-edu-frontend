@@ -31,8 +31,8 @@ export const getAllFlashcard = async (
 };
 
 export const getFlashcardById = async (
-  id: string,
-  token: string
+  token: string,
+  id: string
 ): Promise<Flashcard> => {
   const response = await axiosClient.get(`${END_POINT.GET_BY_ID}${id}`, {
     headers: {

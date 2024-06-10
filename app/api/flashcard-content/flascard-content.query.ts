@@ -1,6 +1,18 @@
 import { queries } from "@/queries";
 import { useQuery } from "@tanstack/react-query";
+import { getAllFlashcardContentById } from "./flashcard-content.api";
 
-export const useFlashcardContentById = (id: string, token: string) => {
-  return useQuery(queries.flashcardContent.id(id, token));
+export const useFlashcardContentById = ({
+  token,
+  id,
+}: {
+  token: string;
+  id: string;
+}) => {
+  const queryKey = ["flashcardContent", id];
+
+  const queryFn = async () => {
+    return getAllFlashcardContentById(token, id).then((response) => response);
+  };
+  return { queryKey, queryFn };
 };

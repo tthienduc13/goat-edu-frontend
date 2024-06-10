@@ -22,6 +22,10 @@ import {
   suggestionItems,
 } from "@/components/novel/slash-command";
 import { defaultExtensions } from "@/components/novel/extensions";
+import { Hint } from "../custom/hint";
+import { Button } from "../ui/button";
+import { SquarePen } from "lucide-react";
+import { MoreButton } from "../custom/buttons/more-button";
 
 const hljs = require("highlight.js");
 
@@ -42,12 +46,10 @@ const NoteEditor = ({
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [charsCount, setCharsCount] = useState();
 
-  //Apply Codeblock Highlighting on the HTML from editor.getHTML()
   const highlightCodeblocks = (content: string) => {
     const doc = new DOMParser().parseFromString(content, "text/html");
     doc.querySelectorAll("pre code").forEach((el) => {
       // @ts-ignore
-      // https://highlightjs.readthedocs.io/en/latest/api.html?highlight=highlightElement#highlightelement
       hljs.highlightElement(el);
     });
     return new XMLSerializer().serializeToString(doc);
@@ -57,16 +59,8 @@ const NoteEditor = ({
     async (editor: EditorInstance) => {
       const json = editor.getJSON();
       setCharsCount(editor.storage.characterCount.words());
-      window.localStorage.setItem(
-        "note-html-content",
-        highlightCodeblocks(editor.getHTML())
-      );
       setHtmlContent(highlightCodeblocks(editor.getHTML()));
       window.localStorage.setItem("note-novel-content", JSON.stringify(json));
-      window.localStorage.setItem(
-        "note-markdown",
-        editor.storage.markdown.getMarkdown()
-      );
       setSaveStatus("Saved");
     },
     500
@@ -82,7 +76,7 @@ const NoteEditor = ({
 
   return (
     <div className="relative w-full ">
-      <div className="flex absolute right-5 top-0 z-10  gap-2">
+      <div className="flex absolute items-center right-5 top-0 z-10  gap-2">
         <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
           {saveStatus}
         </div>
@@ -95,6 +89,12 @@ const NoteEditor = ({
         >
           {charsCount} Words
         </div>
+        <Hint label="Create new note" side="bottom" sideOffset={10}>
+          <Button variant="ghost" size="icon" className=" rounded-full">
+            <SquarePen className="w-5 h-5" />
+          </Button>
+        </Hint>
+        <MoreButton />
       </div>
       <EditorRoot>
         <EditorContent
