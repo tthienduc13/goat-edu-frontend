@@ -17,27 +17,32 @@ import {
 import { NewDiscussionSchema } from "@/schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import PlateEditor from "@/components/plate-editor";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getImageData } from "@/lib/get-image-data";
+import Editor from "@/components/novel/novel-editor";
 
 export const CreateForm = () => {
   const [preview, setPreview] = useState("");
+  const [htmlContent, setHtmlContent] = useState<string>("");
   const [uploadedFile, setUploadedFile] = useState<File>();
-  const [tags, setTags] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof NewDiscussionSchema>>({
     resolver: zodResolver(NewDiscussionSchema),
     mode: "onChange",
     defaultValues: {
       discussionName: "",
+      discussionBody: "",
       discussionImage: {},
     },
   });
 
   const onSubmit = (values: z.infer<typeof NewDiscussionSchema>) => {
-    console.log(values);
+    const formData = {
+      ...values,
+      discussionBody: htmlContent,
+    };
+    console.log(formData);
     console.log(values.discussionImage[0]);
   };
 
@@ -50,11 +55,11 @@ export const CreateForm = () => {
             name="discussionName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Discussion title:</FormLabel>
+                <FormLabel className="text-2xl">Title</FormLabel>
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="Enter your email or username..."
+                    placeholder="What's your problem?"
                     //   disabled={loading}
                     {...field}
                   />
@@ -63,7 +68,24 @@ export const CreateForm = () => {
               </FormItem>
             )}
           />
-          <PlateEditor />
+          <FormField
+            control={form.control}
+            name="discussionBody"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Discussion Content</FormLabel>
+                <FormControl>
+                  <Editor
+                    setHtmlContent={(content) => {
+                      setHtmlContent(content);
+                      field.onChange(content);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="discussionImage"
@@ -98,6 +120,7 @@ export const CreateForm = () => {
           <Button className="w-1/6" variant="default" type="submit">
             Publish
           </Button>
+          <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
         </div>
       </form>
     </Form>

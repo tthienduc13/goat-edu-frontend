@@ -2,8 +2,13 @@ export const defaultEditorContent = {
   type: "doc",
   content: [
     {
-      type: "p",
-      content: [{ type: "text", text: "Start with /" }],
+      type: "paragraph",
+      content: [
+        {
+          type: "text",
+          text: "Just type / to insert types and ++ to use AI content generator.",
+        },
+      ],
     },
   ],
 };

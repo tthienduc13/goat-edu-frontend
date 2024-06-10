@@ -56,10 +56,12 @@ export const NewFlashcardSchema = z.object({
 });
 
 export const NewDiscussionSchema = z.object({
-  discussionName: z.string({ required_error: "Title must be provided" }),
-  // discussionBody: z.string().nonempty({
-  //   message: "Content must be provided",
-  // }),
+  discussionName: z.string().nonempty({
+    message: "Discussion name is required",
+  }),
+  discussionBody: z.string().nonempty({
+    message: "Discussion content is required",
+  }),
   discussionImage: z
     .any()
     .refine((file) => file?.length == 1, "Photo is required.")
