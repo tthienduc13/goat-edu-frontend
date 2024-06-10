@@ -19,7 +19,7 @@ interface CardProps {
   data: FlashcardContent[];
 }
 
-const Card = ({ data }: CardProps) => {
+export const Card = ({ data }: CardProps) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -177,5 +177,3 @@ const Card = ({ data }: CardProps) => {
     </div>
   );
 };
-
-export default Card;

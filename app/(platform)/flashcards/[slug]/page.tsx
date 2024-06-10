@@ -6,7 +6,7 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import { Flashcard } from "./flashcard";
+import { Flashcard } from "../flashcard";
 
 interface FlashcardPageProps {
   params: { slug: string };
@@ -24,26 +24,6 @@ export default async function FlashcardPage({ params }: FlashcardPageProps) {
   await queryClient.prefetchQuery(
     useFlashcardContentById({ token: user?.token!, id: params.slug })
   );
-
-  // const {
-  //   data: flashcardContentData,
-  //   isLoading: flashcardContentLoading,
-  //   error: flashcardContentError,
-  // } = useFlashcardContentById(slug as string, user?.token!);
-
-  // const {
-  //   data: flashcardData,
-  //   isLoading: flashcardLoading,
-  //   error: flashcardError,
-  // } = useFlashcardById(slug as string, user?.token!);
-
-  // if (flashcardContentLoading) {
-  //   return;
-  // }
-
-  // if (!flashcardContentData) {
-  //   return;
-  // }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

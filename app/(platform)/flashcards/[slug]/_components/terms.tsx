@@ -5,7 +5,7 @@ interface TermsProps {
   data: FlashcardContent[];
 }
 
-const Terms = ({ data }: TermsProps) => {
+export const Terms = ({ data }: TermsProps) => {
   return (
     <Wrapper headerTitle={`Terms in this sets (${data.length})`}>
       <div className="flex flex-col gap-y-2">
@@ -22,5 +22,3 @@ const Terms = ({ data }: TermsProps) => {
     </Wrapper>
   );
 };
-
-export default Terms;

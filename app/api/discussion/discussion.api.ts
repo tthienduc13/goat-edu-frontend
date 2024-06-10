@@ -7,8 +7,8 @@ export const END_POINT = {
 };
 
 export const getDiscussionById = async (
-  id: string,
-  token: string
+  token: string,
+  id: string
 ): Promise<Discussion> => {
   const response = await axiosClient.get(`${END_POINT.GET_BY_ID}${id}`, {
     headers: {

@@ -1,11 +1,13 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { Wrapper } from "./_components/wrapper";
+
 import { useFlashcardContentById } from "@/app/api/flashcard-content/flascard-content.query";
 import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
-import Card from "./_components/card";
-import Terms from "./_components/terms";
+
+import { Card } from "./[slug]/_components/card";
+import { Terms } from "./[slug]/_components/terms";
+import { Wrapper } from "./[slug]/_components/wrapper";
 
 interface FlashcardProps {
   token: string;

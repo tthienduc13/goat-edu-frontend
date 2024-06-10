@@ -1,5 +1,3 @@
-import { queries } from "@/queries";
-import { useQuery } from "@tanstack/react-query";
 import { getAllFlashcardContentById } from "./flashcard-content.api";
 
 export const useFlashcardContentById = ({
