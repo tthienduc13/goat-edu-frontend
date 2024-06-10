@@ -7,10 +7,10 @@ import { createQueryKeys } from "@lukemorales/query-key-factory";
 export const flashcard = createQueryKeys("flashcard", {
   all: (pageNumber: number, token: string) => ({
     queryKey: [pageNumber],
-    queryFn: () => getAllFlashcard(pageNumber, token),
+    queryFn: () => getAllFlashcard(token, pageNumber),
   }),
   id: (id: string, token: string) => ({
     queryKey: [id],
-    queryFn: () => getFlashcardById(id, token),
+    queryFn: () => getFlashcardById(token, id),
   }),
 });
