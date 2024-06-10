@@ -8,7 +8,6 @@ import { AppThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
 import { Loading } from "@/components/auth/loading";
-import { TooltipProvider } from "@/components/plate-ui/tooltip";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -46,7 +45,7 @@ export default async function RootLayout({
               defaultTheme={theme}
               enableSystem
             >
-              <TooltipProvider>{children}</TooltipProvider>
+              {children}
               <Toaster position="bottom-right" richColors={false} />
               <SpeedInsights />
             </AppThemeProvider>

@@ -1,4 +1,4 @@
-import { Pencil, StickyNote } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { Hint } from "../custom/hint";
 import { Button } from "../ui/button";
 import {
@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "../ui/dialog";
+import { Note } from "./note";
 
 export const NoteButton = () => {
   return (
@@ -25,10 +26,7 @@ export const NoteButton = () => {
         </Hint>
         <DialogContent className="max-w-[1000px] ">
           <DialogHeader className="text-xl font-bold">Notes</DialogHeader>
-          <div className="w-full h-[400px] flex flex-row justify-start">
-            <div className="h-full w-1/5 px-4 border-r-[2px]">Notes name</div>
-            <div className="h-full w-4/5 px-4 border-r-[2px]">Note content</div>
-          </div>
+          <Note />
         </DialogContent>
       </Dialog>
     </div>
