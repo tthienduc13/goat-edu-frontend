@@ -9,10 +9,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSubjectById } from "@/app/api/subject/subject.query";
 import { SubjectDetailLoading } from "../_components/subject-detail-loading";
 import { useParams } from "next/navigation";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const subject = {
   id: "dde3365d-c247-4602-a217-54d8b9816da8",
@@ -39,10 +40,12 @@ const subject = {
 };
 
 const SubjectDetailPage = () => {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwiVXNlcklkIjoiMDgzYTIyZDAtYjJiMC00MjUwLTkzYjQtZjk0OGMzMWY1NWQxIiwiUm9sZUlkIjoiMTkwNTk4ZmUtZGYzMS00ZWEyLWFiZTMtYWI5MDUwYmUwNjllIiwicm9sZSI6IkFkbWluIiwiRnVsbG5hbWUiOiJhZG1pbiBwcm8iLCJuYmYiOjE3MTc2MDM2NzQsImV4cCI6MTcxODIwODQ3NCwiaWF0IjoxNzE3NjAzNjc0LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.wyIZQpNJ4MBblLMzLyt88Tsj_fOfJGMHADRZ8M0c6pY";
+  const user = useCurrentUser();
   const { slug } = useParams();
-  const { data, isLoading, error } = useSubjectById(slug as string, token);
+  const { data, isLoading, error } = useSubjectById(
+    slug as string,
+    user?.token as string
+  );
   const [openItems, setOpenItems] = useState<string[]>([]);
   const allItems = ["item-1", "item-2", "item-3"];
   const handleOpenAll = () => {
@@ -54,7 +57,7 @@ const SubjectDetailPage = () => {
   };
   if (isLoading) {
     return (
-      <div className="w-[1000px] h-full">
+      <div className="w-full h-full">
         <SubjectDetailLoading />
       </div>
     );
