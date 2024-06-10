@@ -15,11 +15,11 @@ import { Hint } from "@/components/custom/hint";
 import { SettingButton } from "./control/setting-button";
 import { FlashcardContent } from "@/types/flashcard";
 
-interface FlashCardProps {
+interface CardProps {
   data: FlashcardContent[];
 }
 
-const Flashcard = ({ data }: FlashCardProps) => {
+export const Card = ({ data }: CardProps) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -177,5 +177,3 @@ const Flashcard = ({ data }: FlashCardProps) => {
     </div>
   );
 };
-
-export default Flashcard;

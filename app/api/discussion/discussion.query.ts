@@ -1,12 +1,22 @@
-import { queries } from "@/queries";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-
-import { getAllDiscussion } from "./discussion.api";
+import { getAllDiscussion, getDiscussionById } from "./discussion.api";
 import { Status } from "@/types/discussion";
 
-export const useDiscussionById = (id: string, token: string) => {
-  return useQuery(queries.discussion.id(id, token));
+export const useDiscussionById = ({
+  token,
+  id,
+}: {
+  token: string;
+  id: string;
+}) => {
+  const queryKey = ["discussion", id];
+
+  const queryFn = async () => {
+    return getDiscussionById(token, id);
+  };
+
+  return { queryKey, queryFn };
 };
 
 export const useDiscussion = (token: string, status: Status) => {

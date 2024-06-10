@@ -18,8 +18,8 @@ export const END_POINT = {
 // };
 
 export const getAllFlashcardContentById = async (
-  id: string,
-  token: string
+  token: string,
+  id: string
 ): Promise<FlashcardContent[]> => {
   try {
     const queryParams = new URLSearchParams({});

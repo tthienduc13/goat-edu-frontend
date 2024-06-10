@@ -2,8 +2,6 @@
 
 import { useFlashcards } from "@/app/api/flashcard/flashcard.query";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { currentUser } from "@/lib/auth";
-import Link from "next/link";
 import { Card } from "./_components/card";
 
 const FlashcardsPage = () => {

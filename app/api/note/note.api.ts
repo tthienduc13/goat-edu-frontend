@@ -39,7 +39,7 @@ export const getNoteById = async (token: string, id: string): Promise<Note> => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data.data;
+    return response.data;
   } catch (error) {
     console.error("Error fetching note:", error);
     throw error;

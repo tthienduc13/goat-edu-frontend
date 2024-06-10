@@ -1,51 +1,33 @@
-"use client";
-import { Wrapper } from "./_components/wrapper";
-import Flashcard from "./_components/flashcard";
-import Terms from "./_components/terms";
-import { useParams } from "next/navigation";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { useFlashcardContentById } from "@/app/api/flashcard-content/flascard-content.query";
 import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
+import { currentUser } from "@/lib/auth";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
+import { Flashcard } from "../flashcard";
 
 interface FlashcardPageProps {
   params: { slug: string };
 }
 
-const FlashcardPage = ({ params: { slug } }: FlashcardPageProps) => {
-  const user = useCurrentUser();
+export default async function FlashcardPage({ params }: FlashcardPageProps) {
+  const queryClient = new QueryClient();
 
-  const {
-    data: flashcardContentData,
-    isLoading: flashcardContentLoading,
-    error: flashcardContentError,
-  } = useFlashcardContentById(slug as string, user?.token!);
+  const user = await currentUser();
 
-  const {
-    data: flashcardData,
-    isLoading: flashcardLoading,
-    error: flashcardError,
-  } = useFlashcardById(slug as string, user?.token!);
+  await queryClient.prefetchQuery(
+    useFlashcardById({ token: user?.token!, id: params.slug })
+  );
 
-  if (flashcardContentLoading) {
-    return;
-  }
-
-  if (!flashcardContentData) {
-    return;
-  }
+  await queryClient.prefetchQuery(
+    useFlashcardContentById({ token: user?.token!, id: params.slug })
+  );
 
   return (
-    <Wrapper
-      headerTitle={flashcardData?.flashcardName!}
-      headerDes={flashcardData?.flashcardDescription!}
-      headerStar={flashcardData?.star!}
-    >
-      <div className="max-w-[900px] mx-auto flex flex-col gap-y-10">
-        <Flashcard data={flashcardContentData} />
-        <Terms data={flashcardContentData} />
-      </div>
-    </Wrapper>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Flashcard token={user?.token!} id={params.slug} />
+    </HydrationBoundary>
   );
-};
-
-export default FlashcardPage;
+}

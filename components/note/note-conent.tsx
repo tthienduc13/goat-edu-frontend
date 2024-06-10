@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import type { JSONContent } from "novel";
 import NoteEditor from "./note-editor";
 import { useNoteById } from "@/app/api/note/note.query";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { NoteContentLoading } from "./note-content-loading";
+import { Button } from "../ui/button";
+import { SquarePen, StickyNote } from "lucide-react";
+import { MoreButton } from "../custom/buttons/more-button";
+import { Hint } from "../custom/hint";
 
 interface NoteContentProps {
   selectedNoteId: string;
@@ -17,14 +20,18 @@ export const NoteContent = ({ selectedNoteId }: NoteContentProps) => {
 
   const { data, isLoading, error } = useNoteById(user?.token!, selectedNoteId);
 
-  if (!data || isLoading) {
+  if (isLoading) {
     return <NoteContentLoading />;
   }
-  console.log(data.noteBody);
+
   return (
     <div className="h-full w-4/5 overflow-y-scroll">
-      <NoteEditor htmlContent={data.noteBody} setHtmlContent={setHtmlContent} />
-      {/* <div dangerouslySetInnerHTML={{ __html: data.noteBody }}></div> */}
+      {data && (
+        <NoteEditor
+          htmlContent={data.noteBody}
+          setHtmlContent={setHtmlContent}
+        />
+      )}
     </div>
   );
 };

@@ -14,5 +14,5 @@ export const useNotesByUser = (token: string, userId: string) => {
 };
 
 export const useNoteById = (token: string, id: string) => {
-  return useQuery(queries.note.id(id, token));
+  return useQuery(queries.note.id(token, id));
 };

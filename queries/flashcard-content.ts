@@ -6,8 +6,4 @@ export const flashcardContent = createQueryKeys("flashcardContent", {
     queryKey: [id],
     queryFn: () => getAllFlashcardContentById(id, token),
   }),
-  // id: (id: string, token: string) => ({
-  //   queryKey: [id],
-  //   queryFn: () => getDiscussionById(id, token),
-  // }),
 });

@@ -1,7 +1,7 @@
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
 import Image from "next/image";
-import SampleImage from "@/assets/sample.png";
+import SampleImage from "@/assets/sample2.png";
 
 export const IpadScroll = () => {
   return (
