@@ -13,12 +13,22 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL as string),
   title: {
-    default: "GoatEdu",
-    template: "%s | GoatEdu",
+    default: "GoatEdu - No.1 learning platform",
+    template: "%s | GoatEdu - No.1 learning platform",
   },
   description:
-    "Welcome to GoatEdu, No.1 learning platform for National highschool exam",
+    "GoatEdu offers professional site for all students around the world in general and students in Vietnam in specific to pass the National Highschool Exam.",
+  openGraph: {
+    title: "GoatEdu - No.1 learning platform",
+    description:
+      "GoatEdu offers professional site for all students around the world in general and students in Vietnam in specific to pass the National Highschool Exam.",
+    type: "website",
+    url: process.env.NEXT_PUBLIC_URL,
+    locale: "vi_VN",
+    siteName: "GoatEdu",
+  },
   icons: {
     icon: "/logo.png",
   },

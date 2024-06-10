@@ -7,6 +7,7 @@ export type Flashcard = {
   subjectName: string;
   subjectId: string;
   numberOfFlashcardContent: number;
+  updatedAt: Date;
 };
 
 export type FlashcardContent = {

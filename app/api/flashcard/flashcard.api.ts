@@ -6,14 +6,30 @@ export const END_POINT = {
   GET_BY_ID: "/flashcard/",
 };
 
-export const getAllFlashcard = async (
-  pageNumber: number,
+export const getAllFlashcardSitemap = async (
   token: string
+): Promise<Flashcard[]> => {
+  try {
+    const response = await axiosClient.get(`${END_POINT.GET_ALL}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching discussions:", error);
+    throw error;
+  }
+};
+
+export const getAllFlashcard = async (
+  token: string,
+  pageNumber: number
 ): Promise<Flashcard[]> => {
   try {
     const queryParams = new URLSearchParams({
       page_size: "20",
-      page_number: pageNumber.toString(),
+      page_number: pageNumber?.toString() ?? "",
     });
     const response = await axiosClient.get(
       `${END_POINT.GET_ALL}?${queryParams.toString()}`,
