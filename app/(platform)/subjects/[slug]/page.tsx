@@ -54,7 +54,7 @@ const SubjectDetailPage = () => {
   };
   if (isLoading) {
     return (
-      <div className="w-[1000px] h-full">
+      <div className="w-full h-full">
         <SubjectDetailLoading />
       </div>
     );
