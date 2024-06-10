@@ -1,11 +1,5 @@
 "use client";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import {
   HoveredLink,
   Menu,
@@ -23,12 +17,9 @@ import {
   BookOpenCheck,
   BookOpenText,
   Check,
-  ChevronDown,
   LibraryBig,
   NotebookPen,
-  Plus,
 } from "lucide-react";
-import { ModeToggle } from "../mode-toggle";
 
 const toolSubMenu = [
   {

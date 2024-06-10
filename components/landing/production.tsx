@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React from "react";
 import { WobbleCard } from "../ui/wooble-card";
-import SampleImage from "@/assets/sample.png";
+import SampleImage from "@/assets/sample2.png";
 
 export const Production = () => {
   return (
