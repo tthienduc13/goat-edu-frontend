@@ -45,20 +45,9 @@ export const useDeleteNote = (token: string, id: string, userId: string) => {
 };
 
 export const usePatchNote = (token: string, id: string, userId: string) => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (noteName?: string, noteBody?: string) =>
       patchNote(token, id, noteName, noteBody),
-    onSuccess: (data) => {
-      if (data.status === 200) {
-        console.log(data.message);
-        queryClient.invalidateQueries({
-          queryKey: ["note", userId],
-        });
-      }
-      console.log(data.message);
-    },
   });
 };
 
