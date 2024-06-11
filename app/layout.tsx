@@ -21,11 +21,12 @@ export const metadata: Metadata = {
   description:
     "GoatEdu offers professional site for all students around the world in general and students in Vietnam in specific to pass the National Highschool Exam.",
   openGraph: {
+    images: ["/images/opengraph-image.jpg"],
     title: "GoatEdu - No.1 learning platform",
     description:
       "GoatEdu offers professional site for all students around the world in general and students in Vietnam in specific to pass the National Highschool Exam.",
     type: "website",
-    url: process.env.NEXT_PUBLIC_URL,
+    url: process.env.NEXT_PUBLIC_URL as string,
     locale: "vi_VN",
     siteName: "GoatEdu",
   },

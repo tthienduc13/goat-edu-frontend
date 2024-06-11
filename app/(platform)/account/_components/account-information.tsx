@@ -24,8 +24,10 @@ import { Button } from "@/components/ui/button";
 
 import EditIconAnimate from "@/assets/gif/edit.gif";
 import EditIconPause from "@/assets/gif/edit_pause.png";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 export const AccountInformation = () => {
+  const user = useCurrentUser();
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
   const handleEditClick = () => {
@@ -36,7 +38,7 @@ export const AccountInformation = () => {
     resolver: zodResolver(EditProfileSchema),
     mode: "onChange",
     defaultValues: {
-      fullname: "",
+      fullname: user?.fullname!,
       phoneNumber: "",
     },
   });
@@ -45,7 +47,7 @@ export const AccountInformation = () => {
     console.log(values);
   };
   return (
-    <div className="w-full flex flex-col gap-y-6">
+    <div className="w-full flex flex-col gap-y-6 px-1">
       <div className="w-full flex justify-between items-start">
         <Header title="Account Information" />
         <button
@@ -69,6 +71,7 @@ export const AccountInformation = () => {
             <FormLabel>Email</FormLabel>
             <FormControl>
               <Input
+                value={user?.email!}
                 type="Email"
                 placeholder="Enter the Email"
                 disabled={true}
@@ -79,7 +82,12 @@ export const AccountInformation = () => {
           <FormItem>
             <FormLabel>Username</FormLabel>
             <FormControl>
-              <Input type="text" placeholder="Enter username" disabled={true} />
+              <Input
+                value={user?.username}
+                type="text"
+                placeholder="Enter username"
+                disabled={true}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
