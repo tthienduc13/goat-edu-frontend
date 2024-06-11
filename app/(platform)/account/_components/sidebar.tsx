@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 export const Sidebar = () => {
   const pathname = usePathname();
   return (
-    <div className="w-[300px] ml-[150px] flex flex-col gap-y-2 p-6 ">
+    <div className="w-[300px] flex flex-col gap-y-2 p-6 ">
       {AccountNav.map((item) => (
         <Button
           key={item.title}
