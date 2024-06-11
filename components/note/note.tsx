@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { NoteContent } from "./note-conent";
+import { NoteContent } from "./note-content";
 import { NoteName } from "./note-name";
 
 export const Note = () => {

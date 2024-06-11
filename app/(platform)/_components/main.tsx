@@ -2,8 +2,10 @@
 
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+
 import { Navbar } from "./navbar";
 import { Sidebar } from "./sidebar";
+
 import Reloading from "@/components/reloading";
 import { NoteButton } from "@/components/note/note-button";
 

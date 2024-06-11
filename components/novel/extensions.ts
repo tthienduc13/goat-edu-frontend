@@ -4,7 +4,6 @@ import {
   CodeBlockLowlight,
   GlobalDragHandle,
   HorizontalRule,
-  Placeholder,
   StarterKit,
   TaskItem,
   TaskList,
@@ -14,12 +13,21 @@ import {
   Youtube,
 } from "novel/extensions";
 import { UploadImagesPlugin } from "novel/plugins";
+import Placeholder from "@tiptap/extension-placeholder";
 
 import { cx } from "class-variance-authority";
 import { common, createLowlight } from "lowlight";
 
 const aiHighlight = AIHighlight;
-const placeholder = Placeholder;
+const placeholder = Placeholder.configure({
+  placeholder: ({ node }) => {
+    if (node.type.name === "heading") {
+      return `Heading ${node.attrs.level}`;
+    }
+    return "Press '/' for commands";
+  },
+  includeChildren: true,
+});
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
     class: cx(

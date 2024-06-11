@@ -13,6 +13,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(`https://goatedu.vercel.app`),
   title: {
     default: "GoatEdu - No.1 learning platform",
     template: "%s | GoatEdu - No.1 learning platform",

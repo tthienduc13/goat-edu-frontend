@@ -6,16 +6,21 @@ export const END_POINT = {
   GET_ALL: "/discussion",
 };
 
-export const getDiscussionById = async (
-  token: string,
-  id: string
-): Promise<Discussion> => {
-  const response = await axiosClient.get(`${END_POINT.GET_BY_ID}${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data.data;
+export const getAllDiscussionSitemap = async (
+  status: Status
+): Promise<Discussion[]> => {
+  try {
+    const queryParams = new URLSearchParams({
+      status,
+    });
+    const response = await axiosClient.get(
+      `${END_POINT.GET_ALL}?${queryParams.toString()}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching discussions:", error);
+    throw error;
+  }
 };
 
 export const getAllDiscussion = async (
@@ -42,4 +47,16 @@ export const getAllDiscussion = async (
     console.error("Error fetching discussions:", error);
     throw error;
   }
+};
+
+export const getDiscussionById = async (
+  token: string,
+  id: string
+): Promise<Discussion> => {
+  const response = await axiosClient.get(`${END_POINT.GET_BY_ID}${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data.data;
 };

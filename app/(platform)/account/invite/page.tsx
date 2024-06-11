@@ -1,5 +1,7 @@
 "use client";
 
+import { Wrapper } from "../_components/wrapper";
+
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -16,7 +18,6 @@ import {
   TwitterIcon,
   WhatsappIcon,
 } from "react-share";
-import { Wrapper } from "../_components/wrapper";
 
 const InviteFriendPage = () => {
   const shareUrl = "Goat.edu";

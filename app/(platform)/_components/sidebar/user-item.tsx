@@ -1,5 +1,6 @@
-import { UserAvatar } from "@/components/custom/user-avatar";
 import { useCurrentUser } from "@/hooks/use-current-user";
+
+import { UserAvatar } from "@/components/custom/user-avatar";
 
 export const UserItem = () => {
   const user = useCurrentUser();

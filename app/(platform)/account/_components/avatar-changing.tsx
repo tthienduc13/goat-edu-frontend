@@ -1,10 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
+
 import { Header } from "./header";
+
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
+
 import { getImageData } from "@/lib/get-image-data";
 
 export const AvatarChanging = () => {

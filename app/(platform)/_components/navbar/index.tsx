@@ -1,12 +1,11 @@
+import { cn } from "@/lib/utils";
+
 import { Logo } from "@/components/custom/logo";
 
 import { SearchInput } from "./search-input";
 import { UserButton } from "./user-button";
 import { NotificationButton } from "./notification-button";
 import { CreateButton } from "./create-button";
-
-import { cn } from "@/lib/utils";
-import { UpgradeButton } from "@/components/custom/buttons/upgrade-button";
 
 export const Navbar = () => {
   return (
@@ -21,7 +20,6 @@ export const Navbar = () => {
         <CreateButton />
         <NotificationButton />
         <UserButton />
-        {/* <UpgradeButton /> */}
       </div>
     </div>
   );

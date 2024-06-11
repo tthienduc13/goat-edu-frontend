@@ -6,15 +6,9 @@ export const END_POINT = {
   GET_BY_ID: "/flashcard/",
 };
 
-export const getAllFlashcardSitemap = async (
-  token: string
-): Promise<Flashcard[]> => {
+export const getAllFlashcardSitemap = async (): Promise<Flashcard[]> => {
   try {
-    const response = await axiosClient.get(`${END_POINT.GET_ALL}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axiosClient.get(`${END_POINT.GET_ALL}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching discussions:", error);

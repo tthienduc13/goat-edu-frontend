@@ -1,16 +1,20 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+
+import { useCallback, useMemo, useRef } from "react";
+import { useCurrentUser } from "@/hooks/use-current-user";
+
+import { Circle } from "lucide-react";
+
 import {
   DropdownMenuGroup,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+
 import { EmptyNotification } from "./empty-notification";
 import { NotificationLoading } from "./notification-loading";
 
-import { useCallback, useMemo, useRef } from "react";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { cn } from "@/lib/utils";
-import { Circle } from "lucide-react";
 import { useNotificationByUser } from "@/app/api/notification/notification.query";
 
 export const NotificationList = () => {

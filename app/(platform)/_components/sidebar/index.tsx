@@ -1,5 +1,9 @@
 "use client";
+
 import { cn } from "@/lib/utils";
+
+import { ModeToggle } from "@/components/mode-toggle";
+import { ReportButton } from "@/components/custom/buttons/report-button";
 
 import { UserItem } from "./user-item";
 import { SubcribeButton } from "./subcribe-button";
@@ -7,10 +11,8 @@ import { SideNav } from "./side-nav";
 
 import { NavItems } from "@/constants/side-nav";
 import { Button } from "@/components/ui/button";
-import { CircleHelp } from "lucide-react";
 
-import { ModeToggle } from "@/components/mode-toggle";
-import { ReportButton } from "@/components/custom/buttons/report-button";
+import { CircleHelp } from "lucide-react";
 
 export const Sidebar = () => {
   return (
