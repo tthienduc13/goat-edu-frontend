@@ -14,7 +14,7 @@ export const Wrapper = ({ children, title }: WrapperProps) => {
         <CardHeader className="text-xl font-bold border-b-[0.8px]">
           {title}
         </CardHeader>
-        <CardContent className="flex flex-col w-full self-center flex-1 pb-2 ">
+        <CardContent className="flex flex-col overflow-y-scroll w-full self-center flex-1 pb-2 ">
           {children}
         </CardContent>
       </Card>

@@ -15,7 +15,7 @@ import { AccountPassword } from "../_components/account-password";
 const ProfilePage = () => {
   return (
     <Wrapper title="Profile">
-      <div className="flex flex-col h-full w-full gap-y-10">
+      <div className="flex flex-col h-full overflow-y-scroll no-scrollbar w-full gap-y-10">
         <AvatarChanging />
         <AccountInformation />
         <AccountPassword />
