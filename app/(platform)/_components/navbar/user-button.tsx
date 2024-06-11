@@ -1,6 +1,27 @@
 "use client";
+
+import Link from "next/link";
+
 import { Hint } from "@/components/custom/hint";
+import { UserAvatar } from "@/components/custom/user-avatar";
+
+import { LogoutButton } from "@/components/auth/logout-button";
+
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Cloud,
   CreditCard,
@@ -18,24 +39,6 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { LogoutButton } from "@/components/auth/logout-button";
-import Link from "next/link";
-import { UserAvatar } from "@/components/custom/user-avatar";
 
 export const UserButton = () => {
   return (

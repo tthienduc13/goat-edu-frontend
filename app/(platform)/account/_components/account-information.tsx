@@ -1,15 +1,16 @@
 "use client";
 
-import { Header } from "./header";
-import { useState, useTransition } from "react";
-import Image from "next/image";
+import * as z from "zod";
 
-import EditIconAnimate from "@/assets/gif/edit.gif";
-import EditIconPause from "@/assets/gif/edit_pause.png";
+import Image from "next/image";
+import { useState, useTransition } from "react";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditProfileSchema } from "@/schemas";
-import * as z from "zod";
+
+import { Header } from "./header";
+
 import {
   Form,
   FormControl,
@@ -20,6 +21,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
+import EditIconAnimate from "@/assets/gif/edit.gif";
+import EditIconPause from "@/assets/gif/edit_pause.png";
 
 export const AccountInformation = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);

@@ -1,5 +1,6 @@
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { Meteors } from "@/components/ui/meteors";
+
 import "@/app/globals.css";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {

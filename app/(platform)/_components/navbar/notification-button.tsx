@@ -1,18 +1,21 @@
 "use client";
+
 import { Hint } from "@/components/custom/hint";
+import { MoreButton } from "@/components/custom/buttons/more-button";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
+  DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
-import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
+
 import { Bell } from "lucide-react";
-import { MoreButton } from "@/components/custom/buttons/more-button";
+
 import { NotificationList } from "./notification-list";
 
-//     id: "1",
 //     notificationName: "New Achievement",
 //     notificationMessage:
 //       "Congratuation ! you have reached the final stage of Math",

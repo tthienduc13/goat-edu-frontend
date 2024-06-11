@@ -24,22 +24,33 @@ import {
 import { defaultExtensions } from "@/components/novel/extensions";
 import { Hint } from "../custom/hint";
 import { Button } from "../ui/button";
-import { SquarePen } from "lucide-react";
+import { SquarePen, Trash } from "lucide-react";
 import { MoreButton } from "../custom/buttons/more-button";
+import { useAddNote, useDeleteNote } from "@/app/api/note/note.query";
+import { DropdownMenuGroup, DropdownMenuItem } from "../ui/dropdown-menu";
 
 const hljs = require("highlight.js");
 
 const extensions = [...defaultExtensions, slashCommand];
 
 interface TailwindAdvancedEditorProps {
+  selectedNoteId: string;
+  userId: string;
+  token: string;
   htmlContent: string;
   setHtmlContent: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const NoteEditor = ({
+  selectedNoteId,
+  userId,
   htmlContent,
   setHtmlContent,
+  token,
 }: TailwindAdvancedEditorProps) => {
+  const { mutate: addNote } = useAddNote(token, userId);
+  const { mutate: deleteNote } = useDeleteNote(token, selectedNoteId, userId);
+
   const [initialContent, setInitialContent] = useState<null | JSONContent>(
     null
   );
@@ -72,6 +83,14 @@ const NoteEditor = ({
     else setInitialContent(defaultEditorContent);
   }, []);
 
+  const handleAddNote = () => {
+    const newNote = {
+      noteName: "Unititled",
+      noteBody: "",
+    };
+    addNote(newNote);
+  };
+
   if (!initialContent) return null;
 
   return (
@@ -90,11 +109,29 @@ const NoteEditor = ({
           {charsCount} Words
         </div>
         <Hint label="Create new note" side="bottom" sideOffset={10}>
-          <Button variant="ghost" size="icon" className=" rounded-full">
+          <Button
+            onClick={handleAddNote}
+            variant="ghost"
+            size="icon"
+            className=" rounded-full"
+          >
             <SquarePen className="w-5 h-5" />
           </Button>
         </Hint>
-        <MoreButton />
+        <MoreButton>
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <Button
+                onClick={() => deleteNote()}
+                variant="ghost"
+                className="hover:bg-destructive/30 hover:text-destructive w-full rounded-md"
+              >
+                <Trash className="h-4 w-4 mr-2" />
+                <span>Delete</span>
+              </Button>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </MoreButton>
       </div>
       <EditorRoot>
         <EditorContent

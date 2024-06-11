@@ -1,14 +1,17 @@
-import { currentUser } from "@/lib/auth";
 import { MetadataRoute } from "next";
 import { getAllFlashcardSitemap } from "./api/flashcard/flashcard.api";
+import { getAllDiscussionSitemap } from "./api/discussion/discussion.api";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const user = await currentUser();
-
-  const flashcards = await getAllFlashcardSitemap(user?.token!);
+  const flashcards = await getAllFlashcardSitemap();
+  const discussions = await getAllDiscussionSitemap("Approved");
   const flashcardsUrls = flashcards.map((data) => ({
     url: `${process.env.NEXT_PUBLIC_URL}/flashcards/${data.id}`,
     lastModified: new Date(data.updatedAt),
+  }));
+  const discussionsUrls = discussions.map((data) => ({
+    url: `${process.env.NEXT_PUBLIC_URL}/discussed/${data.id}`,
+    lastModified: new Date(data.createdAt),
   }));
 
   return [
@@ -23,5 +26,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     ...flashcardsUrls,
+    ...discussionsUrls,
   ];
 }

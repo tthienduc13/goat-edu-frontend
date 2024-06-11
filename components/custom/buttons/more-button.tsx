@@ -7,7 +7,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-export const MoreButton = () => {
+interface MoreButtonProps {
+  children?: React.ReactNode;
+}
+
+export const MoreButton = ({ children }: MoreButtonProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -15,10 +19,7 @@ export const MoreButton = () => {
           <Ellipsis className="w-5 h-5" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        adfdasf
-        {/* TODO: add children */}
-      </DropdownMenuContent>
+      <DropdownMenuContent align="end">{children}</DropdownMenuContent>
     </DropdownMenu>
   );
 };

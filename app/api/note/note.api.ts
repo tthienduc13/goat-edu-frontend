@@ -4,7 +4,16 @@ import { Note } from "@/types/note";
 export const END_POINT = {
   GET_BY_USER: "/note/user",
   GET_BY_ID: "/note",
+  CREATE: "/note",
+  DELETE: "/note",
+  PATCH: "/note",
 };
+
+interface Response {
+  status: number;
+  message: string;
+  data: {};
+}
 
 export const getNotesByUser = async (
   token: string,
@@ -42,6 +51,63 @@ export const getNoteById = async (token: string, id: string): Promise<Note> => {
     return response.data;
   } catch (error) {
     console.error("Error fetching note:", error);
+    throw error;
+  }
+};
+
+export const createNote = async (
+  token: string,
+  values: Omit<Note, "id" | "userId" | "createdAt">
+) => {
+  try {
+    const response = await axiosClient.post(`${END_POINT.CREATE}`, values, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error creating note:", error);
+    throw error;
+  }
+};
+
+export const patchNote = async (
+  token: string,
+  id: string,
+  noteName?: string,
+  noteBody?: string
+) => {
+  try {
+    const response = await axiosClient.patch(
+      `${END_POINT.PATCH}/${id}`,
+      {
+        noteName: noteName ?? "",
+        noteBody: noteBody ?? "",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error patching note:", error);
+    throw error;
+  }
+};
+
+export const deleteNote = async (token: string, id: string) => {
+  try {
+    const response = await axiosClient.delete(`${END_POINT.DELETE}?ids=${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting note:", error);
     throw error;
   }
 };

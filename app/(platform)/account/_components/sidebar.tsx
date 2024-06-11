@@ -1,10 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { AccountNav } from "@/constants/account-nav";
-import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+import { ChevronRight } from "lucide-react";
+
+import { AccountNav } from "@/constants/account-nav";
+
+import { Button } from "@/components/ui/button";
 
 export const Sidebar = () => {
   const pathname = usePathname();
