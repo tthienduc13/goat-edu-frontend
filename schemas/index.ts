@@ -108,3 +108,7 @@ export const ReportSchema = z.object({
     .string()
     .min(1, "Report content must be at least one character"),
 });
+
+export const NoteNameSchema = z.object({
+  noteName: z.string().min(1, "Note name must be provided"),
+});

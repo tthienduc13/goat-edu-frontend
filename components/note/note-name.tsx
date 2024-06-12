@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNotesByUser, usePatchNote } from "@/app/api/note/note.query";
 import { NoteNameLoading } from "./note-name-loading";
 import { useDebouncedCallback } from "use-debounce";
+import { NoteNameInput } from "./note-name/note-name-input";
 
 interface NoteNameProps {
   selectedNoteId: string;
@@ -16,17 +17,6 @@ export const NoteName = ({
   setSelectedNoteId,
 }: NoteNameProps) => {
   const user = useCurrentUser();
-
-  const { mutate: patchName } = usePatchNote(
-    user?.token!,
-    selectedNoteId,
-    user?.id!
-  );
-
-  const debounceUpdate = useDebouncedCallback(
-    (inputValue) => patchName(inputValue),
-    500
-  );
 
   const observer = useRef<IntersectionObserver>();
 
@@ -77,13 +67,7 @@ export const NoteName = ({
               }}
               className="rounded-lg"
             >
-              <Input
-                placeholder={note.noteName}
-                onChange={(e) => {
-                  debounceUpdate(e.target.value);
-                }}
-                className="border-none shadow-none outline-none focus:outline-none focus-visible:ring-0"
-              ></Input>
+              <NoteNameInput id={note.id} noteName={note.noteName} />
             </Button>
           </div>
         ))}

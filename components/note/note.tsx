@@ -12,7 +12,7 @@ export const Note = () => {
         selectedNoteId={selectedNoteId}
         setSelectedNoteId={setSelectedNoteId}
       />
-      <NoteContent selectedNoteId={selectedNoteId} />
+      {selectedNoteId !== "" && <NoteContent selectedNoteId={selectedNoteId} />}
     </div>
   );
 };
