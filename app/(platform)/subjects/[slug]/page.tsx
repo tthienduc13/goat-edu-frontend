@@ -14,6 +14,7 @@ import { useSubjectById } from "@/app/api/subject/subject.query";
 import { SubjectDetailLoading } from "../_components/subject-detail-loading";
 import { useParams } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { useChapterBySubject } from "@/app/api/chapter/chapter.query";
 
 const subject = {
   id: "dde3365d-c247-4602-a217-54d8b9816da8",
@@ -46,8 +47,21 @@ const SubjectDetailPage = () => {
     slug as string,
     user?.token as string
   );
+  console.log(data);
+  const {
+    data: chapterData,
+    isLoading: chapterLoading,
+    error: chapterError,
+  } = useChapterBySubject(
+    "dde3365d-c247-4602-a217-54d8b9816da8",
+    user?.token as string
+  );
+
   const [openItems, setOpenItems] = useState<string[]>([]);
-  const allItems = ["item-1", "item-2", "item-3"];
+  const allItems = Array.from(
+    { length: chapterData!.length },
+    (_, index) => `item-${index + 1}`
+  );
   const handleOpenAll = () => {
     if (openItems.length === allItems.length) {
       setOpenItems([]);
@@ -55,7 +69,7 @@ const SubjectDetailPage = () => {
       setOpenItems(allItems);
     }
   };
-  if (isLoading) {
+  if (isLoading || chapterLoading) {
     return (
       <div className="w-full h-full">
         <SubjectDetailLoading />
@@ -73,17 +87,22 @@ const SubjectDetailPage = () => {
         </h2>
         <p className="w-h-full">{data?.information}</p>
         <div className="flex flex-row items-center justify-between">
-          <div className="flex flex-row">
-            <div className="flex flex-row space-x-1">
-              <p className="font-bold"> {data?.numberOfChapters} </p>
-              <p> chapters </p>
+          {data?.numberOfChapters == 0 ? (
+            "No data "
+          ) : (
+            <div className="flex flex-row">
+              <div className="flex flex-row space-x-1">
+                <p className="font-bold"> {data?.numberOfChapters} </p>
+                <p> chapters </p>
+              </div>
+              <Dot />
+              <div className="flex flex-row space-x-1">
+                <p className="font-bold"> 9 </p>
+                <p> lessons </p>
+              </div>
             </div>
-            <Dot />
-            <div className="flex flex-row space-x-1">
-              <p className="font-bold"> 9 </p>
-              <p> lessons </p>
-            </div>
-          </div>
+          )}
+
           <div>
             <Button variant="link" onClick={handleOpenAll}>
               {openItems.length === allItems.length ? "Close all" : "Open all"}
@@ -97,7 +116,30 @@ const SubjectDetailPage = () => {
             value={openItems}
             onValueChange={setOpenItems}
           >
-            <AccordionItem value="item-1">
+            {chapterData?.map((chapter, index) => (
+              <AccordionItem key={chapter.id} value={`item-${index + 1}`}>
+                <AccordionTrigger className=" px-2">
+                  <div className="flex flex-row w-full justify-between pr-4">
+                    <p>
+                      chap {chapter.chapterLevel} : {chapter.chapterName}
+                    </p>
+                    <p> 3 lessons </p>
+                  </div>
+                </AccordionTrigger>
+                <div>
+                  <AccordionContent className="border-b-[0.8px]  pl-6 pt-4">
+                    lesson 1
+                  </AccordionContent>
+                  <AccordionContent className="border-b-[0.8px] pl-6 pt-4">
+                    lesson 2
+                  </AccordionContent>
+                  <AccordionContent className=" pl-6 pt-4">
+                    lesson 3
+                  </AccordionContent>
+                </div>
+              </AccordionItem>
+            ))}
+            {/* <AccordionItem value="item-1">
               <AccordionTrigger className=" px-2">
                 <div className="flex flex-row w-full justify-between pr-4">
                   <p>chap 1</p>
@@ -153,15 +195,15 @@ const SubjectDetailPage = () => {
                   lesson 3
                 </AccordionContent>
               </div>
-            </AccordionItem>
+            </AccordionItem> */}
           </Accordion>
         </div>
       </div>
-      <div className="subjec-img mx-3">
-        <div className="ml-6 flex flex-col">
+      <div className="subjec-img mx-3 w-[500px]">
+        <div className="ml-6 flex flex-col w-full">
           <img
             src={data?.image}
-            width={386}
+            width="full"
             height={218}
             className="rounded-2xl object-cover"
             alt="Subject Image"

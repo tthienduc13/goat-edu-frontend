@@ -1,10 +1,12 @@
 import axiosClient from "@/lib/axiosClient";
+import { Chapter } from "@/types/chapter";
 import { Subject } from "@/types/subject";
 
 export const END_POINT = {
   GET_BY_ID: "/subject",
   GET_ALL: "/subject",
   GET_BY_CLASS: "/subject/class?",
+  GET_CHAPTER_BY_SUBJECT: "subject/",
 };
 
 export const getSubjectById = async (
