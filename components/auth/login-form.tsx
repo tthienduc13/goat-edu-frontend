@@ -4,7 +4,7 @@ import * as z from "zod";
 
 import { AuthError } from "next-auth";
 import { useState, useTransition } from "react";
-import { LoginSchema } from "@/schemas";
+import { LoginSchema } from "@/schemas/auth";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

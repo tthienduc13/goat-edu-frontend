@@ -3,7 +3,7 @@
 import * as z from "zod";
 
 import { useState, useTransition } from "react";
-import { NewPasswordSchema } from "@/schemas";
+import { NewPasswordSchema } from "@/schemas/auth";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

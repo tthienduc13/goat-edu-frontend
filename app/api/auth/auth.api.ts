@@ -1,6 +1,6 @@
 import axiosClient from "@/lib/axiosClient";
 
-import { LoginSchema, RegisterSchema } from "@/schemas";
+import { LoginSchema, RegisterSchema } from "@/schemas/auth";
 import https from "https";
 import * as z from "zod";
 
