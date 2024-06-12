@@ -21,8 +21,13 @@ export const useAddNote = (token: string, userId: string) => {
         queryClient.invalidateQueries({
           queryKey: ["note", userId],
         });
+      } else {
+        toast.error(data.message);
       }
-      toast.error(data.message);
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error); // Debug log for errors
+      toast.error("Failed to add note.");
     },
   });
 };
@@ -38,16 +43,54 @@ export const useDeleteNote = (token: string, id: string, userId: string) => {
         queryClient.invalidateQueries({
           queryKey: ["note", userId],
         });
+      } else {
+        toast.error(data.message);
       }
-      toast.error(data.message);
     },
   });
 };
 
-export const usePatchNote = (token: string, id: string, userId: string) => {
+export const usePatchNoteName = (token: string, id: string, userId: string) => {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (noteName?: string, noteBody?: string) =>
-      patchNote(token, id, noteName, noteBody),
+    mutationFn: ({
+      noteName,
+      noteBody,
+      noteBodyHtml,
+    }: {
+      noteName?: string | null;
+      noteBody?: string | null;
+      noteBodyHtml?: string | null;
+    }) => patchNote(token, id, noteName, noteBody, noteBodyHtml),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["note", userId],
+      });
+    },
+  });
+};
+
+export const usePatchNoteContent = (
+  token: string,
+  id: string,
+  userId: string
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      noteName,
+      noteBody,
+      noteBodyHtml,
+    }: {
+      noteName?: null;
+      noteBody?: string | null;
+      noteBodyHtml?: string | null;
+    }) => patchNote(token, id, noteName, noteBody, noteBodyHtml),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["note", "id", id],
+      });
+    },
   });
 };
 
