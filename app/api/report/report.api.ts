@@ -1,5 +1,5 @@
 import axiosClient from "@/lib/axiosClient";
-import { ReportSchema } from "@/schemas";
+import { ReportSchema } from "@/schemas/report";
 
 import * as z from "zod";
 

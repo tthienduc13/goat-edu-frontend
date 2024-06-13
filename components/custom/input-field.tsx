@@ -13,12 +13,13 @@ import {
   AtSign,
 } from "lucide-react";
 import { PasswordProgressBar } from "@/components/auth/password-progress-bar";
+import { Input } from "../ui/input";
 
 type InputFieldProps = {
   name: string;
   label: string;
   placeholder: string;
-  register: UseFormRegister<any>;
+  register?: UseFormRegister<any>;
   watch?: UseFormWatch<any>;
   type?: string;
   error?: FieldError;
@@ -77,14 +78,13 @@ export const InputField: React.FC<InputFieldProps> = ({
           {isFocused && (
             <div className="text-muted-foreground text-xs">{label}</div>
           )}
-          <input
-            {...register(name)}
+          <Input
             type={isPasswordVisible ? "text" : type}
             placeholder={isFocused ? "" : placeholder}
             onFocus={handleFocus}
             onBlur={handleBlur}
             className={cn(
-              "self-stretch text-ellipsis text-muted-foreground bg-transparent hover:text-white focus:outline-none"
+              "self-stretch border-none shadow-none outline-none text-ellipsis text-muted-foreground bg-transparent hover:text-white focus:outline-none focus-visible:ring-0"
             )}
           />
         </div>
