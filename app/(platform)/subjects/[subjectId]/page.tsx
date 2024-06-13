@@ -40,14 +40,16 @@ const subject = {
   numberOfChapters: 2,
 };
 
-const SubjectDetailPage = () => {
+interface SubjectDetailPageProps {
+  params: { subjectId: string };
+}
+
+const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
   const user = useCurrentUser();
-  const { slug } = useParams();
   const { data, isLoading, error } = useSubjectById(
-    slug as string,
+    params.subjectId,
     user?.token as string
   );
-  console.log(data);
   const {
     data: chapterData,
     isLoading: chapterLoading,

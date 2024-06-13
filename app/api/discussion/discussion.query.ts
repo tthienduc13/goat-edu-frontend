@@ -27,5 +27,6 @@ export const useDiscussion = (token: string, status: Status) => {
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.length ? allPages.length + 1 : undefined;
     },
+    refetchOnWindowFocus: true,
   });
 };

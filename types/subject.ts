@@ -1,3 +1,5 @@
+import { Chapter } from "./chapter";
+
 export type Subject = {
   id: string;
   subjectName: string;
@@ -6,10 +8,6 @@ export type Subject = {
   information: string;
   class: string;
   creatAt: Date;
-  chapters: {
-    id: string;
-    chapterName: string;
-    chapterLevel: number;
-  };
+  chapters: Chapter[];
   numberOfChapters: number;
 };

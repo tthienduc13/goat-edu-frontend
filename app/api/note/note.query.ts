@@ -4,7 +4,13 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { createNote, deleteNote, getNotesByUser, patchNote } from "./note.api";
+import {
+  createNote,
+  deleteNote,
+  getNoteById,
+  getNotesByUser,
+  patchNote,
+} from "./note.api";
 import { queries } from "@/queries";
 import { Note } from "@/types/note";
 import { toast } from "sonner";
@@ -105,6 +111,14 @@ export const useNotesByUser = (token: string, userId: string) => {
   });
 };
 
-export const useNoteById = (token: string, id: string) => {
-  return useQuery(queries.note.id(token, id));
+export const useNoteById = ({ token, id }: { token: string; id: string }) => {
+  const queryKey = ["note", id];
+
+  const queryFn = async () => {
+    return getNoteById(token, id);
+  };
+
+  const enabled = !!id;
+
+  return { queryKey, queryFn, enabled };
 };

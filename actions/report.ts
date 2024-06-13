@@ -1,7 +1,7 @@
 "use server";
 
 import { Report } from "@/app/api/report/report.api";
-import { ReportSchema } from "@/schemas";
+import { ReportSchema } from "@/schemas/report";
 import * as z from "zod";
 
 export const report = async (

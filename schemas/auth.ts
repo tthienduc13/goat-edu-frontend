@@ -5,12 +5,12 @@ export const CheckEmailSchema = z.object({
 });
 
 export const LoginSchema = z.object({
-  username: z.string().nonempty({
-    message: "Username or email must be provided",
-  }),
-  password: z.string().nonempty({
-    message: "Password cannot be blank",
-  }),
+  username: z
+    .string({ required_error: "Username cannot be blank" })
+    .min(1, { message: "Username cannot be blank" }),
+  password: z
+    .string({ required_error: "Password cannot be blank" })
+    .min(1, { message: "Password cannot be blank" }),
 });
 
 export const RegisterSchema = z.object({

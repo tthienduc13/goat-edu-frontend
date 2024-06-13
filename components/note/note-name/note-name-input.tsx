@@ -1,13 +1,19 @@
 "use client";
 
 import * as z from "zod";
+
+import { NoteNameSchema } from "@/schemas/note";
+
 import { useForm } from "react-hook-form";
-import { NoteNameSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+
 import { Input } from "@/components/ui/input";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+
 import { usePatchNoteName } from "@/app/api/note/note.query";
+
 import { useDebouncedCallback } from "use-debounce";
+
 import { useCurrentUser } from "@/hooks/use-current-user";
 import useSaveStatusStore from "@/stores/useSaveStatusStore";
 

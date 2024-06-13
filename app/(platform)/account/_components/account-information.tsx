@@ -7,7 +7,7 @@ import { useState, useTransition } from "react";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EditProfileSchema } from "@/schemas";
+import { EditProfileSchema } from "@/schemas/account";
 
 import { Header } from "./header";
 
