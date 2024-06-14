@@ -62,20 +62,19 @@ export const Note = () => {
   return (
     <div className="w-full h-[500px] flex flex-row justify-start">
       <div className="h-full w-1/5 overflow-y-scroll flex flex-col gap-y-2 py-4  pr-4 border-r-[2px]">
-        {notes &&
-          notes.map((note) => (
-            <div key={note.id} ref={lastElementRef}>
-              <Button
-                variant={selectedNoteId === note.id ? "secondary" : "ghost"}
-                onClick={() => {
-                  setSelectedNoteId(note.id);
-                }}
-                className="rounded-lg"
-              >
-                <NoteNameInput id={note.id} noteName={note.noteName} />
-              </Button>
-            </div>
-          ))}
+        {notes.map((note) => (
+          <div key={note.id} ref={lastElementRef}>
+            <Button
+              variant={selectedNoteId === note.id ? "secondary" : "ghost"}
+              onClick={() => {
+                setSelectedNoteId(note.id);
+              }}
+              className="rounded-lg"
+            >
+              <NoteNameInput id={note.id} noteName={note.noteName} />
+            </Button>
+          </div>
+        ))}
       </div>
       <NoteContent selectedNoteId={selectedNoteId} />
     </div>
