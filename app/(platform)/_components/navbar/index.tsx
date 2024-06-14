@@ -14,7 +14,7 @@ export const Navbar = () => {
         "h-16 bg-background fixed z-10 top-0  w-full  flex justify-center items-center px-10 "
       )}
     >
-      <Logo size="lg" />
+      <Logo size="lg" href="/browse" />
       <SearchInput />
       <div className="flex items-center gap-x-2">
         <CreateButton />

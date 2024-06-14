@@ -1,5 +1,5 @@
-import { Body } from "@/components/landing/body";
 import { Metadata } from "next";
+import { Body } from "@/app/(marketing)/_components/content/body";
 
 export const metadata: Metadata = {
   title: "Home",

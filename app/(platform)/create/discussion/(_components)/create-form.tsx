@@ -1,6 +1,7 @@
 "use client";
 
 import * as z from "zod";
+import { useState, useTransition } from "react";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,30 +18,35 @@ import {
 import { NewDiscussionSchema } from "@/schemas/discussion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { Tag, TagInput } from "emblor";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getImageData } from "@/lib/get-image-data";
 import Editor from "@/components/novel/novel-editor";
+import { Tag as TagType } from "@/types/tag";
 
 export const CreateForm = () => {
+  const [isPending, startTransition] = useTransition();
+
   const [preview, setPreview] = useState("");
   const [htmlContent, setHtmlContent] = useState<string>("");
   const [uploadedFile, setUploadedFile] = useState<File>();
 
+  const [tags, setTags] = useState<TagType[]>([]);
+  const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
+
   const form = useForm<z.infer<typeof NewDiscussionSchema>>({
     resolver: zodResolver(NewDiscussionSchema),
     mode: "onChange",
-    defaultValues: {
-      discussionName: "",
-      discussionBody: "",
-      discussionImage: {},
-    },
   });
+
+  const { setValue } = form;
 
   const onSubmit = (values: z.infer<typeof NewDiscussionSchema>) => {
     const formData = {
       ...values,
-      discussionBody: htmlContent,
+      discussionBodyHtml: htmlContent,
+      discussionBody: "",
     };
     console.log(formData);
     console.log(values.discussionImage[0]);
@@ -54,20 +60,55 @@ export const CreateForm = () => {
             control={form.control}
             name="discussionName"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-2xl">Title</FormLabel>
+              <FormItem className="w-full">
+                <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="What's your problem?"
-                    //   disabled={loading}
-                    {...field}
-                  />
+                  <div className="h-12 rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
+                    <div className="flex flex-col w-full">
+                      <Input
+                        type="text"
+                        placeholder={`What's your problem?`}
+                        disabled={isPending}
+                        className="border-none outline-none text-muted-foreground shadow-none focus-visible:ring-0 "
+                        {...field}
+                      />
+                    </div>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+          {/* <FormField
+            control={form.control}
+            name="tags"
+            render={({ field }) => (
+              <FormItem className="flex flex-col items-start">
+                <FormLabel>Tags</FormLabel>
+                <FormControl className="w-full">
+                  <div className="h-12 rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
+                    <div className="flex flex-col w-full">
+                      <TagInput
+                        type="text"
+                        className="border-none outline-none text-muted-foreground shadow-none focus-visible:ring-0"
+                        placeholder="Choose tags"
+                        activeTagIndex={activeTagIndex}
+                        setActiveTagIndex={setActiveTagIndex}
+                        tags={tags}
+                        maxTags={4}
+                        minTags={4}
+                        setTags={(newTags) => {
+                          setTags(newTags);
+                          setValue("tags", newTags as [Tag, ...Tag[]]);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          /> */}
           <FormField
             control={form.control}
             name="discussionBody"
@@ -117,13 +158,11 @@ export const CreateForm = () => {
               </>
             )}
           />
-          <Button className="w-1/6" variant="default" type="submit">
+          <Button className="w-fit" variant="default" type="submit">
             Publish
           </Button>
-          <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
         </div>
       </form>
     </Form>
-    // <TagField suggestions={[]} state={tags} setState={setTags} />
   );
 };
