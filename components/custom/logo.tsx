@@ -21,11 +21,12 @@ const textFont = Poppins({
 interface LogoProps {
   size: "sm" | "lg";
   isLanding?: boolean;
+  href?: string;
 }
 
-export const Logo = ({ size, isLanding }: LogoProps) => {
+export const Logo = ({ size, isLanding, href = "/" }: LogoProps) => {
   return (
-    <Link href="/">
+    <Link href={href}>
       <div className="h-10 flex flex-row items-center">
         <div className="h-8 transition-all duration-500 w-full flex flex-col items-center justify-center  rounded-md">
           <div

@@ -79,7 +79,7 @@ export const CreateForm = () => {
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name="tags"
             render={({ field }) => (
@@ -108,7 +108,7 @@ export const CreateForm = () => {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           <FormField
             control={form.control}
             name="discussionBody"
