@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import { SetStateAction, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +19,7 @@ import { NewDiscussionSchema } from "@/schemas/discussion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tag, TagInput } from "emblor";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getImageData } from "@/lib/get-image-data";
 import Editor from "@/components/novel/novel-editor";
@@ -88,6 +89,7 @@ export const CreateForm = () => {
                   <div className="h-12 rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
                     <div className="flex flex-col w-full">
                       <TagInput
+                        type="text"
                         className="border-none outline-none text-muted-foreground shadow-none focus-visible:ring-0"
                         placeholder="Choose tags"
                         activeTagIndex={activeTagIndex}
