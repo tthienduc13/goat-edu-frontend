@@ -30,6 +30,7 @@ import {
   User,
   UserPlus,
   Wallet,
+  Zap,
 } from "lucide-react";
 
 export const UserButton = () => {
@@ -40,8 +41,8 @@ export const UserButton = () => {
           <Button asChild variant="custom" className="pr-0 h-10 cursor-pointer">
             <div className="flex gap-x-4 h-10">
               <div className="flex gap-x-1 items-center">
-                <Wallet className="h-4 w-4" />
-                <div>123.123vnd</div>
+                <Zap className="h-4 w-4" />
+                <div>Free</div>
               </div>
               <UserAvatar shape="square" />
             </div>

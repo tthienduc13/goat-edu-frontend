@@ -1,20 +1,20 @@
 import { Pencil } from "lucide-react";
 import { Hint } from "@/components/custom/hint";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Note } from "../note";
+import {
+  Sheet,
+  SheetTitle,
+  SheetTrigger,
+  SheetContent,
+} from "@/components/ui/sheet";
 
 export const NoteOptionButton = () => {
   return (
-    <div className="fixed bottom-10 right-10">
-      <Dialog>
+    <div className="fixed bottom-10 right-10 ">
+      <Sheet>
         <Hint label="Notepad" side="top" sideOffset={10}>
-          <DialogTrigger asChild>
+          <SheetTrigger asChild>
             <Button
               className="h-10 w-10 rounded-full"
               variant={"custom"}
@@ -22,13 +22,13 @@ export const NoteOptionButton = () => {
             >
               <Pencil className="h-5 w-5" />
             </Button>
-          </DialogTrigger>
+          </SheetTrigger>
         </Hint>
-        <DialogContent className="max-w-[1000px] ">
-          <DialogHeader className="text-xl font-bold">Notes</DialogHeader>
+        <SheetContent className="w-[800px] h-full">
+          <SheetTitle className="text-xl font-bold">Notes</SheetTitle>
           <Note />
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };

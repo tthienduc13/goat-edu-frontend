@@ -60,7 +60,7 @@ export const Note = () => {
     );
   }
   return (
-    <div className="w-full h-[500px] flex flex-row justify-start">
+    <div className="w-full h-full flex flex-row justify-start">
       <div className="h-full w-1/5 overflow-y-scroll flex flex-col gap-y-2 py-4  pr-4 border-r-[2px]">
         {notes.map((note) => (
           <div key={note.id} ref={lastElementRef}>
