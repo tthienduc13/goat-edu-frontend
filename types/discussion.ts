@@ -11,6 +11,7 @@ export type Discussion = {
   tags: Tag[];
   createdAt: Date;
   userAndSubject: UserAndSubject;
+  isUserVoted: boolean;
 };
 
 export type Status = "Approved" | "Unapproved" | "Vac";

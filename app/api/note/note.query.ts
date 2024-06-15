@@ -11,7 +11,6 @@ import {
   getNotesByUser,
   patchNote,
 } from "./note.api";
-import { queries } from "@/queries";
 import { Note } from "@/types/note";
 import { toast } from "sonner";
 

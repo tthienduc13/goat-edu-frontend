@@ -10,5 +10,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-LoginPage.theme = "dark";

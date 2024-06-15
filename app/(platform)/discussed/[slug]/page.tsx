@@ -1,10 +1,4 @@
 import { useDiscussionById } from "@/app/api/discussion/discussion.query";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { BackButton } from "@/components/custom/buttons/back-button";
-import { SideNav } from "./_components/side-nav";
-import { TracingBeam } from "@/components/ui/tracing-beam";
-import { DiscussedDetail } from "./_components/discussed-detail";
-import { Comment } from "./_components/comment";
 import {
   HydrationBoundary,
   QueryClient,
