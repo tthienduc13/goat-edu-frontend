@@ -1,5 +1,6 @@
 "use client";
 
+import { Copy, Link } from "lucide-react";
 import { Wrapper } from "../_components/wrapper";
 
 import {
@@ -18,9 +19,13 @@ import {
   TwitterIcon,
   WhatsappIcon,
 } from "react-share";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Hint } from "@/components/custom/hint";
+import { toast } from "sonner";
 
 const InviteFriendPage = () => {
-  const shareUrl = "Goat.edu";
+  const shareUrl = process.env.NEXT_PUBLIC_URL as string;
 
   const socialLink = [
     {
@@ -81,30 +86,48 @@ const InviteFriendPage = () => {
     },
   ];
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(shareUrl);
+    toast.success("Url coppied to clipboard");
+  };
+
   return (
-    <>
-      <Wrapper title="Invite friends">
-        <div className="flex flex-col gap-y-4">
-          <input className="w-full h-[46.4px]" placeholder="link here"></input>
-          <p className="font-semibold">or invite via</p>
-          <div className="flex flex-row flex-wrap gap-2 gap-y-4">
-            {socialLink?.map((data, index) => (
-              <div key={index} className="flex flex-col w-16 items-center">
-                <div className="overflow-hidden rounded-14">{data.logo}</div>
-                <span className="mt-1.5 max-w-16 overflow-hidden overflow-ellipsis text-center text-[11px] text-text-tertiary cursor-pointer">
-                  {data.name}
-                </span>
-              </div>
-            ))}
+    <Wrapper title="Invite friends">
+      <div className="flex pb-10 flex-col gap-y-4">
+        <div className="h-12  cursor-pointer rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
+          <Link className={cn("h-5 w-5 mr-2 text-primary ")} />
+          <div className="flex flex-col flex-1">
+            <div
+              onClick={handleCopy}
+              className="border-none hover:opacity-80 px-3 outline-none text-primary shadow-none focus-visible:ring-0 "
+            >
+              {shareUrl}
+            </div>
           </div>
-          <p className="font-bold">Friends you brought abroad</p>
-          <p>
-            Meet the students who joined Goat.edu through your invite. They
-            might just be your ticket to future rewards 😉
-          </p>
+          <Hint label="Copy to clipboard" side="bottom" sideOffset={10}>
+            <Button onClick={handleCopy} size={"icon"} variant={"ghost"}>
+              <Copy className="h-5 w-5" />
+            </Button>
+          </Hint>
         </div>
-      </Wrapper>
-    </>
+        <p className="font-semibold">or invite via</p>
+        <div className="flex flex-row flex-wrap gap-2 gap-y-4">
+          {socialLink?.map((data, index) => (
+            <div key={index} className="flex flex-col w-16 items-center">
+              <div className="overflow-hidden rounded-14">{data.logo}</div>
+              <span className="mt-1.5 max-w-16 overflow-hidden overflow-ellipsis text-center text-[11px] text-text-tertiary cursor-pointer">
+                {data.name}
+              </span>
+            </div>
+          ))}
+        </div>
+        <p className="font-bold">Friends you brought abroad</p>
+        <p>
+          Meet the students who joined Goat.edu through your invite. They might
+          just be your ticket to future rewards 😉
+        </p>
+      </div>
+    </Wrapper>
   );
 };
 

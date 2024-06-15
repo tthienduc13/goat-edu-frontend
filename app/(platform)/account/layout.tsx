@@ -1,5 +1,6 @@
 import { usePathname } from "next/navigation";
 import { Sidebar } from "./_components/sidebar";
+import { Toaster } from "sonner";
 
 interface AccountLayoutProps {
   children: React.ReactNode;
@@ -12,6 +13,7 @@ const AccountLayout = ({ children }: AccountLayoutProps) => {
         <div className="flex flex-row h-full">
           <Sidebar />
           {children}
+          <Toaster />
         </div>
       </div>
     </main>

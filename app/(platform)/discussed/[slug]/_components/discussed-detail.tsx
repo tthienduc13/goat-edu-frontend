@@ -47,7 +47,11 @@ export const DiscussedDetail = ({ data }: DiscussedCardProps) => {
       </CardContent>
       <CardFooter className="flex flex-row justify-between items-center">
         <div className="w-full flex items-center flex-row gap-x-4">
-          <UpvoteButton voteCount={data.discussionVote} />
+          <UpvoteButton
+            id={data.id}
+            voteCount={data.discussionVote}
+            isUserVoted={data.isUserVoted}
+          />
           <div className="flex items-center gap-x-1 flex-row">
             <Button
               variant="ghost"

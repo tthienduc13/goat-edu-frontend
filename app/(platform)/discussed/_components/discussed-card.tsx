@@ -18,15 +18,13 @@ import { UpvoteButton } from "./upvote-button";
 
 interface DiscussedCardProps {
   data: Discussion;
-  isDetail?: boolean;
 }
 
-export const DiscussedCard = ({ data, isDetail }: DiscussedCardProps) => {
+export const DiscussedCard = ({ data }: DiscussedCardProps) => {
   return (
     <Card
       className={cn(
-        "border-none shadow-none",
-        !isDetail && "hover:bg-secondary/80  dark:hover:bg-secondary/40"
+        "border-none shadow-none hover:bg-secondary/80  dark:hover:bg-secondary/40"
       )}
     >
       <CardHeader>
@@ -62,7 +60,11 @@ export const DiscussedCard = ({ data, isDetail }: DiscussedCardProps) => {
         </Link>
       </CardContent>
       <CardFooter className="flex flex-row gap-x-4">
-        <UpvoteButton voteCount={data.discussionVote} />
+        <UpvoteButton
+          id={data.id}
+          isUserVoted={data.isUserVoted}
+          voteCount={data.discussionVote}
+        />
         <div className="flex items-center gap-x-1 flex-row">
           <Button variant="ghost" size="icon" className="hover:bg-cyan-400/70">
             <CommentIcon />

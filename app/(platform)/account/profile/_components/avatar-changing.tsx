@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 
-import { Header } from "./header";
+import { Header } from "@/app/(platform)/account/_components/header";
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

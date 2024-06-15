@@ -50,6 +50,10 @@ export const LoginForm = () => {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     mode: "onChange",
+    defaultValues: {
+      username: "",
+      password: "",
+    },
   });
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
@@ -110,12 +114,12 @@ export const LoginForm = () => {
                           form.formState.errors.username && "text-destructive"
                         )}
                       />
-                      <div className="flex flex-col">
+                      <div className="flex flex-col w-full">
                         <Input
                           type="text"
                           placeholder="Username"
                           disabled={isPending}
-                          className="border-none outline-none text-muted-foreground shadow-none focus-visible:ring-0 "
+                          className="w-full border-none outline-none text-muted-foreground shadow-none focus-visible:ring-0 "
                           {...field}
                         />
                       </div>
@@ -131,7 +135,7 @@ export const LoginForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <div className="h-12 rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
+                    <div className="h-12 w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
                       <Lock
                         className={cn(
                           "h-5 w-5 mr-2 text-muted-foreground hover:text-white",
@@ -142,7 +146,7 @@ export const LoginForm = () => {
                         type={isPasswordVisible ? "text" : "password"}
                         placeholder="********"
                         disabled={isPending}
-                        className="border-none outline-none flex-1 text-muted-foreground shadow-none focus-visible:ring-0 "
+                        className="border-none w-full outline-none flex-1 text-muted-foreground shadow-none focus-visible:ring-0 "
                         {...field}
                       />
                       <div
