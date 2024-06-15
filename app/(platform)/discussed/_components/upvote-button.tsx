@@ -19,32 +19,33 @@ export const UpvoteButton = ({
   id,
 }: UpvoteButtonProps) => {
   const user = useCurrentUser();
+  console.log(user);
   const [voteCounter, setVoteCounter] = useState<number>(voteCount);
 
   const { mutationKey, mutationFn } = useVote({ token: user?.token!, id: id });
 
-  // const { mutate, isSuccess, isError, error } = useMutation({
-  //   mutationKey,
-  //   mutationFn,
-  //   onSuccess: (data) => {
-  //     if (data.status === 200) {
-  //       if (!isUserVoted) {
-  //         setVoteCounter((prevCount) => prevCount + 1);
-  //       } else {
-  //         setVoteCounter((prevCount) => prevCount - 1);
-  //       }
-  //     }
-  //   },
-  // });
+  const { mutate, isSuccess, isError, error } = useMutation({
+    mutationKey,
+    mutationFn,
+    onSuccess: (data) => {
+      if (data.status === 200) {
+        if (!isUserVoted) {
+          setVoteCounter((prevCount) => prevCount + 1);
+        } else {
+          setVoteCounter((prevCount) => prevCount - 1);
+        }
+      }
+    },
+  });
 
-  const handleVote = async () => {
-    await voteDiscussion({ token: user?.token!, id: id });
-  };
+  // const handleVote = async () => {
+  //   await voteDiscussion({ token: user?.token!, id: id });
+  // };
 
   return (
     <div className="flex items-center gap-x-1 flex-row">
       <Button
-        onClick={() => handleVote()}
+        onClick={() => mutate()}
         variant="ghost"
         size="icon"
         className={cn(

@@ -40,8 +40,11 @@ export const Flashcard = ({ token, id }: FlashcardProps) => {
       headerDes={flashcardData?.flashcardDescription!}
       headerStar={flashcardData?.star!}
     >
-      <div className="max-w-[900px] mx-auto flex flex-col gap-y-10">
-        <Card data={flashcardContentData} />
+      <div className="max-w-[900px] bg-background mx-auto flex flex-col gap-y-10">
+        <Card
+          flashcardName={flashcardData?.flashcardName!}
+          data={flashcardContentData}
+        />
         <Terms data={flashcardContentData} />
       </div>
     </Wrapper>
