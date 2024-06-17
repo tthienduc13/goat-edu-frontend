@@ -96,7 +96,6 @@ export const {
         token.role = user.role;
         token.token = user.token;
       }
-      console.log(token);
       return token;
     },
   },

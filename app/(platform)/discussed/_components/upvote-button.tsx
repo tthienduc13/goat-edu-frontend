@@ -19,8 +19,6 @@ export const UpvoteButton = ({
   id,
 }: UpvoteButtonProps) => {
   const user = useCurrentUser();
-  console.log(user);
-  console.log(user?.token!);
   const [voteCounter, setVoteCounter] = useState<number>(voteCount);
 
   const { mutationKey, mutationFn } = useVote({ token: user?.token!, id: id });
@@ -38,10 +36,6 @@ export const UpvoteButton = ({
       }
     },
   });
-
-  // const handleVote = async () => {
-  //   await voteDiscussion({ token: user?.token!, id: id });
-  // };
 
   return (
     <div className="flex items-center gap-x-1 flex-row">
