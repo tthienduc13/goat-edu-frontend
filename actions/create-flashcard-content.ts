@@ -2,23 +2,28 @@
 
 import * as z from "zod";
 
-import { NewFlashcardSchema } from "@/schemas/flashcard";
+import { NewFlashcardContentSchema } from "@/schemas/flashcard";
 import { currentUser } from "@/lib/auth";
-import { createFlashcard } from "@/app/api/flashcard/flashcard.api";
+import { createFlashcardContent } from "@/app/api/flashcard-content/flashcard-content.api";
 
-export const CreateFlashcard = async (
-  values: z.infer<typeof NewFlashcardSchema>
-) => {
+export const CreateFlashcardContent = async ({
+  values,
+  id,
+}: {
+  values: z.infer<typeof NewFlashcardContentSchema>;
+  id: string;
+}) => {
   const user = await currentUser();
 
-  const validatedFields = NewFlashcardSchema.safeParse(values);
+  const validatedFields = NewFlashcardContentSchema.safeParse(values);
   if (!validatedFields.success) {
     return { error: "Invalid fields!" };
   }
 
-  const response = await createFlashcard({
+  const response = await createFlashcardContent({
     token: user?.token!,
     values: validatedFields.data,
+    id: id,
   });
 
   if (response.status === 400 || response.status === 404) {

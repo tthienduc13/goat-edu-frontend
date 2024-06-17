@@ -9,19 +9,43 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Sortable,
   SortableDragHandle,
   SortableItem,
 } from "@/components/ui/sortable";
 
-import { FileImage, Image as ImageIcon, Plus } from "lucide-react";
+import { FileImage, Plus } from "lucide-react";
 import { NewFlashcardContentSchema } from "@/schemas/flashcard";
+import { useState, useTransition } from "react";
+import { CreateFlashcardContent } from "@/actions/create-flashcard-content";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import { FormError } from "@/components/forms/form-error";
+import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
+import { useQuery } from "@tanstack/react-query";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
-export function FlashcardArray() {
+export const CreateFlashcardContentForm = () => {
+  const user = useCurrentUser();
+  const router = useRouter();
+
+  const [isPending, startTransition] = useTransition();
+  const [isOpenImage, setIsOpenImage] = useState<boolean>();
+
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
   const form = useForm<z.infer<typeof NewFlashcardContentSchema>>({
     resolver: zodResolver(NewFlashcardContentSchema),
+    mode: "onChange",
     defaultValues: {
       flashcardContent: [
         {
@@ -40,8 +64,20 @@ export function FlashcardArray() {
     },
   });
 
+  const handleOpenImage = () => {
+    setIsOpenImage(!isOpenImage);
+  };
+
   function onSubmit(values: z.infer<typeof NewFlashcardContentSchema>) {
-    console.log({ values });
+    startTransition(() => {
+      CreateFlashcardContent({ values: values, id: id! }).then((data) => {
+        if (data.success) {
+          toast.success(data.success);
+        } else {
+          toast.error(data.error);
+        }
+      });
+    });
   }
 
   const { fields, append, move, remove } = useFieldArray({
@@ -49,13 +85,49 @@ export function FlashcardArray() {
     name: "flashcardContent",
   });
 
+  const { data: flashcardData, isLoading: flashcardLoading } = useQuery(
+    useFlashcardById({ token: user?.token!, id: id! })
+  );
+
+  if (!id) {
+    router.push("/not-found");
+    return null;
+  }
+
+  if (flashcardLoading) {
+    return null;
+  }
+
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col gap-y-10">
+      <div className="flex flex-col gap-y-4">
+        <div className="text-2xl font-bold">Information</div>
+        <div className="w-full flex flex-col gap-y-5">
+          <div className="h-12 rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
+            <div className="flex flex-col w-full text-muted-foreground cursor-none">
+              {flashcardData?.flashcardName}
+            </div>
+          </div>
+          <div className="w-full flex flex-row gap-x-5">
+            <div className="h-12  w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
+              <div className="flex flex-col w-full text-muted-foreground cursor-none">
+                {flashcardData?.flashcardDescription}
+              </div>
+            </div>
+            <div className="h-12 w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
+              <div className="flex flex-col w-full text-muted-foreground cursor-none">
+                {flashcardData?.subjectName}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex w-full flex-col gap-4"
         >
+          <div className="text-2xl font-bold">Flashcard content</div>
           <div className="space-y-2 w-full ">
             <Sortable
               value={fields}
@@ -110,6 +182,7 @@ export function FlashcardArray() {
                             <FormItem className="w-full flex flex-col">
                               <FormControl>
                                 <Input
+                                  type="text"
                                   placeholder="Enter question"
                                   className="h-10 text-lg border-none shadow-none outline-none focus-visible:ring-0"
                                   {...field}
@@ -119,6 +192,7 @@ export function FlashcardArray() {
                               <div className="text-xs font-semibold text-muted-foreground">
                                 FLASHCARD QUESTION
                               </div>
+                              <FormMessage />
                             </FormItem>
                           )}
                         />
@@ -136,34 +210,27 @@ export function FlashcardArray() {
                               </FormControl>
                               <div className=" border-primary border-[1px]"></div>
                               <div className="text-xs font-semibold text-muted-foreground">
-                                FLASHCARD QUESTION
+                                FLASHCARD ANSWER
                               </div>
+                              <FormMessage />
                             </FormItem>
                           )}
                         />
-                        <FormField
-                          control={form.control}
-                          name={`flashcardContent.${index}.flashcardContentAnswer`}
-                          render={({ field }) => (
-                            <FormItem className="  flex flex-col">
-                              <FormControl>
-                                <Input
-                                  type="file"
-                                  placeholder="Enter answer"
-                                  className="h-10 hidden text-lg border-none shadow-none outline-none focus-visible:ring-0"
-                                  {...field}
-                                />
-                              </FormControl>
-                              <button className=" flex flex-col rounded-lg gap-y-1 px-6 py-3 items-center justify-center border-dashed border-[2px]">
-                                <FileImage className="w-4 h-4" />
-                                <div className="text-xs text-muted-foreground font-semibold">
-                                  IMAGE
-                                </div>
-                              </button>
-                            </FormItem>
-                          )}
-                        />
+                        <button
+                          onClick={handleOpenImage}
+                          className="max-h-[74px] flex flex-col rounded-lg gap-y-1 px-6 py-3 items-center justify-center border-dashed border-[2px]"
+                        >
+                          <FileImage className="w-4 h-4" />
+                          <div className="text-xs text-muted-foreground font-semibold">
+                            IMAGE
+                          </div>
+                        </button>
                       </div>
+                      {isOpenImage && (
+                        <div className="w-full border-t-[2px] py-4 flex justify-center items-center">
+                          <Button>Upgrade pro di thang lz 😏 </Button>
+                        </div>
+                      )}
                     </div>
                   </SortableItem>
                 ))}
@@ -187,8 +254,20 @@ export function FlashcardArray() {
               </Button>
             </div>
           </div>
+          <div className="w-full flex justify-end">
+            <Button
+              disabled={
+                isPending || Object.keys(form.formState.errors).length > 0
+              }
+              className="w-fit"
+              type="submit"
+            >
+              Create
+            </Button>
+          </div>
         </form>
       </Form>
+      <FormError message={form.formState.errors.flashcardContent?.message} />
     </div>
   );
-}
+};
