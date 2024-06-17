@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { ReportSchema } from "@/schemas";
+import { ReportSchema } from "@/schemas/report";
 import {
   Form,
   FormControl,

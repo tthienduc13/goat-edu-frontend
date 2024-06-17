@@ -1,4 +1,4 @@
-import LoginForm from "@/components/auth/login-form";
+import LoginForm from "@/components/forms/login-form";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,5 +10,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-LoginPage.theme = "dark";

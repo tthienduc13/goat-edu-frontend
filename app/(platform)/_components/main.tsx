@@ -7,7 +7,7 @@ import { Navbar } from "./navbar";
 import { Sidebar } from "./sidebar";
 
 import Reloading from "@/components/reloading";
-import { NoteButton } from "@/components/note/note-button";
+import { NoteOptionButton } from "@/components/note/note-control/note-option-button";
 
 interface MainProps {
   children: React.ReactNode;
@@ -46,7 +46,7 @@ export const Main = ({ children }: MainProps) => {
         >
           {children}
         </div>
-        <NoteButton />
+        <NoteOptionButton />
       </div>
     </>
   );

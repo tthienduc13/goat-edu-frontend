@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 
-import { RegisterSchema } from "@/schemas";
+import { RegisterSchema } from "@/schemas/auth";
 import { register } from "@/app/api/auth/auth.api";
 
 export const Register = async (values: z.infer<typeof RegisterSchema>) => {

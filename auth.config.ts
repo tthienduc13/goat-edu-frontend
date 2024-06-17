@@ -3,9 +3,8 @@ import Credentials from "next-auth/providers/credentials";
 import Facebook from "next-auth/providers/facebook";
 import Google from "next-auth/providers/google";
 
-import { LoginSchema } from "@/schemas";
 import { login } from "@/app/api/auth/auth.api";
-import { toast } from "sonner";
+import { LoginSchema } from "@/schemas/auth";
 
 export default {
   providers: [

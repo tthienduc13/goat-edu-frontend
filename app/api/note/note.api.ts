@@ -9,12 +9,6 @@ export const END_POINT = {
   PATCH: "/note",
 };
 
-interface Response {
-  status: number;
-  message: string;
-  data: {};
-}
-
 export const getNotesByUser = async (
   token: string,
   userId: string,
@@ -48,7 +42,7 @@ export const getNoteById = async (token: string, id: string): Promise<Note> => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error("Error fetching note:", error);
     throw error;
@@ -75,15 +69,17 @@ export const createNote = async (
 export const patchNote = async (
   token: string,
   id: string,
-  noteName?: string,
-  noteBody?: string
+  noteName?: string | null,
+  noteBody?: string | null,
+  noteBodyHtml?: string | null
 ) => {
   try {
     const response = await axiosClient.patch(
       `${END_POINT.PATCH}/${id}`,
       {
-        noteName: noteName ?? "",
-        noteBody: noteBody ?? "",
+        noteName: noteName ?? null,
+        noteBody: noteBody ?? null,
+        noteBodyHtml: noteBodyHtml ?? null,
       },
       {
         headers: {

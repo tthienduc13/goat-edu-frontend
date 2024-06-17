@@ -4,4 +4,5 @@ export type Chapter = {
   chapterLevel: number;
   subjectId: string;
   createdAt: Date;
+  updatedAt: Date;
 };

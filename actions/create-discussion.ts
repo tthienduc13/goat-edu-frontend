@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 
-import { NewDiscussionSchema } from "@/schemas";
+import { NewDiscussionSchema } from "@/schemas/discussion";
 
 export const CreateDiscussion = async (
   values: z.infer<typeof NewDiscussionSchema>

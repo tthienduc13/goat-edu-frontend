@@ -1,9 +1,13 @@
+import * as z from "zod";
+
 import axiosClient from "@/lib/axiosClient";
 import { Flashcard } from "@/types/flashcard";
+import { NewFlashcardSchema } from "@/schemas/flashcard";
 
 export const END_POINT = {
   GET_ALL: "/flashcard",
-  GET_BY_ID: "/flashcard/",
+  GET_BY_ID: "/flashcard",
+  CREATE: "/flashcard/subject",
 };
 
 export const getAllFlashcardSitemap = async (): Promise<Flashcard[]> => {
@@ -44,10 +48,32 @@ export const getFlashcardById = async (
   token: string,
   id: string
 ): Promise<Flashcard> => {
-  const response = await axiosClient.get(`${END_POINT.GET_BY_ID}${id}`, {
+  const response = await axiosClient.get(`${END_POINT.GET_BY_ID}/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+  return response.data;
+};
+
+export const createFlashcard = async ({
+  token,
+  values,
+}: {
+  token: string;
+  values: z.infer<typeof NewFlashcardSchema>;
+}) => {
+  const response = await axiosClient.post(
+    `${END_POINT.CREATE}/${values.subjectId}`,
+    {
+      flashcardName: values.flashcardName,
+      flashcardDescription: values.flashcardDescription,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return response.data;
 };

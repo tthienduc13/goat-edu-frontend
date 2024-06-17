@@ -1,40 +1,50 @@
 "use client";
 
 import * as z from "zod";
+
+import { NoteNameSchema } from "@/schemas/note";
+
 import { useForm } from "react-hook-form";
-import { NoteNameSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+
 import { Input } from "@/components/ui/input";
-import { usePatchNote } from "@/app/api/note/note.query";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+
+import { usePatchNoteName } from "@/app/api/note/note.query";
+
 import { useDebouncedCallback } from "use-debounce";
+
 import { useCurrentUser } from "@/hooks/use-current-user";
+import useSaveStatusStore from "@/stores/useSaveStatusStore";
 
 interface NoteNameInputProps {
   id: string;
-  noteName: string;
+  noteName: string | null;
 }
 
 export const NoteNameInput = ({ noteName, id }: NoteNameInputProps) => {
   const user = useCurrentUser();
 
+  const { setSaveStatus } = useSaveStatusStore();
+
   const form = useForm<z.infer<typeof NoteNameSchema>>({
     resolver: zodResolver(NoteNameSchema),
     mode: "onChange",
     defaultValues: {
-      noteName: noteName,
+      noteName: noteName ?? "Untitled",
     },
   });
 
-  const { mutate: patchName } = usePatchNote(user?.token!, id, user?.id!);
+  const { mutate: patchName } = usePatchNoteName(user?.token!, id, user?.id!);
 
   const onSubmit = (values: z.infer<typeof NoteNameSchema>) => {
-    patchName(values.noteName);
+    patchName({ noteName: values.noteName });
   };
 
   const debounceUpdate = useDebouncedCallback(
     (values: z.infer<typeof NoteNameSchema>) => {
       onSubmit(values);
+      setSaveStatus("Saved");
     },
     500
   );
@@ -53,6 +63,7 @@ export const NoteNameInput = ({ noteName, id }: NoteNameInputProps) => {
                   className="border-none shadow-none outline-none focus:outline-none focus-visible:ring-0"
                   {...field}
                   onChange={(e) => {
+                    setSaveStatus("Unsaved");
                     field.onChange(e);
                     debounceUpdate({ noteName: e.target.value });
                   }}

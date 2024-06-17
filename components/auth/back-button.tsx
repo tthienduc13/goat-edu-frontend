@@ -18,7 +18,7 @@ export const BackButton = ({ href, label, color }: BackButtonProps) => {
       className={cn(
         "font-normal",
         color === "default" && "text-muted-foreground",
-        color === "white" && "text-white"
+        color === "white" && "text-primary"
       )}
       size="none"
     >
