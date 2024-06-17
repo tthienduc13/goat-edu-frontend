@@ -12,7 +12,7 @@ export const useSubjects = ({
   pageNumber?: number;
 }) => {
   return useInfiniteQuery({
-    queryKey: ["discussion", status],
+    queryKey: ["subjects", pageSize, search],
     initialPageParam: pageNumber ?? 1,
     queryFn: ({ pageParam }) => getAllSubjects(search, pageParam, pageSize),
     getNextPageParam: (lastPage, allPages) => {

@@ -20,6 +20,7 @@ export const UpvoteButton = ({
 }: UpvoteButtonProps) => {
   const user = useCurrentUser();
   console.log(user);
+  console.log(user?.token!);
   const [voteCounter, setVoteCounter] = useState<number>(voteCount);
 
   const { mutationKey, mutationFn } = useVote({ token: user?.token!, id: id });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, MutableRefObject } from "react";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
@@ -23,9 +23,22 @@ import { Logo } from "@/components/custom/logo";
 interface CardProps {
   data: FlashcardContent[];
   flashcardName: string;
+  shuffleRef: MutableRefObject<null>;
+  nextRef: MutableRefObject<null>;
+  counterRef: MutableRefObject<null>;
+  previousRef: MutableRefObject<null>;
+  flashcardRef: MutableRefObject<null>;
 }
 
-export const Card = ({ data, flashcardName }: CardProps) => {
+export const Card = ({
+  data,
+  flashcardName,
+  shuffleRef,
+  nextRef,
+  counterRef,
+  previousRef,
+  flashcardRef,
+}: CardProps) => {
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
   const handleFullScreen = () => {
     setIsFullScreen(!isFullScreen);
@@ -165,6 +178,7 @@ export const Card = ({ data, flashcardName }: CardProps) => {
         )}
         <div className="flex flex-col max-w-[1000px] w-full  items-center justify-center space-y-4">
           <div
+            ref={flashcardRef}
             className={cn(
               "flip-card w-full ",
               isFullScreen ? "h-[600px]" : "h-[328px] sm:h-[428px]"
@@ -196,6 +210,7 @@ export const Card = ({ data, flashcardName }: CardProps) => {
             <div className="flex flex-row items-center gap-x-2">
               <Hint label="Shuffle" side="bottom" sideOffset={10}>
                 <Button
+                  ref={shuffleRef}
                   variant="ghost"
                   size="icon"
                   className="rounded-full"
@@ -207,6 +222,7 @@ export const Card = ({ data, flashcardName }: CardProps) => {
             </div>
             <div className="relative flex flex-1 justify-center items-center gap-28">
               <Button
+                ref={previousRef}
                 variant="ghost"
                 size="icon"
                 onClick={() => handleBack()}
@@ -216,11 +232,12 @@ export const Card = ({ data, flashcardName }: CardProps) => {
                 <ChevronsLeft className="w-8 h-8" />
               </Button>
               {!isFullScreen && (
-                <div className="absolute">
+                <div ref={counterRef} className="absolute">
                   {currentIndex + 1} / {data.length}
                 </div>
               )}
               <Button
+                ref={nextRef}
                 variant="ghost"
                 size="icon"
                 onClick={() => handleNext()}
