@@ -48,6 +48,7 @@
     "@tsparticles/slim": "^3.4.0",
     "@vercel/blob": "^0.23.3",
     "@vercel/speed-insights": "^1.0.11",
+    "antd": "^5.18.1",
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

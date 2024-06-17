@@ -30,17 +30,21 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandEmpty,
 } from "@/components/ui/command";
-import { CommandEmpty } from "cmdk";
 import { useSubjects } from "@/app/api/subject/subject.query";
+import { Check } from "lucide-react";
+import { CreateFlashcard } from "@/actions/create-flashcard";
+import { toast } from "sonner";
 
 export const CreateForm = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
-  // const {
-  //   data: subjectData,
-  //   isLoading,
-  //   error,
-  // } = useSubjects({ search: searchQuery, pageSize: 10 });
+  const {
+    data: subjectData,
+    isLoading,
+    error,
+  } = useSubjects({ search: searchQuery, pageSize: 10 });
+  console.log(subjectData);
 
   const [isPending, startTransition] = useTransition();
 
@@ -51,7 +55,15 @@ export const CreateForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof NewFlashcardSchema>) => {
-    console.log(values);
+    startTransition(() => {
+      CreateFlashcard(values).then((data) => {
+        if (data.success) {
+          toast.success(data.success);
+          console.log(data.data);
+        }
+        if (data.error) toast.error(data.error);
+      });
+    });
   };
   return (
     <Form {...form}>
@@ -76,7 +88,7 @@ export const CreateForm = () => {
                         type="text"
                         placeholder={`Enter a title, like "Biology - Chapter 22: Evolution"`}
                         disabled={isPending}
-                        className="border-none outline-none text-muted-foreground shadow-none focus-visible:ring-0 "
+                        className="border-none outline-none text-base shadow-none focus-visible:ring-0 "
                         {...field}
                       />
                     </div>
@@ -107,7 +119,7 @@ export const CreateForm = () => {
                 </FormItem>
               )}
             />
-            {/* <FormField
+            <FormField
               control={form.control}
               name="subjectId"
               render={({ field }) => (
@@ -115,38 +127,52 @@ export const CreateForm = () => {
                   <div className="h-12 w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
                     <Popover>
                       <PopoverTrigger asChild>
-                        <FormControl>
+                        <FormControl className="w-full">
                           <Button
                             variant="ghost"
                             role="combobox"
                             className={cn(
-                              "w-full justify-between",
+                              " justify-between hover:bg-none w-full",
                               !field.value && "text-muted-foreground"
                             )}
                           >
-                            Select a subject
+                            {field.value
+                              ? subjectData?.pages[0].find(
+                                  (subject) => subject.id === field.value
+                                )?.subjectName
+                              : "Select language"}
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-full">
-                        <Command>
+                      <PopoverContent className="w-full hover:bg-none">
+                        <Command className="w-full">
                           <CommandInput
+                            className="w-full"
                             value={searchQuery}
                             onValueChange={setSearchQuery}
                             placeholder="Search subject"
                           ></CommandInput>
                           <CommandEmpty>No Subject found</CommandEmpty>
-                          <CommandGroup>
-                            <CommandList>
+                          <CommandGroup className="w-full">
+                            <CommandList className="w-full">
                               {subjectData?.pages &&
                                 subjectData.pages[0].map((subject) => (
                                   <CommandItem
+                                    className="w-full"
                                     key={subject.id}
                                     value={subject.id}
                                     onSelect={() => {
                                       form.setValue("subjectId", subject.id);
                                     }}
                                   >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        subject.id === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
                                     {subject.subjectName}
                                   </CommandItem>
                                 ))}
@@ -159,7 +185,7 @@ export const CreateForm = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
+            />
           </div>
         </div>
       </form>

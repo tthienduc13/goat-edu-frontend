@@ -1,5 +1,6 @@
 import { FlashcardContent } from "@/types/flashcard";
 import { Wrapper } from "./wrapper";
+import { MutableRefObject } from "react";
 
 interface TermsProps {
   data: FlashcardContent[];
