@@ -10,6 +10,13 @@ export const useSubjects = (token: string) => {
   return useQuery(queries.subject.all(token));
 };
 
-export const useSubjectByClasses = (classes: string, token: string) => {
-  return useQuery(queries.subject.classes(classes, token));
+export const useSubjectByClasses = (
+  classes: string,
+  token: string,
+  pageSize: number,
+  pageNumber: number
+) => {
+  return useQuery(
+    queries.subject.classes(classes, token, pageSize, pageNumber)
+  );
 };

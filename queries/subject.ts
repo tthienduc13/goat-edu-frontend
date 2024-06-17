@@ -14,8 +14,13 @@ export const subject = createQueryKeys("subject", {
     queryKey: [id],
     queryFn: () => getSubjectById(id, token),
   }),
-  classes: (classes: string, token: string) => ({
-    queryKey: [classes],
-    queryFn: () => getSubjectByClass(classes, token),
+  classes: (
+    classes: string,
+    token: string,
+    pageSize: number,
+    pageNumber: number
+  ) => ({
+    queryKey: [classes, pageSize],
+    queryFn: () => getSubjectByClass(classes, token, pageSize, pageNumber),
   }),
 });

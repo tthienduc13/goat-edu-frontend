@@ -32,10 +32,12 @@ export const getAllSubject = async (token: string) => {
 
 export const getSubjectByClass = async (
   classes: string,
-  token: string
+  token: string,
+  pageSize?: number,
+  pageNumber?: number
 ): Promise<Subject[]> => {
   const response = await axiosClient.get(
-    `${END_POINT.GET_BY_CLASS}classes=${classes}`,
+    `${END_POINT.GET_BY_CLASS}page_size=${pageSize}&page_number=${pageNumber}&classes=${classes}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
