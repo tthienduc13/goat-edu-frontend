@@ -14,6 +14,7 @@ export const voteDiscussion = async ({
   try {
     const response = await axiosClient.post(
       `${END_POINT.VOTE_DISCUSSION}/${id}`,
+      {},
       {
         headers: {
           Authorization: `Bearer ${token}`,
