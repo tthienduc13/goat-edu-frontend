@@ -4,9 +4,7 @@ interface MatcherLayoutProps {
 
 const MatcherLayout = ({ children }: MatcherLayoutProps) => {
   return (
-    <div className="fixed left-0 top-0 z-20 w-screen bg-background h-screen">
-      {children}
-    </div>
+    <div className="z-20 w-screen bg-background min-h-screen ">{children}</div>
   );
 };
 

@@ -4,10 +4,10 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 import { Navbar } from "./navbar";
-import { Sidebar } from "./sidebar";
 
 import Reloading from "@/components/reloading";
 import { NoteOptionButton } from "@/components/note/note-control/note-option-button";
+import { CommandMenu } from "./navbar/user-button/command-menu";
 
 interface MainProps {
   children: React.ReactNode;
@@ -38,13 +38,13 @@ export const Main = ({ children }: MainProps) => {
       {isLoading ? <Reloading /> : null}
       <div className="min-h-screen w-full flex relative ">
         <Navbar />
-        <Sidebar />
         <div
           className={cn(
-            "z-5 p-10 bg-inherit left-[240px] w-[calc(100%-240px)] absolute top-16 transition-all duration-500 overflow-hidden flex"
+            "z-5 p-10 w-full max-w-[1440px] bg-inherit absolute top-16 left-1/2 transform -translate-x-1/2 transition-all duration-500 overflow-hidden flex"
           )}
         >
           {children}
+          <CommandMenu />
         </div>
         <NoteOptionButton />
       </div>

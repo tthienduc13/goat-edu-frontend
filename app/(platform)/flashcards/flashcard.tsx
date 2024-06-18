@@ -12,6 +12,7 @@ import { Card } from "./[slug]/_components/card";
 import { Terms } from "./[slug]/_components/terms";
 import { Wrapper } from "./[slug]/_components/wrapper";
 import { useEffect, useRef, useState } from "react";
+import { useAnimationControls } from "framer-motion";
 
 interface FlashcardProps {
   token: string;
@@ -78,6 +79,8 @@ export const Flashcard = ({ token, id }: FlashcardProps) => {
     },
   ];
 
+  const controls = useAnimationControls();
+
   const [isOpenTour, setIsOpenTour] = useState<boolean>(false);
 
   const handleStartTour = () => {
@@ -120,7 +123,7 @@ export const Flashcard = ({ token, id }: FlashcardProps) => {
         headerStar={flashcardData?.star!}
         starRef={starRef}
       >
-        <div className="max-w-[900px]  bg-background mx-auto flex flex-col gap-y-10">
+        <div className="max-w-[1000px]  bg-background mx-auto flex flex-col gap-y-10">
           <Card
             flashcardName={flashcardData?.flashcardName!}
             data={flashcardContentData}

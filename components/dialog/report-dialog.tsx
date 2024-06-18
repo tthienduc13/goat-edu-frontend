@@ -1,29 +1,21 @@
-import { Bug } from "lucide-react";
-
-import { Hint } from "@/components/custom/hint";
-
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 import { ReportForm } from "@/components/forms/report-form";
 
-export const ReportButton = () => {
+interface ReportDialogProps {
+  open: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const ReportDialog = ({ open, setIsOpen }: ReportDialogProps) => {
   return (
-    <Dialog>
-      <Hint label="Report issue" side="top" sideOffset={10}>
-        <DialogTrigger asChild>
-          <Button className="h-10 w-10" variant="ghost" size="icon">
-            <Bug className="w-4 h-4" />
-          </Button>
-        </DialogTrigger>
-      </Hint>
+    <Dialog open={open} onOpenChange={setIsOpen}>
       <DialogContent className="max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Report a problem</DialogTitle>

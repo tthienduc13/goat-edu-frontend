@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, MutableRefObject } from "react";
+import { useState, useEffect, MutableRefObject } from "react";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
@@ -130,6 +130,10 @@ export const Card = ({
           event.preventDefault();
           handleFlip();
           break;
+        case "Escape":
+          event.preventDefault();
+          setIsFullScreen(false);
+          break;
         case " ":
           event.preventDefault();
           handleFlip();
@@ -144,7 +148,7 @@ export const Card = ({
   }, [currentIndex]);
 
   return (
-    <Fullscreen enabled={isFullScreen}>
+    <Fullscreen enabled={isFullScreen} onChange={setIsFullScreen}>
       <div className="max-w-screen h-full flex justify-center  items-center">
         {isFullScreen && (
           <div className=" fixed top-0 left-0 w-full">
@@ -176,17 +180,17 @@ export const Card = ({
             </div>
           </div>
         )}
-        <div className="flex flex-col max-w-[1000px] w-full  items-center justify-center space-y-4">
+        <div className="flex flex-col  max-w-[1000px] w-full  items-center justify-center space-y-4">
           <div
             ref={flashcardRef}
             className={cn(
-              "flip-card w-full ",
-              isFullScreen ? "h-[600px]" : "h-[328px] sm:h-[428px]"
+              "flip-card w-full",
+              isFullScreen ? "h-[650px]" : "h-[378px] sm:h-[478px]"
             )}
             onClick={handleFlip}
           >
             <motion.div
-              className="flip-card-inner w-[100%] h-[100%] cursor-pointer"
+              className="flip-card-inner  w-[100%] h-[100%] cursor-pointer"
               initial={false}
               animate={{ rotateX: isFlipped ? 180 : 360 }}
               transition={{
