@@ -54,7 +54,7 @@ const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
     data: chapterData,
     isLoading: chapterLoading,
     error: chapterError,
-  } = useChapterBySubject(slug as string, user?.token as string);
+  } = useChapterBySubject(params.subjectId, user?.token as string);
 
   const [openItems, setOpenItems] = useState<string[]>([]);
   const allItems = chapterData
