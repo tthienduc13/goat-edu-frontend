@@ -16,7 +16,7 @@ export const LoginSchema = z.object({
 export const RegisterSchema = z.object({
   fullname: z.string().min(4, "Fullname needs a minimum length of 4"),
   username: z.string().min(4, "Username needs a minimum length of 4"),
-  email: z.string().email("This field is required"),
+  email: z.string().email("Please enter the correct format of email"),
   password: z
     .string({ required_error: "Password is required" })
     .min(6, "Password needs a minimum length of 6")

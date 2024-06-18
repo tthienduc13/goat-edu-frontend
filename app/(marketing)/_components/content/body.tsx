@@ -4,10 +4,10 @@ import { Production } from "./production";
 
 export const Body = () => {
   return (
-    <>
+    <div className="w-full">
       <Banner />
       <IpadScroll />
       <Production />
-    </>
+    </div>
   );
 };

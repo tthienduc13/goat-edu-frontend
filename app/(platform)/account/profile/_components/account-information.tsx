@@ -46,7 +46,7 @@ export const AccountInformation = () => {
   });
 
   const onSubmit = (values: z.infer<typeof EditProfileSchema>) => {
-    console.log(values);
+    // TODO: Add function
   };
   return (
     <div className="w-full flex flex-col gap-y-6 px-1">

@@ -22,9 +22,9 @@ import {
   SortableItem,
 } from "@/components/ui/sortable";
 
-import { FileImage, Plus } from "lucide-react";
+import { Command, FileImage, Layers, PencilLine, Plus } from "lucide-react";
 import { NewFlashcardContentSchema } from "@/schemas/flashcard";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { CreateFlashcardContent } from "@/actions/create-flashcard-content";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
@@ -32,6 +32,9 @@ import { FormError } from "@/components/forms/form-error";
 import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
 import { useQuery } from "@tanstack/react-query";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { Hint } from "@/components/custom/hint";
+import { KeyBoardShorcuts } from "./keyboard-shorcuts";
+import { ImportTerms } from "./import-terms";
 
 export const CreateFlashcardContentForm = () => {
   const user = useCurrentUser();
@@ -68,7 +71,14 @@ export const CreateFlashcardContentForm = () => {
     setIsOpenImage(!isOpenImage);
   };
 
-  function onSubmit(values: z.infer<typeof NewFlashcardContentSchema>) {
+  const handleInsertNew = () => {
+    append({
+      flashcardContentQuestion: "",
+      flashcardContentAnswer: "",
+    });
+  };
+
+  const onSubmit = (values: z.infer<typeof NewFlashcardContentSchema>) => {
     startTransition(() => {
       CreateFlashcardContent({ values: values, id: id! }).then((data) => {
         if (data.success) {
@@ -78,7 +88,7 @@ export const CreateFlashcardContentForm = () => {
         }
       });
     });
-  }
+  };
 
   const { fields, append, move, remove } = useFieldArray({
     control: form.control,
@@ -88,6 +98,22 @@ export const CreateFlashcardContentForm = () => {
   const { data: flashcardData, isLoading: flashcardLoading } = useQuery(
     useFlashcardById({ token: user?.token!, id: id! })
   );
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        event.shiftKey &&
+        event.key === "r"
+      ) {
+        event.preventDefault();
+        handleInsertNew();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!id) {
     router.push("/not-found");
@@ -99,36 +125,58 @@ export const CreateFlashcardContentForm = () => {
   }
 
   return (
-    <div className="w-full flex flex-col gap-y-10">
-      <div className="flex flex-col gap-y-4">
-        <div className="text-2xl font-bold">Information</div>
-        <div className="w-full flex flex-col gap-y-5">
-          <div className="h-12 rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
-            <div className="flex flex-col w-full text-muted-foreground cursor-none">
-              {flashcardData?.flashcardName}
-            </div>
-          </div>
-          <div className="w-full flex flex-row gap-x-5">
-            <div className="h-12  w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
-              <div className="flex flex-col w-full text-muted-foreground cursor-none">
-                {flashcardData?.flashcardDescription}
-              </div>
-            </div>
-            <div className="h-12 w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
-              <div className="flex flex-col w-full text-muted-foreground cursor-none">
-                {flashcardData?.subjectName}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="w-full">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex w-full flex-col gap-4"
+          className="flex w-full relative flex-col gap-10"
         >
-          <div className="text-2xl font-bold">Flashcard content</div>
-          <div className="space-y-2 w-full ">
+          <div className="left-0 px-5 py-4 rounded-lg border-[2px] shadow-lg w-full justify-between flex items-center">
+            <div className="flex flex-col gap-y-1">
+              <div className="w-full flex flex-row items-center gap-x-2">
+                <PencilLine className="w-4 h-4" />
+                <div className="text-xl font-semibold">Create a new set</div>
+              </div>
+              <div className="text-sm text-muted-foreground">
+                {fields.length} terms
+              </div>
+            </div>
+            <Button
+              disabled={
+                isPending || Object.keys(form.formState.errors).length > 0
+              }
+              className="w-fit"
+              type="submit"
+            >
+              Create
+            </Button>
+          </div>
+          <div className="flex flex-col gap-y-4">
+            <div className="w-full flex flex-col gap-y-5">
+              <div className="rounded-xl overflow-hidden flex flex-row items-center px-4">
+                <div className="flex flex-col w-full text-5xl font-bold cursor-none">
+                  {flashcardData?.flashcardName}
+                </div>
+              </div>
+              <div className="w-full flex flex-row gap-x-5">
+                <div className="h-12  w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
+                  <div className="flex flex-col w-full text-base text-muted-foreground cursor-none">
+                    {flashcardData?.flashcardDescription}
+                  </div>
+                </div>
+                <div className="h-12 w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
+                  <div className="flex flex-col w-full text-muted-foreground cursor-none">
+                    {flashcardData?.subjectName}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-row justify-between">
+            <ImportTerms />
+            <KeyBoardShorcuts />
+          </div>
+          <div className="space-y-3 w-full ">
             <Sortable
               value={fields}
               onMove={({ activeIndex, overIndex }) =>
@@ -143,7 +191,7 @@ export const CreateFlashcardContentForm = () => {
                 </div>
               }
             >
-              <div className="w-full space-y-2">
+              <div className="w-full space-y-3">
                 {fields.map((field, index) => (
                   <SortableItem key={field.id} value={field.id} asChild>
                     <div className="w-full flex flex-col bg-[#a8b3cf14] rounded-xl">
@@ -242,28 +290,12 @@ export const CreateFlashcardContentForm = () => {
                 variant="ghost"
                 size="sm"
                 className="w-fit hover:bg-none border-b-[4px] p-0 rounded-none text-lg text-muted-foreground"
-                onClick={() =>
-                  append({
-                    flashcardContentQuestion: "",
-                    flashcardContentAnswer: "",
-                  })
-                }
+                onClick={handleInsertNew}
               >
                 <Plus className="h-5 w-5 mr-2 font-semibold" />
                 ADD CARD
               </Button>
             </div>
-          </div>
-          <div className="w-full flex justify-end">
-            <Button
-              disabled={
-                isPending || Object.keys(form.formState.errors).length > 0
-              }
-              className="w-fit"
-              type="submit"
-            >
-              Create
-            </Button>
           </div>
         </form>
       </Form>
