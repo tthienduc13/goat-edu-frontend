@@ -54,16 +54,15 @@ const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
     data: chapterData,
     isLoading: chapterLoading,
     error: chapterError,
-  } = useChapterBySubject(
-    "dde3365d-c247-4602-a217-54d8b9816da8",
-    user?.token as string
-  );
+  } = useChapterBySubject(params.subjectId, user?.token as string);
 
   const [openItems, setOpenItems] = useState<string[]>([]);
-  const allItems = Array.from(
-    { length: chapterData!.length },
-    (_, index) => `item-${index + 1}`
-  );
+  const allItems = chapterData
+    ? Array.from(
+        { length: chapterData.length },
+        (_, index) => `item-${index + 1}`
+      )
+    : [];
   const handleOpenAll = () => {
     if (openItems.length === allItems.length) {
       setOpenItems([]);
@@ -79,7 +78,7 @@ const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
     );
   }
 
-  if (error) {
+  if (error || chapterError) {
   }
   return (
     <div className="flex flex-row w-full">
@@ -88,10 +87,10 @@ const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
           {data?.subjectName!}
         </h2>
         <p className="w-h-full">{data?.information}</p>
-        <div className="flex flex-row items-center justify-between">
-          {data?.numberOfChapters == 0 ? (
-            "No data "
-          ) : (
+        {data?.numberOfChapters == 0 ? (
+          "No data "
+        ) : (
+          <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row">
               <div className="flex flex-row space-x-1">
                 <p className="font-bold"> {data?.numberOfChapters} </p>
@@ -103,14 +102,16 @@ const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
                 <p> lessons </p>
               </div>
             </div>
-          )}
-
-          <div>
-            <Button variant="link" onClick={handleOpenAll}>
-              {openItems.length === allItems.length ? "Close all" : "Open all"}
-            </Button>
+            <div>
+              <Button variant="link" onClick={handleOpenAll}>
+                {openItems.length === allItems.length
+                  ? "Close all"
+                  : "Open all"}
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
+
         <div className="chapter-list mt-3">
           <Accordion
             className="space-y-3"

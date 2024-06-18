@@ -4,54 +4,51 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { SubjectLoading } from "./_components/subject-loading";
 import { SubjectCard } from "./_components/subject-card";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Subject } from "@/types/subject";
 
 interface ClassData {
-  className: "Class 1" | "Class 2" | "Class 3";
-  title: string;
+  className: "Class 10" | "Class 11" | "Class 12";
   data: Subject[];
 }
 
 const SubjectPage = () => {
   const user = useCurrentUser();
-
-  const className = {
-    class10: "Class 1",
-    class11: "Class 2",
-    class12: "Class 3",
-  };
+  const less = 3;
+  const more = 100;
+  const [showAll, setShowAll] = useState<{
+    [key in ClassData["className"]]: number;
+  }>({
+    "Class 10": less,
+    "Class 11": less,
+    "Class 12": less,
+  });
   const {
     data: data10 = [],
     isLoading: isLoading10,
     error: error10,
-  } = useSubjectByClasses(className.class10, user?.token!);
+  } = useSubjectByClasses("Class 10", user?.token!, showAll["Class 10"], 1);
   const {
     data: data11 = [],
     isLoading: isLoading11,
     error: error11,
-  } = useSubjectByClasses(className.class11, user?.token!);
+  } = useSubjectByClasses("Class 11", user?.token!, showAll["Class 11"], 1);
   const {
     data: data12 = [],
     isLoading: isLoading12,
     error: error12,
-  } = useSubjectByClasses(className.class12, user?.token!);
+  } = useSubjectByClasses("Class 12", user?.token!, showAll["Class 12"], 1);
 
-  const [showAll, setShowAll] = useState<{
-    [key in ClassData["className"]]: boolean;
-  }>({
-    "Class 1": false,
-    "Class 2": false,
-    "Class 3": false,
-  });
-  const handleViewMore = (className: ClassData["className"]) => {
-    setShowAll((prev) => ({ ...prev, [className]: !prev[className] }));
+  const handleViewMore = (className: ClassData["className"], size: number) => {
+    setShowAll((prevShowAll) => ({
+      ...prevShowAll,
+      [className]: size,
+    }));
   };
-
   const classes: ClassData[] = [
-    { className: "Class 1", title: "Class 10", data: data10 },
-    { className: "Class 2", title: "Class 11", data: data11 },
-    { className: "Class 3", title: "Class 12", data: data12 },
+    { className: "Class 10", data: data10 },
+    { className: "Class 11", data: data11 },
+    { className: "Class 12", data: data12 },
   ];
 
   if (isLoading10 || isLoading11 || isLoading12) {
@@ -65,16 +62,23 @@ const SubjectPage = () => {
   }
   return (
     <div className="flex flex-col w-full gap-y-8">
-      {classes.map(({ className, title, data }) => (
+      {classes.map(({ className, data }) => (
         <div key={className} className="flex flex-col gap-y-10">
           <div className="w-full flex flex-row justify-between items-center">
-            <h2 className=" text-3xl font-bold ">{title}</h2>
-            <Button variant={"link"} onClick={() => handleViewMore(className)}>
-              {showAll[className] ? "View less" : "View more"}
+            <h2 className=" text-3xl font-bold ">{className}</h2>
+            <Button
+              variant={"link"}
+              onClick={() => {
+                showAll[className] == less
+                  ? handleViewMore(className, more)
+                  : handleViewMore(className, less);
+              }}
+            >
+              {showAll[className] == less ? "View more" : "View less"}
             </Button>
           </div>
           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {(showAll[className] ? data! : data!.slice(0, 3)).map((data) => (
+            {data!.map((data) => (
               <div key={data.id}>
                 <SubjectCard data={data} />
               </div>

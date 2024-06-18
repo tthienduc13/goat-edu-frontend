@@ -26,6 +26,13 @@ export const useSubjectById = (id: string, token: string) => {
   return useQuery(queries.subject.id(id, token));
 };
 
-export const useSubjectByClasses = (classes: string, token: string) => {
-  return useQuery(queries.subject.classes(classes, token));
+export const useSubjectByClasses = (
+  classes: string,
+  token: string,
+  pageSize: number,
+  pageNumber: number
+) => {
+  return useQuery(
+    queries.subject.classes(classes, token, pageSize, pageNumber)
+  );
 };
