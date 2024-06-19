@@ -8,6 +8,8 @@ import { Navbar } from "./navbar";
 import Reloading from "@/components/reloading";
 import { NoteOptionButton } from "@/components/note/note-control/note-option-button";
 import { CommandMenu } from "./navbar/user-button/command-menu";
+import { CreateFlashcardDialog } from "@/components/dialog/create-flashcard-dialog";
+import { ModalProvider } from "@/providers/modal-provider";
 
 interface MainProps {
   children: React.ReactNode;
@@ -44,7 +46,7 @@ export const Main = ({ children }: MainProps) => {
           )}
         >
           {children}
-          <CommandMenu />
+          <ModalProvider />
         </div>
         <NoteOptionButton />
       </div>

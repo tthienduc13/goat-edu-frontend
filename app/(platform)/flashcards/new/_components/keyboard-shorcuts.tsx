@@ -2,7 +2,7 @@ import { Command } from "lucide-react";
 
 import { Hint } from "@/components/custom/hint";
 
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogTrigger,
@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 const Shorcuts = [
   { title: "Add card", shortcuts: ["Command", "Shift", "R"] },
@@ -21,12 +22,12 @@ export const KeyBoardShorcuts = () => {
     <Dialog>
       <Hint label="Keyboard shortcuts" side="bottom" sideOffset={10}>
         <DialogTrigger>
-          <Button size={"icon"}>
+          <div className={cn(buttonVariants({ size: "icon" }))}>
             <Command className="w-4 h-4" />
-          </Button>
+          </div>
         </DialogTrigger>
       </Hint>
-      <DialogContent>
+      <DialogContent className="w-[500px]">
         <DialogTitle className="text-xl">Keyboard shortcuts</DialogTitle>
         <div className="flex flex-col w-full divide-y-[2px]">
           {Shorcuts.map((shortcut, index) => (

@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
 import { Loading } from "@/components/auth/loading";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { ChakraUiProvider } from "@/providers/chakra-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -50,17 +51,19 @@ export default async function RootLayout({
     >
       <body className={inter.className}>
         <Suspense fallback={<Loading />}>
-          <ReactQueryProvider>
-            <AppThemeProvider
-              attribute="class"
-              defaultTheme={theme}
-              enableSystem
-            >
-              {children}
-              <Toaster position="bottom-right" richColors={false} />
-              <SpeedInsights />
-            </AppThemeProvider>
-          </ReactQueryProvider>
+          <ChakraUiProvider>
+            <ReactQueryProvider>
+              <AppThemeProvider
+                attribute="class"
+                defaultTheme={theme}
+                enableSystem
+              >
+                {children}
+                <Toaster position="bottom-right" richColors={false} />
+                <SpeedInsights />
+              </AppThemeProvider>
+            </ReactQueryProvider>
+          </ChakraUiProvider>
         </Suspense>
       </body>
     </html>

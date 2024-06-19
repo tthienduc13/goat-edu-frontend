@@ -7,15 +7,12 @@ import {
 } from "@/components/ui/dialog";
 
 import { ReportForm } from "@/components/forms/report-form";
+import useReportDialogStore from "@/stores/useReportDialogStore";
 
-interface ReportDialogProps {
-  open: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export const ReportDialog = ({ open, setIsOpen }: ReportDialogProps) => {
+export const ReportDialog = () => {
+  const { isOpenReportDialog, setIsOpenReportDialog } = useReportDialogStore();
   return (
-    <Dialog open={open} onOpenChange={setIsOpen}>
+    <Dialog open={isOpenReportDialog} onOpenChange={setIsOpenReportDialog}>
       <DialogContent className="max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Report a problem</DialogTitle>

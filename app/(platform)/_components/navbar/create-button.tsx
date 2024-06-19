@@ -17,15 +17,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import useCreateDialogStore from "@/stores/useCreateDialogStore";
 
 import { MessageSquareMore, NotebookPen, Plus } from "lucide-react";
-import { useState } from "react";
-import { CreateFlashcardForm } from "@/app/(platform)/flashcards/new/_components/create-flashcard-form";
 
 export const CreateButton = () => {
-  const [isCreateFlashcardOpen, setIsCreateFlashcardOpen] =
-    useState<boolean>(false);
-
+  const { isOpenCreateDialog, setIsOpenCreateDialog } = useCreateDialogStore();
+  console.log(isOpenCreateDialog);
   const handleCreateDiscussion = () => {
     alert("create discussion");
   };
@@ -42,7 +40,7 @@ export const CreateButton = () => {
         </Hint>
         <DropdownMenuContent sideOffset={10} align="end">
           <DropdownMenuGroup>
-            <DropdownMenuItem onClick={() => setIsCreateFlashcardOpen(true)}>
+            <DropdownMenuItem onClick={() => setIsOpenCreateDialog(true)}>
               <NotebookPen className="h-4 w-4 mr-2" />
               <span> Flashcard</span>
             </DropdownMenuItem>
@@ -53,23 +51,6 @@ export const CreateButton = () => {
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
-      <Dialog
-        open={isCreateFlashcardOpen}
-        onOpenChange={setIsCreateFlashcardOpen}
-      >
-        <DialogContent className="w-[800px]">
-          <DialogHeader>
-            <DialogTitle>New flashcard sets</DialogTitle>
-            <DialogDescription>
-              Start by enter the title, description and choose the related
-              subject
-            </DialogDescription>
-          </DialogHeader>
-          <CreateFlashcardForm
-            setIsCreateFlashcardOpen={setIsCreateFlashcardOpen}
-          />
-        </DialogContent>
-      </Dialog>
     </>
   );
 };
