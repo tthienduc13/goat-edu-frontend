@@ -22,7 +22,15 @@ import {
   SortableItem,
 } from "@/components/ui/sortable";
 
-import { Command, FileImage, Layers, PencilLine, Plus } from "lucide-react";
+import {
+  ChevronDown,
+  Command,
+  FileImage,
+  Globe,
+  Layers,
+  PencilLine,
+  Plus,
+} from "lucide-react";
 import { NewFlashcardContentSchema } from "@/schemas/flashcard";
 import { useEffect, useState, useTransition } from "react";
 import { CreateFlashcardContent } from "@/actions/create-flashcard-content";
@@ -35,6 +43,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { Hint } from "@/components/custom/hint";
 import { KeyBoardShorcuts } from "./keyboard-shorcuts";
 import { ImportTerms } from "./import-terms";
+import { ChangeVisibility } from "./change-visibility";
 
 export const CreateFlashcardContentForm = () => {
   const user = useCurrentUser();
@@ -115,6 +124,20 @@ export const CreateFlashcardContentForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleImport = (
+    flashcardContent: { question: string; answer: string }[]
+  ) => {
+    // Prepare a new array for the imported content
+    const importedItems = flashcardContent.map((content) => ({
+      flashcardContentQuestion: content.question,
+      flashcardContentAnswer: content.answer,
+    }));
+
+    // Insert imported items at the beginning of the existing fields array
+    // Spread operator ensures immutability
+    form.setValue("flashcardContent", [...importedItems, ...fields]);
+  };
+
   if (!id) {
     router.push("/not-found");
     return null;
@@ -173,8 +196,11 @@ export const CreateFlashcardContentForm = () => {
             </div>
           </div>
           <div className="flex flex-row justify-between">
-            <ImportTerms />
-            <KeyBoardShorcuts />
+            <ImportTerms onImport={handleImport} />
+            <div className="flex flex-row items-center gap-x-2">
+              <ChangeVisibility />
+              <KeyBoardShorcuts />
+            </div>
           </div>
           <div className="space-y-3 w-full ">
             <Sortable

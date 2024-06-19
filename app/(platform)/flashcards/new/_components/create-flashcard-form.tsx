@@ -39,15 +39,10 @@ import { CreateFlashcard } from "@/actions/create-flashcard";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import useCreateDialogStore from "@/stores/useCreateDialogStore";
 
-interface CreateFlashcardFormProps {
-  setIsCreateFlashcardOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export const CreateFlashcardForm = ({
-  setIsCreateFlashcardOpen,
-}: CreateFlashcardFormProps) => {
-  const user = useCurrentUser();
+export const CreateFlashcardForm = () => {
+  const { isOpenCreateDialog, setIsOpenCreateDialog } = useCreateDialogStore();
 
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -74,7 +69,7 @@ export const CreateFlashcardForm = ({
       CreateFlashcard(values).then((data) => {
         if (data.success) {
           toast.success(data.success);
-          setIsCreateFlashcardOpen(false);
+          setIsOpenCreateDialog(false);
           router.push(`/flashcards/new?id=${data.data}`);
         }
         if (data.error) toast.error(data.error);

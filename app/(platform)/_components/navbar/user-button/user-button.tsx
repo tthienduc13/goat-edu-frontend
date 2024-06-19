@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import { Hint } from "@/components/custom/hint";
 import { UserAvatar } from "@/components/custom/user-avatar";
@@ -31,16 +33,13 @@ import {
   UserPlus,
   Zap,
 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { ReportDialog } from "@/components/dialog/report-dialog";
 import { ModeToggle } from "@/components/mode-toggle";
-import { useRouter } from "next/navigation";
 import { Logout } from "@/actions/logout";
+import useReportDialogStore from "@/stores/useReportDialogStore";
 
 export const UserButton = () => {
   const router = useRouter();
-  const [isReportOpen, setIsReportOpen] = useState<boolean>(false);
-  const [isOpenCommandMenu, setIsOpenCommandMenu] = useState<boolean>(false);
+  const { setIsOpenReportDialog } = useReportDialogStore();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -137,7 +136,7 @@ export const UserButton = () => {
             </Link>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => setIsReportOpen(true)}>
+          <DropdownMenuItem onClick={() => setIsOpenReportDialog(true)}>
             <Bug className="mr-2 h-4 w-4" />
             <span>Report</span>
           </DropdownMenuItem>
@@ -158,7 +157,6 @@ export const UserButton = () => {
           </LogoutButton>
         </DropdownMenuContent>
       </DropdownMenu>
-      <ReportDialog open={isReportOpen} setIsOpen={setIsReportOpen} />
     </>
   );
 };
