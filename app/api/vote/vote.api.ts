@@ -1,7 +1,7 @@
 import axiosClient from "@/lib/axiosClient";
 
 export const END_POINT = {
-  VOTE_DISCUSSION: "/vote",
+  VOTE_DISCUSSION: "/vote/discussion",
 };
 
 export const voteDiscussion = async ({
@@ -21,7 +21,6 @@ export const voteDiscussion = async ({
         },
       }
     );
-    console.log(response);
     return response.data;
   } catch (error) {
     console.log("Something went wrong with vote", voteDiscussion);

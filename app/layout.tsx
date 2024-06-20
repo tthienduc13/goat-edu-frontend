@@ -51,19 +51,17 @@ export default async function RootLayout({
     >
       <body className={inter.className}>
         <Suspense fallback={<Loading />}>
-          <ChakraUiProvider>
-            <ReactQueryProvider>
-              <AppThemeProvider
-                attribute="class"
-                defaultTheme={theme}
-                enableSystem
-              >
-                {children}
-                <Toaster position="bottom-right" richColors={false} />
-                <SpeedInsights />
-              </AppThemeProvider>
-            </ReactQueryProvider>
-          </ChakraUiProvider>
+          <ReactQueryProvider>
+            <AppThemeProvider
+              attribute="class"
+              defaultTheme={theme}
+              enableSystem
+            >
+              {children}
+              <Toaster position="bottom-right" richColors={false} />
+              <SpeedInsights />
+            </AppThemeProvider>
+          </ReactQueryProvider>
         </Suspense>
       </body>
     </html>

@@ -11,6 +11,7 @@ export const {
   pages: {
     signIn: "/auth/login",
     error: "/auth/error",
+    newUser: "/onboarding",
   },
   callbacks: {
     async signIn({ user, account }) {

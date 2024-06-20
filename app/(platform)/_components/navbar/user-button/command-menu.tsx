@@ -73,7 +73,7 @@ export function CommandMenu() {
       />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup className="py-5">
+        <CommandGroup className="py-5" heading="Navigation">
           {commandItems.map((item, index) => (
             <CommandItem key={index} onSelect={item.onSelect}>
               <div className="w-full flex items-center gap-x-4">

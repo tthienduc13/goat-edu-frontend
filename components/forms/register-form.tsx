@@ -46,8 +46,10 @@ import {
 import { Register } from "@/actions/register";
 import { useRoles } from "@/app/api/role/role.query";
 import { Role } from "@/types/role";
+import { useRouter } from "next/navigation";
 
 export const RegisterForm = () => {
+  const router = useRouter();
   const { data, isLoading, error } = useRoles();
 
   const [formError, setFormError] = useState<string | undefined>("");
@@ -80,8 +82,8 @@ export const RegisterForm = () => {
         if (data.error) {
           setFormError(data.error);
         } else {
-          console.log(data.success);
-          setFormSuccess(data.success);
+          form.reset();
+          router.push("/auth/login");
           toast.success("Please check email and verify your account");
         }
       });
