@@ -22,8 +22,7 @@ import useCreateDialogStore from "@/stores/useCreateDialogStore";
 import { MessageSquareMore, NotebookPen, Plus } from "lucide-react";
 
 export const CreateButton = () => {
-  const { isOpenCreateDialog, setIsOpenCreateDialog } = useCreateDialogStore();
-  console.log(isOpenCreateDialog);
+  const { setIsOpenCreateDialog } = useCreateDialogStore();
   const handleCreateDiscussion = () => {
     alert("create discussion");
   };

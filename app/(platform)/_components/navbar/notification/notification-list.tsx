@@ -52,7 +52,7 @@ export const NotificationList = () => {
     return <NotificationLoading />;
   }
 
-  if (!data) {
+  if (notifications?.length === 0) {
     return <EmptyNotification />;
   }
   return (

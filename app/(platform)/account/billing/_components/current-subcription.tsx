@@ -1,5 +1,9 @@
+"use client";
+
 import { Header } from "@/app/(platform)/account/_components/header";
+import { createSessionCheckout } from "@/app/api/payment/payment.api";
 import { Button } from "@/components/ui/button";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 export const CurrentSubcription = () => {
   return (
