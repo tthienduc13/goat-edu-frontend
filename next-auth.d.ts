@@ -10,6 +10,7 @@ declare module "next-auth" {
     emailVerify: boolean;
     role: Role;
     token: string;
+    subscription: boolean;
   }
 
   interface User extends DefaultUser {
@@ -19,6 +20,7 @@ declare module "next-auth" {
     emailVerify: boolean;
     role: Role;
     token: string;
+    subscription: boolean;
   }
 }
 
@@ -30,5 +32,6 @@ declare module "next-auth/jwt" {
     emailVerify: boolean;
     role: Role;
     token: string;
+    subscription: boolean;
   }
 }

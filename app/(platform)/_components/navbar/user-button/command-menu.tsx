@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import styles from "./command.module.css";
 
 import {
   CommandDialog,
@@ -11,6 +12,7 @@ import {
 } from "@/components/ui/command";
 import { GalleryHorizontalEnd, Globe, Plus, User } from "lucide-react";
 import useCreateDialogStore from "@/stores/useCreateDialogStore";
+import { cn } from "@/lib/utils";
 
 export function CommandMenu() {
   const router = useRouter();
@@ -68,12 +70,12 @@ export function CommandMenu() {
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
       <CommandInput
-        className="text-xl h-full"
+        className="text-base h-full"
         placeholder="Where would you like to go"
       />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup className="py-5" heading="Navigation">
+        <CommandGroup className={cn("py-5", styles.card)} heading="Navigation">
           {commandItems.map((item, index) => (
             <CommandItem key={index} onSelect={item.onSelect}>
               <div className="w-full flex items-center gap-x-4">
