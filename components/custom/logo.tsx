@@ -5,9 +5,6 @@ import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
 
 import { SparklesCore } from "@/components/ui/sparkles";
-import Image from "next/image";
-import LogoImage from "@/public/logo.png";
-import { useSidebar } from "@/hooks/use-sidebar";
 
 const headingFont = localFont({
   src: "../../public/fonts/font.woff2",

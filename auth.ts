@@ -75,6 +75,19 @@ export const {
         return false;
       }
     },
+    async jwt({ token, user }) {
+      if (user) {
+        token.userId = user.userId;
+        token.username = user.username;
+        token.fullname = user.fullname;
+        token.emailVerify = user.emailVerify;
+        token.role = user.role;
+        token.token = user.token;
+        token.subscription = user.subscription;
+      }
+      console.log("token", { token });
+      return token;
+    },
     async session({ session, token }) {
       if (session?.user) {
         session.user.id = token.userId;
@@ -84,19 +97,10 @@ export const {
         session.user.role = token.role;
         session.user.token = token.token;
         session.user.fullname = token.fullname;
+        session.user.subscription = token.subscription;
       }
+      console.log("session", { session });
       return session;
-    },
-    async jwt({ token, user }) {
-      if (user) {
-        token.userId = user.userId;
-        token.username = user.username;
-        token.fullname = user.fullname;
-        token.emailVerify = user.emailVerify;
-        token.role = user.role;
-        token.token = user.token;
-      }
-      return token;
     },
   },
   session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 7 },

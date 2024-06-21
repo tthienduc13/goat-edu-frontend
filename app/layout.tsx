@@ -9,7 +9,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
 import { Loading } from "@/components/auth/loading";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { ChakraUiProvider } from "@/providers/chakra-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
