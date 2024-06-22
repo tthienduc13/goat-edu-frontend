@@ -3,10 +3,9 @@
 import { motion } from "framer-motion";
 
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 
 import { STAGGER_CHILD_VARIANTS } from "@/constants/onboarding";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import Logo from "@/public/logo.png";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";

@@ -23,22 +23,9 @@ import { Logo } from "@/components/custom/logo";
 interface CardProps {
   data: FlashcardContent[];
   flashcardName: string;
-  shuffleRef: MutableRefObject<null>;
-  nextRef: MutableRefObject<null>;
-  counterRef: MutableRefObject<null>;
-  previousRef: MutableRefObject<null>;
-  flashcardRef: MutableRefObject<null>;
 }
 
-export const Card = ({
-  data,
-  flashcardName,
-  shuffleRef,
-  nextRef,
-  counterRef,
-  previousRef,
-  flashcardRef,
-}: CardProps) => {
+export const Card = ({ data, flashcardName }: CardProps) => {
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
   const handleFullScreen = () => {
     setIsFullScreen(!isFullScreen);
@@ -154,7 +141,7 @@ export const Card = ({
           <div className=" fixed top-0 left-0 w-full">
             <div className="h-16 p-4 flex items-center">
               <Logo size="lg" href="/browse" />
-              <div className="flex-1 flex flex-col w-full  items-center justify-end">
+              <div className="flex-1 flex flex-col w-full items-center justify-end">
                 <div className="font-bold text-sm">
                   {currentIndex + 1} / {data.length}
                 </div>
@@ -180,9 +167,9 @@ export const Card = ({
             </div>
           </div>
         )}
-        <div className="flex flex-col  max-w-[1000px] w-full  items-center justify-center space-y-4">
+        <div className="flex flex-col max-w-[1000px] w-full  items-center justify-center space-y-4">
           <div
-            ref={flashcardRef}
+            id="onborda-step3"
             className={cn(
               "flip-card w-full",
               isFullScreen ? "h-[650px]" : "h-[378px] sm:h-[478px]"
@@ -190,7 +177,7 @@ export const Card = ({
             onClick={handleFlip}
           >
             <motion.div
-              className="flip-card-inner  w-[100%] h-[100%] cursor-pointer"
+              className="flip-card-inner  w-full h-full cursor-pointer"
               initial={false}
               animate={{ rotateX: isFlipped ? 180 : 360 }}
               transition={{
@@ -200,12 +187,12 @@ export const Card = ({
               }}
               onAnimationComplete={() => setIsAnimating(false)}
             >
-              <div className="flip-card-front border-[2px] overflow-y-scroll shadow-lg w-[100%] h-[100%] rounded-lg p-4 flex justify-center items-center">
+              <div className="flip-card-front border-[2px] overflow-y-scroll no-scrollbar shadow-lg w-full h-full rounded-lg p-4 flex justify-center items-center">
                 <div className="text-3xl sm:text-4xl">
                   {currentCard.flashcardContentQuestion}
                 </div>
               </div>
-              <div className="flip-card-back  border-[2px] shadow-lg w-[100%] h-[100%]  rounded-lg p-4 flex justify-center items-center">
+              <div className="flip-card-back  border-[2px] shadow-lg w-full h-full  rounded-lg p-4 flex justify-center items-center">
                 <div className="text-3xl sm:text-4xl">{cardBack}</div>
               </div>
             </motion.div>
@@ -214,7 +201,7 @@ export const Card = ({
             <div className="flex flex-row items-center gap-x-2">
               <Hint label="Shuffle" side="bottom" sideOffset={10}>
                 <Button
-                  ref={shuffleRef}
+                  id="onborda-step4"
                   variant="ghost"
                   size="icon"
                   className="rounded-full"
@@ -224,9 +211,11 @@ export const Card = ({
                 </Button>
               </Hint>
             </div>
-            <div className="relative flex flex-1 justify-center items-center gap-28">
+            <div
+              id="onborda-step5"
+              className="relative flex flex-1 justify-center items-center gap-28"
+            >
               <Button
-                ref={previousRef}
                 variant="ghost"
                 size="icon"
                 onClick={() => handleBack()}
@@ -236,12 +225,11 @@ export const Card = ({
                 <ChevronsLeft className="w-8 h-8" />
               </Button>
               {!isFullScreen && (
-                <div ref={counterRef} className="absolute">
+                <div className="absolute">
                   {currentIndex + 1} / {data.length}
                 </div>
               )}
               <Button
-                ref={nextRef}
                 variant="ghost"
                 size="icon"
                 onClick={() => handleNext()}
@@ -259,6 +247,7 @@ export const Card = ({
                 sideOffset={10}
               >
                 <Button
+                  id="onborda-step7"
                   onClick={handleFullScreen}
                   variant="ghost"
                   size="icon"

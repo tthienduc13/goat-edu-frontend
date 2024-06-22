@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 import { Logo } from "@/components/custom/logo";
 
@@ -13,13 +14,12 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import Link from "next/link";
 
 export const Navbar = () => {
   return (
     <div
       className={cn(
-        "h-16 bg-background fixed z-10 top-0 w-full  flex justify-center items-center px-10 "
+        "h-16 bg-background fixed z-10 top-0 w-screen  flex justify-center items-center px-10 "
       )}
     >
       <div className="flex items-center gap-x-5">
@@ -29,7 +29,7 @@ export const Navbar = () => {
             <NavigationMenuItem>
               <Link href="/browse" legacyBehavior passHref>
                 <NavigationMenuLink
-                  defaultChecked={true}
+                  defaultChecked
                   className={cn(
                     navigationMenuTriggerStyle(),
                     "font-bold text-sm"

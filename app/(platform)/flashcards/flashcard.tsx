@@ -1,8 +1,5 @@
 "use client";
 
-import { Tour } from "antd";
-import type { TourProps } from "antd";
-
 import { useQuery } from "@tanstack/react-query";
 
 import { useFlashcardContentById } from "@/app/api/flashcard-content/flascard-content.query";
@@ -11,8 +8,8 @@ import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
 import { Card } from "./[slug]/_components/card";
 import { Terms } from "./[slug]/_components/terms";
 import { Wrapper } from "./[slug]/_components/wrapper";
-import { useEffect, useRef, useState } from "react";
-import { useAnimationControls } from "framer-motion";
+import { useEffect } from "react";
+import { useOnborda } from "onborda";
 
 interface FlashcardProps {
   token: string;
@@ -20,71 +17,9 @@ interface FlashcardProps {
 }
 
 export const Flashcard = ({ token, id }: FlashcardProps) => {
-  const titleRef = useRef(null);
-  const descriptionRef = useRef(null);
-  const starRef = useRef(null);
-  const flashcardRef = useRef(null);
-  const shuffelRef = useRef(null);
-  const previousRef = useRef(null);
-  const counterRef = useRef(null);
-  const nextRef = useRef(null);
-
-  const steps: TourProps["steps"] = [
-    {
-      title: "Title",
-      description: "Flashcard title here",
-
-      target: () => titleRef.current,
-    },
-    {
-      title: "Description",
-      description: "Flashcard description right here",
-      target: () => descriptionRef.current,
-    },
-    {
-      title: "Stars",
-      description: "Star the flashcard for later look",
-      target: () => starRef.current,
-    },
-    {
-      title: "Flashcard",
-      description:
-        "Flashcard is here, click on it to flip card or use hot keys",
-      target: () => flashcardRef.current,
-    },
-    {
-      title: "Shuffle",
-      description: "Click to shuffle the orders",
-      target: () => shuffelRef.current,
-    },
-    {
-      title: "Previous",
-      description: "Move back card",
-      target: () => previousRef.current,
-    },
-    {
-      title: "Counter",
-      description: "Count for current card and total",
-      target: () => counterRef.current,
-    },
-    {
-      title: "Next",
-      description: "Move forward card",
-      target: () => nextRef.current,
-    },
-    {
-      title: "Finish",
-      description: "Enjoy studying at GoatEdu",
-      target: null,
-    },
-  ];
-
-  const controls = useAnimationControls();
-
-  const [isOpenTour, setIsOpenTour] = useState<boolean>(false);
-
-  const handleStartTour = () => {
-    setIsOpenTour(true);
+  const { startOnborda } = useOnborda();
+  const handleStartOnboarda = () => {
+    startOnborda();
   };
 
   const {
@@ -101,9 +36,9 @@ export const Flashcard = ({ token, id }: FlashcardProps) => {
 
   useEffect(() => {
     if (!localStorage.getItem("firstVisited")) {
-      handleStartTour();
-      // localStorage.setItem("firstVisited", "true");
+      handleStartOnboarda();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (flashcardContentLoading) {
@@ -117,34 +52,17 @@ export const Flashcard = ({ token, id }: FlashcardProps) => {
     <>
       <Wrapper
         headerTitle={flashcardData?.flashcardName!}
-        titleRef={titleRef}
         headerDes={flashcardData?.flashcardDescription!}
-        descriptionRef={descriptionRef}
         headerStar={flashcardData?.star!}
-        starRef={starRef}
       >
         <div className="max-w-[1000px]  bg-background mx-auto flex flex-col gap-y-10">
           <Card
             flashcardName={flashcardData?.flashcardName!}
             data={flashcardContentData}
-            flashcardRef={flashcardRef}
-            shuffleRef={shuffelRef}
-            nextRef={nextRef}
-            counterRef={counterRef}
-            previousRef={previousRef}
           />
           <Terms data={flashcardContentData} />
         </div>
       </Wrapper>
-      <Tour
-        open={isOpenTour}
-        onClose={() => {
-          setIsOpenTour(false);
-          localStorage.setItem("firstVisited", "true");
-        }}
-        type="primary"
-        steps={steps}
-      />
     </>
   );
 };
