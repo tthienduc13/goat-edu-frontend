@@ -1,4 +1,3 @@
-import { message } from "antd";
 import * as z from "zod";
 
 export const NewFlashcardSchema = z.object({

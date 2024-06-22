@@ -13,7 +13,12 @@ export const SettingButton = () => {
     <Dialog>
       <Hint label="Settings" side="bottom" sideOffset={10}>
         <DialogTrigger asChild>
-          <Button variant="ghost" size="icon" className="rounded-full">
+          <Button
+            id="onborda-step6"
+            variant="ghost"
+            size="icon"
+            className="rounded-full"
+          >
             <Settings className="h-5 w-5" />
           </Button>
         </DialogTrigger>
