@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import { ReactQueryProvider } from "@/providers/react-query-provider";
 import { cookies } from "next/headers";
 
 import { AppThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { Suspense } from "react";
 import { Loading } from "@/components/auth/loading";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
