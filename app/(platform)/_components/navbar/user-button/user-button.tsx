@@ -22,12 +22,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   Bug,
-  Cloud,
   CreditCard,
   Keyboard,
   LifeBuoy,
   LogOut,
-  Plus,
   Settings,
   User,
   UserPlus,
@@ -77,86 +75,80 @@ export const UserButton = () => {
   }, [router]);
 
   return (
-    <>
-      <DropdownMenu>
-        <Hint label="Profile settings" side="left" sideOffset={10}>
-          <DropdownMenuTrigger asChild>
-            <Button
-              asChild
-              variant="custom"
-              className="pr-0 h-10 cursor-pointer"
-            >
-              <div className="flex gap-x-4 h-10">
-                <div className="flex gap-x-1 items-center">
-                  <Zap className="h-4 w-4" />
-                  <div>Free</div>
-                </div>
-                <UserAvatar shape="square" />
+    <DropdownMenu>
+      <Hint label="Profile settings" side="left" sideOffset={10}>
+        <DropdownMenuTrigger asChild>
+          <Button asChild variant="custom" className="pr-0 h-10 cursor-pointer">
+            <div className="flex gap-x-4 h-10">
+              <div className="flex gap-x-1 items-center">
+                <Zap className="h-4 w-4" />
+                <div>Free</div>
               </div>
-            </Button>
-          </DropdownMenuTrigger>
-        </Hint>
-        <DropdownMenuContent sideOffset={10} align="end" className="w-56">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <Link href="/account/profile">
-              <DropdownMenuItem>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </Link>
-            <Link href="/account/billing">
-              <DropdownMenuItem>
-                <CreditCard className="mr-2 h-4 w-4" />
-                <span>Billing</span>
-                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </Link>
+              <UserAvatar shape="square" />
+            </div>
+          </Button>
+        </DropdownMenuTrigger>
+      </Hint>
+      <DropdownMenuContent sideOffset={10} align="end" className="w-56">
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <Link href="/account/profile">
             <DropdownMenuItem>
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+              <User className="mr-2 h-4 w-4" />
+              <span>Profile</span>
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
+          </Link>
+          <Link href="/account/billing">
             <DropdownMenuItem>
-              <Keyboard className="mr-2 h-4 w-4" />
-              <span>Keyboard shortcuts</span>
-              <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+              <CreditCard className="mr-2 h-4 w-4" />
+              <span>Billing</span>
+              <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
             </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <Link href={"/account/invite"}>
-              <DropdownMenuItem>
-                <UserPlus className="mr-2 h-4 w-4" />
-                <span>Invite</span>
-                <DropdownMenuShortcut>⌘T</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </Link>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => setIsOpenReportDialog(true)}>
-            <Bug className="mr-2 h-4 w-4" />
-            <span>Report</span>
+          </Link>
+          <DropdownMenuItem>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Settings</span>
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <LifeBuoy className="mr-2 h-4 w-4" />
-            <span>Support</span>
+            <Keyboard className="mr-2 h-4 w-4" />
+            <span>Keyboard shortcuts</span>
+            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <ModeToggle />
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <LogoutButton>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <Link href={"/account/invite"}>
             <DropdownMenuItem>
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Logout</span>
-              <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+              <UserPlus className="mr-2 h-4 w-4" />
+              <span>Invite</span>
+              <DropdownMenuShortcut>⌘T</DropdownMenuShortcut>
             </DropdownMenuItem>
-          </LogoutButton>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
+          </Link>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => setIsOpenReportDialog(true)}>
+          <Bug className="mr-2 h-4 w-4" />
+          <span>Report</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <LifeBuoy className="mr-2 h-4 w-4" />
+          <span>Support</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <ModeToggle />
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <LogoutButton>
+          <DropdownMenuItem>
+            <LogOut className="mr-2 h-4 w-4" />
+            <span>Logout</span>
+            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </LogoutButton>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };

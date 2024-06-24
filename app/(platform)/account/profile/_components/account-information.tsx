@@ -99,17 +99,17 @@ export const AccountInformation = () => {
             control={form.control}
             name="fullname"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>Fullname</FormLabel>
                 <FormControl>
-                  <div className="h-12 rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
+                  <div className="h-12 w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
                     <User
                       className={cn(
                         "h-5 w-5 mr-2 text-muted-foreground hover:text-white",
                         form.formState.errors.fullname && "text-destructive"
                       )}
                     />
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-full">
                       <Input
                         type="text"
                         placeholder="Enter fullname"

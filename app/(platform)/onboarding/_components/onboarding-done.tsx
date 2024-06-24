@@ -10,6 +10,8 @@ import Logo from "@/public/logo.png";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import confetti from "canvas-confetti";
+import { usePatchNewUser } from "@/app/api/user/user.query";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const ghost = {
   transition: {
@@ -22,7 +24,9 @@ const ghost = {
   },
 };
 export const OnboardingDone = () => {
+  const user = useCurrentUser();
   const router = useRouter();
+  const { mutate: patchNewUser } = usePatchNewUser(user?.token!);
 
   useEffect(() => {
     confetti({
@@ -31,6 +35,11 @@ export const OnboardingDone = () => {
       origin: { x: 0.5, y: 0.5 },
     });
   }, []);
+
+  const handleDone = () => {
+    patchNewUser();
+    router.push("/browse");
+  };
   return (
     <motion.div
       className="z-10 "
@@ -66,11 +75,7 @@ export const OnboardingDone = () => {
           GoatEdu.
         </motion.p>
         <motion.div variants={STAGGER_CHILD_VARIANTS}>
-          <Button
-            onClick={() => router.push("/browse")}
-            size={"lg"}
-            className="text-base"
-          >
+          <Button onClick={handleDone} size={"lg"} className="text-base">
             Done
           </Button>
         </motion.div>

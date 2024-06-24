@@ -19,7 +19,6 @@ import { CardWrapper } from "@/components/auth/card-wrapper";
 
 import { Login } from "@/actions/login";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 
 import { AtSign, Eye, EyeOff, LoaderCircle, Lock } from "lucide-react";
 import {
@@ -33,7 +32,6 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 export const LoginForm = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const callbackUrl = searchParams.get("callbackUrl");
@@ -70,7 +68,6 @@ export const LoginForm = () => {
             }
             if (data?.success) {
               form.reset();
-              router.push("/browse");
               setFormSuccess(data.success);
             }
           })

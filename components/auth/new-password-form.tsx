@@ -11,22 +11,31 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 
 import { FormError } from "@/components/forms/form-error";
-import { InputField } from "@/components/custom/input-field";
 import { FormSuccess } from "@/components/forms/form-success";
 import { CardWrapper } from "./card-wrapper";
-import { LoaderCircle } from "lucide-react";
+import { Eye, EyeOff, LoaderCircle, Lock } from "lucide-react";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../ui/form";
+import { cn } from "@/lib/utils";
+import { Input } from "../ui/input";
 
 export const NewPasswordForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors, isValid },
-  } = useForm<z.infer<typeof NewPasswordSchema>>({
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+
+  const form = useForm<z.infer<typeof NewPasswordSchema>>({
     resolver: zodResolver(NewPasswordSchema),
     mode: "onChange",
     defaultValues: {
@@ -39,13 +48,6 @@ export const NewPasswordForm = () => {
     setSuccess("");
 
     console.log(values);
-
-    // startTransition(() => {
-    //   Login(values).then((data) => {
-    //     setError(data.error);
-    //     setSuccess(data.success);
-    //   });
-    // });
   };
 
   return (
@@ -56,36 +58,70 @@ export const NewPasswordForm = () => {
       backButtonLabel="Back to login"
       backButtonColor="white"
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
-        <div className="w-full flex flex-col gap-y-4">
-          <InputField
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full ">
+          <FormField
+            control={form.control}
             name="password"
-            label="Password"
-            placeholder="Create new password"
-            type="password"
-            register={register}
-            error={errors.password}
-            isValid={isValid}
-            watch={watch}
-          />
-        </div>
-        <FormError message={error} />
-        <FormSuccess message={success} />
-        <div className="py-5">
-          <Button
-            disabled={isPending}
-            variant="secondary"
-            type="submit"
-            className="w-full"
-            size="lg"
-          >
-            {isPending && (
-              <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="h-12 w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
+                    <Lock
+                      className={cn(
+                        "h-5 w-5 mr-2 text-muted-foreground hover:text-white",
+                        form.formState.errors.password && "text-destructive"
+                      )}
+                    />
+                    <Input
+                      type={isPasswordVisible ? "text" : "password"}
+                      placeholder="********"
+                      disabled={isPending}
+                      className="border-none w-full outline-none flex-1 text-muted-foreground shadow-none focus-visible:ring-0 "
+                      {...field}
+                    />
+                    <div
+                      onClick={togglePasswordVisibility}
+                      className="cursor-pointer"
+                    >
+                      {isPasswordVisible ? (
+                        <EyeOff
+                          className={cn(
+                            "h-5 w-5 mr-2 rotate-180 text-muted-foreground hover:text-primary"
+                          )}
+                        ></EyeOff>
+                      ) : (
+                        <Eye
+                          className={cn(
+                            "h-5 w-5 mr-2 rotate-180 text-muted-foreground hover:text-primary"
+                          )}
+                        ></Eye>
+                      )}
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
             )}
-            <div>Change password</div>
-          </Button>
-        </div>
-      </form>
+          />
+          <FormError message={error} />
+          <FormSuccess message={success} />
+          <div className="py-5">
+            <Button
+              disabled={isPending}
+              variant="default"
+              type="submit"
+              className="w-full"
+              size="lg"
+            >
+              {isPending && (
+                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              <div>Change password</div>
+            </Button>
+          </div>
+        </form>
+      </Form>
     </CardWrapper>
   );
 };

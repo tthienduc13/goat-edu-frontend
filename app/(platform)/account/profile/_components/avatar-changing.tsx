@@ -9,8 +9,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 
 import { getImageData } from "@/lib/get-image-data";
+import { patchUserProfile } from "@/app/api/user/user.api";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 export const AvatarChanging = () => {
+  const user = useCurrentUser();
+
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState("");
   const [imageState, setImageState] = useState<File | null>(null);
@@ -31,16 +35,33 @@ export const AvatarChanging = () => {
     if (file && isValidFileType(file)) {
       const { files, displayUrl } = getImageData(event);
       setPreview(displayUrl);
-      console.log(displayUrl);
-      setImageState(file);
+      setImageState(files[0]);
     } else {
       setImageState(null);
       alert("Invalid file type!");
     }
   };
 
-  const handleSaveImage = () => {
-    alert("image saved");
+  const handleSaveImage = async () => {
+    try {
+      if (imageState) {
+        const token = user?.token!;
+        const fullName = "Nguyen Le Thien Duc";
+        const phoneNumber = "0942864880";
+        const password = "";
+
+        const response = await patchUserProfile({
+          token: token,
+          fullName: fullName,
+          phoneNumber: phoneNumber,
+          imageFile: imageState,
+          password: password,
+        });
+        console.log(response);
+      }
+    } catch (error) {
+      console.error("Failed to save image:", error); // Handle and log any errors that occur
+    }
   };
 
   return (
@@ -52,7 +73,7 @@ export const AvatarChanging = () => {
       <div className="flex w-full justify-between items-end ">
         <div className="rounded-[10px] overflow-hidden">
           <Avatar className="w-24 h-24">
-            <AvatarImage src={preview} />
+            <AvatarImage src={preview ? preview : user?.image!} />
             <AvatarFallback>GE</AvatarFallback>
           </Avatar>
         </div>
