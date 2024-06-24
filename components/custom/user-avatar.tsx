@@ -10,8 +10,8 @@ export const UserAvatar = ({ shape }: AvatarProps) => {
   const user = useCurrentUser();
   return (
     <Avatar className={cn(shape === "square" ? "rounded-md" : "rounded-full")}>
-      <AvatarImage src={user?.image ?? ""} />
-      <AvatarFallback className="w-full h-full flex items-center justify-center bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]">
+      <AvatarImage className="object-cover" src={user?.image ?? ""} />
+      <AvatarFallback className="w-full obj h-full flex items-center justify-center bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]">
         GE
       </AvatarFallback>
     </Avatar>

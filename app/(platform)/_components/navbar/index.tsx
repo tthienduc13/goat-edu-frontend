@@ -4,9 +4,6 @@ import Link from "next/link";
 import { Logo } from "@/components/custom/logo";
 
 import { SearchInput } from "./search-input";
-import { UserButton } from "./user-button/user-button";
-import { CreateButton } from "./create-button";
-import { NotificationButton } from "./notification/notification-button";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -14,6 +11,31 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import dynamic from "next/dynamic";
+
+const DynamicUserButton = dynamic(
+  () => import("./user-button/user-button").then((res) => res.UserButton),
+  {
+    ssr: false,
+  }
+);
+
+const DynamicCreateButton = dynamic(
+  () => import("./create-button").then((res) => res.CreateButton),
+  {
+    ssr: false,
+  }
+);
+
+const DynamicNotificationButton = dynamic(
+  () =>
+    import("./notification/notification-button").then(
+      (res) => res.NotificationButton
+    ),
+  {
+    ssr: false,
+  }
+);
 
 export const Navbar = () => {
   return (
@@ -56,9 +78,9 @@ export const Navbar = () => {
       </div>
       <SearchInput />
       <div className="flex items-center gap-x-2">
-        <CreateButton />
-        <NotificationButton />
-        <UserButton />
+        <DynamicCreateButton />
+        <DynamicNotificationButton />
+        <DynamicUserButton />
       </div>
     </div>
   );

@@ -40,10 +40,6 @@ const axiosUpload = axios.create({
 axiosUpload.interceptors.request.use(
   function (config) {
     config.headers["Content-Type"] = "multipart/form-data";
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      config.headers["Authorization"] = `Bearer ${accessToken}`;
-    }
     return config;
   },
   function (error) {

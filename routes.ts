@@ -31,3 +31,4 @@ export const apiAuthPrefix = "/api/auth";
  * @type {string}
  */
 export const DEFAULT_LOGIN_REDIRECT = "/browse";
+export const DEFAULT_ONBOARDING_REDIRECT = "/onboarding?page=intro";

@@ -11,6 +11,7 @@ declare module "next-auth" {
     role: Role;
     token: string;
     subscription: boolean;
+    isNewUser: boolean;
   }
 
   interface User extends DefaultUser {
@@ -20,6 +21,7 @@ declare module "next-auth" {
     emailVerify: boolean;
     role: Role;
     token: string;
+    isNewUser: boolean;
     subscription: boolean;
   }
 }
@@ -32,6 +34,7 @@ declare module "next-auth/jwt" {
     emailVerify: boolean;
     role: Role;
     token: string;
+    isNewUser: boolean;
     subscription: boolean;
   }
 }

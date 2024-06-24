@@ -1,7 +1,5 @@
 import omit from "lodash.omit";
 import React from "react";
-import ResizeTextArea from "react-textarea-autosize";
-// import { Textarea, type TextareaProps } from "@chakra-ui/react";
 import { Textarea, type TextareaProps } from "./textarea";
 
 interface AutoResizeTextareaProps extends TextareaProps {

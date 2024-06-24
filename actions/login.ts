@@ -5,7 +5,7 @@ import { AuthError } from "next-auth";
 
 import { signIn } from "@/auth";
 import { LoginSchema } from "@/schemas/auth";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { DEFAULT_LOGIN_REDIRECT, DEFAULT_ONBOARDING_REDIRECT } from "@/routes";
 export const Login = async (
   values: z.infer<typeof LoginSchema>,
   callbackUrl?: string | null
@@ -24,6 +24,7 @@ export const Login = async (
       password,
       redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
+
     return { success: "Login successfully" };
   } catch (error) {
     if (error instanceof AuthError) {

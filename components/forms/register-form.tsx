@@ -114,7 +114,7 @@ export const RegisterForm = () => {
                       <Mail
                         className={cn(
                           "h-5 w-5 mr-2 text-muted-foreground hover:text-white",
-                          form.formState.errors.username && "text-destructive"
+                          form.formState.errors.email && "text-destructive"
                         )}
                       />
                       <div className="flex flex-col w-full">
@@ -142,7 +142,7 @@ export const RegisterForm = () => {
                       <User
                         className={cn(
                           "h-5 w-5 mr-2 text-muted-foreground hover:text-white",
-                          form.formState.errors.username && "text-destructive"
+                          form.formState.errors.fullname && "text-destructive"
                         )}
                       />
                       <div className="flex flex-col w-full">

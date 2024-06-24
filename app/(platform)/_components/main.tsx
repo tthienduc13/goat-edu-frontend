@@ -7,16 +7,24 @@ import { Navbar } from "./navbar";
 
 import Reloading from "@/components/reloading";
 import { NoteOptionButton } from "@/components/note/note-control/note-option-button";
-import { ModalProvider } from "@/providers/modal-provider";
+// import { ModalProvider } from "@/providers/modal-provider";
 import NextTopLoader from "nextjs-toploader";
 import { usePathname } from "next/navigation";
 import { Onborda, OnbordaProvider } from "onborda";
 import { steps } from "@/constants/steps";
 import CustomCard from "@/components/custom/onboard-card";
+import dynamic from "next/dynamic";
 
 interface MainProps {
   children: React.ReactNode;
 }
+
+const DynamicModalProvider = dynamic(
+  () => import("@/providers/modal-provider").then((res) => res.ModalProvider),
+  {
+    ssr: false,
+  }
+);
 
 export const Main = ({ children }: MainProps) => {
   const [isLoading, setIsloading] = useState<boolean>(true);
@@ -29,10 +37,10 @@ export const Main = ({ children }: MainProps) => {
   useEffect(() => {
     const loadingTimeout = setTimeout(() => {
       setIsloading(false);
-    }, 2000);
+    }, 1000);
 
-    const minimumLoadingTime = 2000;
-    const additionalTime = minimumLoadingTime - 2000;
+    const minimumLoadingTime = 1000;
+    const additionalTime = minimumLoadingTime - 1000;
     if (additionalTime > 0) {
       setTimeout(() => {
         setIsloading(false);
@@ -60,7 +68,7 @@ export const Main = ({ children }: MainProps) => {
               )}
             >
               {children}
-              <ModalProvider />
+              <DynamicModalProvider />
             </div>
             {!isExcludeNavbar && <NoteOptionButton />}
           </div>

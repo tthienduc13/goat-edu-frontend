@@ -19,6 +19,7 @@ interface DiscussedCardProps {
 }
 
 export const DiscussedDetail = ({ data }: DiscussedCardProps) => {
+  console.log(data);
   return (
     <Card className={cn("border-none shadow-none")}>
       <CardHeader>
