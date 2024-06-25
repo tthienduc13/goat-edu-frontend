@@ -274,10 +274,14 @@ export const RegisterForm = () => {
                 className="w-full"
                 size="lg"
               >
-                {isPending && (
-                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                {isPending ? (
+                  <>
+                    <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                    <div>Creating your account</div>
+                  </>
+                ) : (
+                  <div>Create an account</div>
                 )}
-                <div>Create an account</div>
               </Button>
             </div>
           </div>

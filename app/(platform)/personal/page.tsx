@@ -1,71 +1,81 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+"use client";
+import dynamic from "next/dynamic";
+import { useState, useRef, useEffect } from "react";
+
+type Tab = "sets" | "discussions";
+
+const DynamicStudySets = dynamic(
+  () =>
+    import("./_components/study-set-content").then(
+      (res) => res.StudySetContent
+    ),
+  {
+    ssr: false,
+  }
+);
+
+const DynamicDiscussions = dynamic(
+  () =>
+    import("./_components/discussions-content").then(
+      (res) => res.DiscussionsContent
+    ),
+  {
+    ssr: false,
+  }
+);
 
 const PersonalPage = () => {
+  const [tab, setTab] = useState<Tab>("sets");
+  const setsTabRef = useRef<HTMLDivElement>(null);
+  const discussionsTabRef = useRef<HTMLDivElement>(null);
+  const [activeTabStyle, setActiveTabStyle] = useState<React.CSSProperties>({});
+
+  useEffect(() => {
+    const updateActiveTabStyle = () => {
+      const tabRef =
+        tab === "sets" ? setsTabRef.current : discussionsTabRef.current;
+      if (tabRef) {
+        setActiveTabStyle({
+          width: tabRef.clientWidth,
+          left: tabRef.offsetLeft,
+        });
+      }
+    };
+    updateActiveTabStyle();
+    window.addEventListener("resize", updateActiveTabStyle);
+    return () => window.removeEventListener("resize", updateActiveTabStyle);
+  }, [tab]);
+
   return (
-    <div className="max-w-[900px] w-full mx-auto">
-      <Tabs defaultValue="flashcards" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 text-base">
-          <TabsTrigger value="flashcards">Study sets</TabsTrigger>
-          <TabsTrigger value="discussions">Discussions</TabsTrigger>
-        </TabsList>
-        <TabsContent value="flashcards">
-          <Card>
-            <CardHeader>
-              <CardTitle>Account</CardTitle>
-              <CardDescription>
-                Make changes to your account here. Click save when youre done.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="space-y-1">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" defaultValue="Pedro Duarte" />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="username">Username</Label>
-                <Input id="username" defaultValue="@peduarte" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button>Save changes</Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-        <TabsContent value="discussions">
-          <Card>
-            <CardHeader>
-              <CardTitle>Password</CardTitle>
-              <CardDescription>
-                Change your password here. After saving, youll be logged out.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="space-y-1">
-                <Label htmlFor="current">Current password</Label>
-                <Input id="current" type="password" />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="new">New password</Label>
-                <Input id="new" type="password" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button>Save password</Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-      </Tabs>
+    <div className="max-w-[1200px] w-full flex flex-col mx-auto">
+      <div className="w-full relative">
+        <div className="flex flex-row items-center gap-x-5 py-2 border-b-[2px]">
+          <div
+            ref={setsTabRef}
+            onClick={() => setTab("sets")}
+            className={`cursor-pointer ${tab === "sets" ? "font-bold " : ""}`}
+          >
+            Study sets
+          </div>
+          <div
+            ref={discussionsTabRef}
+            onClick={() => setTab("discussions")}
+            className={`cursor-pointer ${
+              tab === "discussions" ? "font-bold" : ""
+            }`}
+          >
+            Discussions
+          </div>
+        </div>
+        <div
+          className="absolute bottom-0 h-[2px] bg-black transition-all duration-300"
+          style={activeTabStyle}
+        />
+      </div>
+      <div className="py-10">
+        {tab === "sets" && <DynamicStudySets />}
+        {tab === "discussions" && <DynamicDiscussions />}
+      </div>
     </div>
   );
 };

@@ -38,11 +38,12 @@ import { Check, LoaderCircle } from "lucide-react";
 import { CreateFlashcard } from "@/actions/create-flashcard";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import useCreateDialogStore from "@/stores/useCreateDialogStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const CreateFlashcardForm = () => {
-  const { isOpenCreateDialog, setIsOpenCreateDialog } = useCreateDialogStore();
+  const { setIsOpenCreateDialog } = useCreateDialogStore();
+  const queryClient = useQueryClient();
 
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -69,8 +70,11 @@ export const CreateFlashcardForm = () => {
       CreateFlashcard(values).then((data) => {
         if (data.success) {
           toast.success(data.success);
-          setIsOpenCreateDialog(false);
+          queryClient.invalidateQueries({
+            queryKey: ["flashcard", "user"],
+          });
           router.push(`/flashcards/new?id=${data.data}`);
+          setIsOpenCreateDialog(false);
         }
         if (data.error) toast.error(data.error);
       });

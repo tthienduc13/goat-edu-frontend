@@ -8,7 +8,7 @@ interface TermsProps {
 
 export const Terms = ({ data }: TermsProps) => {
   return (
-    <Wrapper headerTitle={`Terms in this sets (${data.length})`}>
+    <Wrapper headerTitle={` ${data.length} terms in this set`}>
       <div className="flex flex-col gap-y-2">
         {data.map((data, index) => (
           <div
