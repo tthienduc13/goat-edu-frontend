@@ -22,7 +22,16 @@ import {
   SortableItem,
 } from "@/components/ui/sortable";
 
-import { FileImage, LoaderCircle, PencilLine, Plus } from "lucide-react";
+import {
+  ChevronDown,
+  Command,
+  FileImage,
+  Globe,
+  Layers,
+  LoaderCircle,
+  PencilLine,
+  Plus,
+} from "lucide-react";
 import { NewFlashcardContentSchema } from "@/schemas/flashcard";
 import { useEffect, useState, useTransition } from "react";
 import { CreateFlashcardContent } from "@/actions/create-flashcard-content";
@@ -30,16 +39,18 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { FormError } from "@/components/forms/form-error";
 import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { KeyBoardShorcuts } from "./keyboard-shorcuts";
-import { ImportTerms } from "./import-terms";
-import { ChangeVisibility } from "./change-visibility";
+import { Hint } from "@/components/custom/hint";
+import { ImportTerms } from "../../new/_components/import-terms";
+import { ChangeVisibility } from "../../new/_components/change-visibility";
+import { KeyBoardShorcuts } from "../../new/_components/keyboard-shorcuts";
+import useSaveStatusStore from "@/stores/useSaveStatusStore";
 
-export const CreateFlashcardContentForm = () => {
+export const EditFlashcardContentForm = () => {
+  const { saveStatus, setSaveStatus } = useSaveStatusStore();
   const user = useCurrentUser();
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const [isPending, startTransition] = useTransition();
   const [isOpenImage, setIsOpenImage] = useState<boolean>();
@@ -84,9 +95,6 @@ export const CreateFlashcardContentForm = () => {
       CreateFlashcardContent({ values: values, id: id! }).then((data) => {
         if (data.success) {
           toast.success(data.success);
-          queryClient.invalidateQueries({
-            queryKey: ["flashcard", "user"],
-          });
           router.push(`${id}`);
         } else {
           toast.error(data.error);
@@ -147,54 +155,6 @@ export const CreateFlashcardContentForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex w-full relative flex-col gap-10"
         >
-          <div className="left-0 px-5 py-4 rounded-lg border-[2px] shadow-lg w-full justify-between flex items-center">
-            <div className="flex flex-col gap-y-1">
-              <div className="w-full flex flex-row items-center gap-x-2">
-                <PencilLine className="w-4 h-4" />
-                <div className="text-xl font-semibold">Create a new set</div>
-              </div>
-              <div className="text-sm text-muted-foreground">
-                {fields.length} terms
-              </div>
-            </div>
-            <Button
-              disabled={
-                isPending || Object.keys(form.formState.errors).length > 0
-              }
-              className="w-fit"
-              type="submit"
-            >
-              {isPending ? (
-                <>
-                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                  <div>Creating</div>
-                </>
-              ) : (
-                <div>Create</div>
-              )}
-            </Button>
-          </div>
-          <div className="flex flex-col gap-y-4">
-            <div className="w-full flex flex-col gap-y-5">
-              <div className="rounded-xl overflow-hidden flex flex-row items-center px-4">
-                <div className="flex flex-col w-full text-5xl font-bold cursor-none">
-                  {flashcardData?.flashcardName}
-                </div>
-              </div>
-              <div className="w-full flex flex-row gap-x-5">
-                <div className="h-12  w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
-                  <div className="flex flex-col w-full text-base text-muted-foreground cursor-none">
-                    {flashcardData?.flashcardDescription}
-                  </div>
-                </div>
-                <div className="h-12 w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
-                  <div className="flex flex-col w-full text-muted-foreground cursor-none">
-                    {flashcardData?.subjectName}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
           <div className="flex flex-row justify-between">
             <ImportTerms onImport={handleImport} />
             <div className="flex flex-row items-center gap-x-2">

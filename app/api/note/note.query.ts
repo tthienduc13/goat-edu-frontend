@@ -16,7 +16,6 @@ import { toast } from "sonner";
 
 export const useAddNote = (token: string, userId: string) => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (newNote: Omit<Note, "id" | "userId" | "createdAt">) =>
       createNote(token, newNote),

@@ -10,7 +10,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { GalleryHorizontalEnd, Globe, Plus, User } from "lucide-react";
+import { GalleryHorizontalEnd, Globe, Plus, Tablets, User } from "lucide-react";
 import useCreateDialogStore from "@/stores/useCreateDialogStore";
 import { cn } from "@/lib/utils";
 
@@ -47,6 +47,15 @@ export function CommandMenu() {
       icon: User,
       onSelect: () => {
         router.push("/account/profile");
+        setOpen(!open);
+      },
+    },
+    {
+      label: "Personal",
+      description: "Navigate to personal",
+      icon: Tablets,
+      onSelect: () => {
+        router.push("/personal");
         setOpen(!open);
       },
     },
