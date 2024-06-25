@@ -16,14 +16,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { DialogClose } from "../ui/dialog";
 import { toast } from "sonner";
 import { report } from "@/actions/report";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import useReportDialogStore from "@/stores/useReportDialogStore";
+import { LoaderCircle } from "lucide-react";
 
 export const ReportForm = () => {
   const user = useCurrentUser();
   const [isPending, startTransition] = useTransition();
+  const { setIsOpenReportDialog } = useReportDialogStore();
 
   const form = useForm<z.infer<typeof ReportSchema>>({
     resolver: zodResolver(ReportSchema),
@@ -40,10 +42,12 @@ export const ReportForm = () => {
         .then((data) => {
           if (data?.error) {
             form.reset();
+            setIsOpenReportDialog(false);
             toast.error(data.error);
           }
           if (data?.success) {
             form.reset();
+            setIsOpenReportDialog(false);
             toast.success(data.success);
           }
         })
@@ -95,17 +99,12 @@ export const ReportForm = () => {
           )}
         />
         <div className="flex justify-end ">
-          {form.formState.isValid ? (
-            <DialogClose asChild>
-              <Button type="submit" disabled={isPending}>
-                Send
-              </Button>
-            </DialogClose>
-          ) : (
-            <Button type="submit" disabled={isPending}>
-              Send
-            </Button>
-          )}
+          <Button type="submit" disabled={isPending}>
+            {isPending && (
+              <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Send
+          </Button>
         </div>
       </form>
     </Form>

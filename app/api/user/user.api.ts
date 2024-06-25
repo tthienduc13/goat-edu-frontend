@@ -96,8 +96,7 @@ export const patchUserProfile = async ({
       }
     );
 
-    console.log(response.data);
-    return response;
+    return response.data;
   } catch (error) {
     console.error("Error patching user profile with image:", error);
     throw error;
