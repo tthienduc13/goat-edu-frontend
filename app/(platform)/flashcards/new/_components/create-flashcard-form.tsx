@@ -34,7 +34,7 @@ import {
   CommandEmpty,
 } from "@/components/ui/command";
 import { useSubjects } from "@/app/api/subject/subject.query";
-import { Check } from "lucide-react";
+import { Check, LoaderCircle } from "lucide-react";
 import { CreateFlashcard } from "@/actions/create-flashcard";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -192,7 +192,12 @@ export const CreateFlashcardForm = () => {
               </FormItem>
             )}
           />
-          <Button>Create</Button>
+          <Button disabled={isPending} type="submit">
+            {isPending && (
+              <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Create
+          </Button>
         </div>
       </form>
     </Form>

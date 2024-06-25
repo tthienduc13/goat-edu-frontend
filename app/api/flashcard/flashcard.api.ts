@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 import axiosClient from "@/lib/axiosClient";
-import { Flashcard } from "@/types/flashcard";
+import { Flashcard, Status } from "@/types/flashcard";
 import { NewFlashcardSchema } from "@/schemas/flashcard";
 
 export const END_POINT = {
@@ -68,6 +68,7 @@ export const createFlashcard = async ({
     {
       flashcardName: values.flashcardName,
       flashcardDescription: values.flashcardDescription,
+      status: Status.Open,
     },
     {
       headers: {

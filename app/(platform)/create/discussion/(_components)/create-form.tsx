@@ -38,6 +38,12 @@ export const CreateForm = () => {
   const form = useForm<z.infer<typeof NewDiscussionSchema>>({
     resolver: zodResolver(NewDiscussionSchema),
     mode: "onChange",
+    defaultValues: {
+      discussionName: "",
+      discussionBody: "",
+      discussionBodyHtml: "",
+      discussionImage: null,
+    },
   });
 
   const { setValue } = form;
@@ -46,10 +52,8 @@ export const CreateForm = () => {
     const formData = {
       ...values,
       discussionBodyHtml: htmlContent,
-      discussionBody: "",
+      discussionBody: "asdfaf",
     };
-    console.log(formData);
-    console.log(values.discussionImage[0]);
   };
 
   return (

@@ -8,6 +8,7 @@ export type Flashcard = {
   numberOfFlashcardContent: number;
   userImage: string;
   updatedAt: Date;
+  status: Status;
 };
 
 export type FlashcardContent = {
@@ -16,3 +17,9 @@ export type FlashcardContent = {
   flashcardContentQuestion: string;
   flashcardContentAnswer: string;
 };
+
+export enum Status {
+  Open = "Open",
+  Hidden = "Hidden",
+  Closed = "Closed",
+}

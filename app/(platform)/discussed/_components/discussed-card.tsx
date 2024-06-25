@@ -11,7 +11,6 @@ import {
 
 import { CommentIcon } from "@/components/custom-icons/comment-icon";
 import { FlagIcon } from "@/components/custom-icons/flag-icon";
-import { UpvoteIcon } from "@/components/custom-icons/upvote-icon";
 import { Discussion } from "@/types/discussion";
 import { cn } from "@/lib/utils";
 import { UpvoteButton } from "./upvote-button";
