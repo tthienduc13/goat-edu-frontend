@@ -121,6 +121,7 @@ export default {
         token.token = user.token;
         token.subscription = user.subscription;
         token.isNewUser = user.isNewUser;
+        token.phoneNumber = user.phoneNumber;
       }
       return token;
     },
@@ -135,6 +136,7 @@ export default {
         session.user.fullname = token.fullname;
         session.user.subscription = token.subscription;
         session.user.isNewUser = token.isNewUser;
+        session.user.phoneNumber = token.phoneNumber;
       }
       return session;
     },

@@ -1,8 +1,12 @@
 import axiosClient, { axiosClientUpload } from "@/lib/axiosClient";
+import { ChangePasswordSchema } from "@/schemas/account";
+import { NewPasswordSchema } from "@/schemas/auth";
+import * as z from "zod";
 
 export const END_POINT = {
   PATCH_NEW_USER: "/user/new_user",
   PATCH_PROFILE: "/user/profile",
+  PATCH_PASSWORD: "/user/password",
 };
 
 export const patchNewUser = async ({ token }: { token: string }) => {
@@ -100,5 +104,19 @@ export const patchUserProfile = async ({
   } catch (error) {
     console.error("Error patching user profile with image:", error);
     throw error;
+  }
+};
+
+export const patchPassword = async (
+  values: z.infer<typeof ChangePasswordSchema>
+) => {
+  try {
+    const response = await axiosClient.patch(END_POINT.PATCH_PASSWORD, {
+      old_password: values.oldPassword,
+      new_password: values.newPassword,
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error changing password", error);
   }
 };

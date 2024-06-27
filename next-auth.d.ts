@@ -12,6 +12,7 @@ declare module "next-auth" {
     token: string;
     subscription: boolean;
     isNewUser: boolean;
+    phoneNumber: string;
   }
 
   interface User extends DefaultUser {
@@ -22,6 +23,7 @@ declare module "next-auth" {
     role: Role;
     token: string;
     isNewUser: boolean;
+    phoneNumber: string;
     subscription: boolean;
   }
 }
@@ -35,6 +37,7 @@ declare module "next-auth/jwt" {
     role: Role;
     token: string;
     isNewUser: boolean;
+    phoneNumber: string;
     subscription: boolean;
   }
 }

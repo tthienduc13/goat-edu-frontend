@@ -1,10 +1,13 @@
 "use client";
 
+import { useEffect, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { DragHandleDots2Icon, TrashIcon } from "@radix-ui/react-icons";
 import { useFieldArray, useForm } from "react-hook-form";
+
+import { useQuery } from "@tanstack/react-query";
+import { DragHandleDots2Icon, TrashIcon } from "@radix-ui/react-icons";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
@@ -21,63 +24,57 @@ import {
   SortableDragHandle,
   SortableItem,
 } from "@/components/ui/sortable";
-
-import {
-  ChevronDown,
-  Command,
-  FileImage,
-  Globe,
-  Layers,
-  LoaderCircle,
-  PencilLine,
-  Plus,
-} from "lucide-react";
+import { FileImage, Plus } from "lucide-react";
 import { NewFlashcardContentSchema } from "@/schemas/flashcard";
-import { useEffect, useState, useTransition } from "react";
 import { CreateFlashcardContent } from "@/actions/create-flashcard-content";
-import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { FormError } from "@/components/forms/form-error";
-import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
-import { useQuery } from "@tanstack/react-query";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { Hint } from "@/components/custom/hint";
 import { ImportTerms } from "../../new/_components/import-terms";
 import { ChangeVisibility } from "../../new/_components/change-visibility";
 import { KeyBoardShorcuts } from "../../new/_components/keyboard-shorcuts";
 import useSaveStatusStore from "@/stores/useSaveStatusStore";
+import { useFlashcardContentById } from "@/app/api/flashcard-content/flascard-content.query";
 
-export const EditFlashcardContentForm = () => {
-  const { saveStatus, setSaveStatus } = useSaveStatusStore();
-  const user = useCurrentUser();
-  const router = useRouter();
+interface EditFlashcardContentFormProps {
+  id: string;
+  token: string;
+}
 
+export const EditFlashcardContentForm = ({
+  id,
+  token,
+}: EditFlashcardContentFormProps) => {
+  const { setSaveStatus } = useSaveStatusStore();
   const [isPending, startTransition] = useTransition();
-  const [isOpenImage, setIsOpenImage] = useState<boolean>();
-
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+  const router = useRouter();
+  const { data, isLoading } = useQuery(
+    useFlashcardContentById({ token: token, id: id })
+  );
+  const [isOpenImage, setIsOpenImage] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof NewFlashcardContentSchema>>({
     resolver: zodResolver(NewFlashcardContentSchema),
     mode: "onChange",
     defaultValues: {
-      flashcardContent: [
-        {
-          flashcardContentQuestion: "",
-          flashcardContentAnswer: "",
-        },
-        {
-          flashcardContentQuestion: "",
-          flashcardContentAnswer: "",
-        },
-        {
-          flashcardContentQuestion: "",
-          flashcardContentAnswer: "",
-        },
-      ],
+      flashcardContent: [],
     },
   });
+
+  const { fields, append, move, remove, prepend } = useFieldArray({
+    control: form.control,
+    name: "flashcardContent",
+  });
+
+  useEffect(() => {
+    if (data) {
+      form.reset({
+        flashcardContent: data.map((item) => ({
+          flashcardContentQuestion: item.flashcardContentQuestion,
+          flashcardContentAnswer: item.flashcardContentAnswer,
+        })),
+      });
+    }
+  }, [data, form]);
 
   const handleOpenImage = () => {
     setIsOpenImage(!isOpenImage);
@@ -103,14 +100,6 @@ export const EditFlashcardContentForm = () => {
     });
   };
 
-  const { fields, append, move, remove, prepend } = useFieldArray({
-    control: form.control,
-    name: "flashcardContent",
-  });
-
-  const { data: flashcardData, isLoading: flashcardLoading } = useQuery(
-    useFlashcardById({ token: user?.token!, id: id! })
-  );
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
@@ -139,14 +128,7 @@ export const EditFlashcardContentForm = () => {
     );
   };
 
-  if (!id) {
-    router.push("/not-found");
-    return null;
-  }
-
-  if (flashcardLoading) {
-    return null;
-  }
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="w-full">
@@ -285,7 +267,9 @@ export const EditFlashcardContentForm = () => {
           </div>
         </form>
       </Form>
-      <FormError message={form.formState.errors.flashcardContent?.message} />
+      <div className="py-10">
+        <FormError message={form.formState.errors.flashcardContent?.message} />
+      </div>
     </div>
   );
 };

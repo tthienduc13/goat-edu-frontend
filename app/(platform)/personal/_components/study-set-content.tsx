@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { isToday, isYesterday } from "date-fns";
 
-import Logo from "@/public/logo.png";
+import EmptyStudySet from "@/public/icons/empty/empty-study-set.svg";
 
 import { cn } from "@/lib/utils";
 import { Flashcard } from "@/types/flashcard";
@@ -60,10 +60,10 @@ export const StudySetContent = () => {
     );
   }
 
-  if (!data) {
+  if (data?.length == 0) {
     return (
       <div className=" h-[500px] flex flex-col justify-center items-center gap-y-10">
-        <Image src={Logo} alt="logo" width={150} height={150} />
+        <Image src={EmptyStudySet} alt="logo" width={350} />
         <Button onClick={() => setIsOpenCreateDialog(true)} size={"lg"}>
           Create your first study set
         </Button>
@@ -71,7 +71,7 @@ export const StudySetContent = () => {
     );
   }
 
-  const { today, yesterday, longTimeAgo } = groupFlashcards(data);
+  const { today, yesterday, longTimeAgo } = groupFlashcards(data!);
 
   const renderFlashcards = (flashcards: Flashcard[], label: string) => (
     <>
