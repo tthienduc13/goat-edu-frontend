@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Theory } from "./_components/theory";
 
 const LessonPage = () => {
@@ -8,7 +6,7 @@ const LessonPage = () => {
       <h2 className="scroll-m-20 mx-auto text-4xl font-medium tracking-tight first:mt-0">
         Toán 12 Bài 1 : Sự đồng biến, nghịch biến của hàm số
       </h2>
-      <Tabs defaultValue="theory" className="w-full">
+      {/* <Tabs defaultValue="theory" className="w-full">
         <div className="w-full flex justify-center pb-4 border-b">
           <TabsList>
             <TabsTrigger value="theory">Theory</TabsTrigger>
@@ -22,7 +20,8 @@ const LessonPage = () => {
         </TabsContent>
         <TabsContent value="flashcard">Change your password here.</TabsContent>
         <TabsContent value="quiz">Change your password here.</TabsContent>
-      </Tabs>
+      </Tabs> */}
+      <Theory />
       {/* <div className="flex flex-col gap-y-3 w-full">
         <h3 className="scroll-m-20 text-xl font-semibold tracking-tight">
           1.Tóm tắt lý thuyết

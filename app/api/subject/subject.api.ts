@@ -6,6 +6,7 @@ export const END_POINT = {
   GET_BY_ID: "/subject",
   GET_BY_CLASS: "/subject/class?",
   GET_CHAPTER_BY_SUBJECT: "subject/",
+  POST_ENROLL_SUBJECT: "/user/subject",
 };
 
 export const getAllSubjects = async (
@@ -56,4 +57,16 @@ export const getSubjectByClass = async (
     }
   );
   return response.data;
+};
+
+export const enrollSubject = async (subjectId: string, token: string) => {
+  const response = await axiosClient.post(
+    `${END_POINT.POST_ENROLL_SUBJECT}/${subjectId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  response.data;
 };
