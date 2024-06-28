@@ -1,12 +1,14 @@
 import axiosClient, { axiosClientUpload } from "@/lib/axiosClient";
 import { ChangePasswordSchema } from "@/schemas/account";
 import { NewPasswordSchema } from "@/schemas/auth";
+import { Subject } from "@/types/subject";
 import * as z from "zod";
 
 export const END_POINT = {
   PATCH_NEW_USER: "/user/new_user",
   PATCH_PROFILE: "/user/profile",
   PATCH_PASSWORD: "/user/password",
+  GET_USER_ENROLL: "/user/enroll",
 };
 
 export const patchNewUser = async ({ token }: { token: string }) => {
@@ -118,5 +120,45 @@ export const patchPassword = async (
     return response.data;
   } catch (error) {
     console.log("Error changing password", error);
+  }
+};
+
+export const getUserSubjects = async ({
+  token,
+  search,
+  pageNumber,
+  pageSize,
+}: {
+  token: string;
+  search?: string;
+  pageNumber?: number;
+  pageSize?: number;
+}): Promise<Subject[]> => {
+  try {
+    const queryParams = new URLSearchParams();
+
+    if (search) {
+      queryParams.append("search", search);
+    }
+    if (pageSize) {
+      queryParams.append("page_size", pageSize.toString());
+    }
+    if (pageNumber) {
+      queryParams.append("page_number", pageNumber.toString());
+    }
+
+    const response = await axiosClient.get(
+      `${END_POINT.GET_USER_ENROLL}?${queryParams.toString()}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching enrolled subjects:", error);
+    throw error;
   }
 };

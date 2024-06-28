@@ -1,15 +1,21 @@
 "use client";
 
-import { Features } from "./_components/features";
+import { AppFeatures } from "./_components/app-features";
+import { EnrollCourses } from "./_components/enrolled-courses";
+import { Footer } from "./_components/footer";
+import { PopularDiscussion } from "./_components/popular-discussion";
 import { PopularFlashcard } from "./_components/popular-flashcard";
 import { RecentView } from "./_components/recent";
 
 const BrowsePage = () => {
   return (
-    <div className="w-full h-full flex flex-col gap-y-12">
+    <div className="w-full  flex flex-col gap-y-12">
       <RecentView />
-      <Features />
+      <EnrollCourses />
+      <AppFeatures />
       <PopularFlashcard />
+      <PopularDiscussion />
+      <Footer />
     </div>
   );
 };

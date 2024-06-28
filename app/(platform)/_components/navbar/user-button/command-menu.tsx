@@ -13,22 +13,24 @@ import {
 import { GalleryHorizontalEnd, Globe, Plus, Tablets, User } from "lucide-react";
 import useCreateDialogStore from "@/stores/useCreateDialogStore";
 import { cn } from "@/lib/utils";
+import useCommandStore from "@/stores/useCommandStore";
 
 export function CommandMenu() {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
 
   const { setIsOpenCreateDialog } = useCreateDialogStore();
-
+  const { isOpenCommandMenu, setIsOpenCommandMenu, toggleCommandMenu } =
+    useCommandStore();
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((open) => !open);
+        toggleCommandMenu();
       }
     };
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const commandItems = [
@@ -38,7 +40,7 @@ export function CommandMenu() {
       icon: Globe,
       onSelect: () => {
         router.push("/browse");
-        setOpen(!open);
+        setIsOpenCommandMenu(!isOpenCommandMenu);
       },
     },
     {
@@ -47,7 +49,7 @@ export function CommandMenu() {
       icon: User,
       onSelect: () => {
         router.push("/account/profile");
-        setOpen(!open);
+        setIsOpenCommandMenu(!isOpenCommandMenu);
       },
     },
     {
@@ -56,7 +58,7 @@ export function CommandMenu() {
       icon: Tablets,
       onSelect: () => {
         router.push("/personal");
-        setOpen(!open);
+        setIsOpenCommandMenu(!isOpenCommandMenu);
       },
     },
     {
@@ -65,7 +67,7 @@ export function CommandMenu() {
       icon: GalleryHorizontalEnd,
       onSelect: () => {
         setIsOpenCreateDialog(true);
-        setOpen(false);
+        setIsOpenCommandMenu(!isOpenCommandMenu);
       },
     },
     {
@@ -77,7 +79,7 @@ export function CommandMenu() {
   ];
 
   return (
-    <CommandDialog open={open} onOpenChange={setOpen}>
+    <CommandDialog open={isOpenCommandMenu} onOpenChange={setIsOpenCommandMenu}>
       <CommandInput
         className="text-base h-full"
         placeholder="Where would you like to go"

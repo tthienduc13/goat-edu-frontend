@@ -60,7 +60,7 @@ export const AvatarChanging = () => {
           if (response.status === 200) {
             toast.success("Image updated successfully!");
             await update({
-              user: { ...user, image: response.data },
+              user: { image: response.data },
             });
           } else {
             toast.error("Failed to update image.");
@@ -82,7 +82,10 @@ export const AvatarChanging = () => {
       <div className="flex w-full justify-between items-end ">
         <div className="rounded-[10px] overflow-hidden">
           <Avatar className="w-24 h-24">
-            <AvatarImage src={preview ? preview : user?.image!} />
+            <AvatarImage
+              className="object-cover"
+              src={preview ? preview : user?.image!}
+            />
             <AvatarFallback>GE</AvatarFallback>
           </Avatar>
         </div>

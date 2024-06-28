@@ -25,8 +25,8 @@ export function Card({ data }: CardProps) {
               {data.flashcardDescription}
             </p>
           </Link>
-          <div className="w-full justify-between flex">
-            <div className="text-muted-foreground text-sm">
+          <div className="w-full justify-between items-center flex">
+            <div className="text-muted-foreground text-sm px-2 py-1 rounded-lg bg-secondary">
               {data.numberOfFlashcardContent} {""}{" "}
               {data.numberOfFlashcardContent > 1 ? "terms" : "term"}
             </div>

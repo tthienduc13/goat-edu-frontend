@@ -1,40 +1,41 @@
 import Image from "next/image";
 import SampleImage from "@/assets/sample2.png";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Feature } from "@/types/features";
+import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 
-export const FeatureCard = () => {
+interface FeatureCardProps {
+  data: Feature;
+}
+
+//TODO: add image
+
+export const FeatureCard = ({ data }: FeatureCardProps) => {
   return (
-    <div className="max-w-lg h-full">
-      <div className="relative  overflow-hidden shadow-lg h-full rounded-2xl transition duration-200 group bg-background hover:shadow-xl border border-zinc-100 dark:border-accent ">
-        <div className=" w-full h-[150px] bg-gray-100 rounded-tr-lg rounded-tl-lg overflow-hidden  relative">
+    <CardContainer className="inter-var max-w-lg w-full">
+      <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto  h-auto rounded-xl p-6 border  ">
+        <CardItem
+          translateZ="50"
+          className="text-xl font-bold text-neutral-600 dark:text-white"
+        >
+          {data.name}
+        </CardItem>
+        <CardItem
+          as="p"
+          translateZ="60"
+          className="text-neutral-500 text-sm mt-2 dark:text-neutral-300"
+        >
+          {data.des}
+        </CardItem>
+        <CardItem translateZ="100" className="w-full mt-4">
           <Image
             src={SampleImage}
+            height="1000"
+            width="1000"
+            className="h-40 w-full object-cover rounded-xl group-hover/card:shadow-xl"
             alt="thumbnail"
-            fill
-            sizes="100vw 100vh"
-            priority={true}
-            className={`group-hover:scale-95 h-full group-hover:rounded-2xl transform object-cover transition duration-200 `}
           />
-        </div>
-        <div className=" p-4 flex flex-col gap-4">
-          <div className="w-full flex flex-row justify-between items-center">
-            <h2 className="font-bold text-lg">Name</h2>
-          </div>
-          <h2 className="font-normal text-sm text-muted-foreground">
-            asdfasfas
-          </h2>
-          <div className="flex flex-row justify-between items-center ">
-            <Link href={`/subjects/`}>
-              <div className=" group text-blue-500 flex flex-row items-center text-sm">
-                Try it now{" "}
-                <ArrowRight className="h-4 cursor-pointer group-hover:translate-x-2 transition duration-300" />
-              </div>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
+        </CardItem>
+      </CardBody>
+    </CardContainer>
   );
 };

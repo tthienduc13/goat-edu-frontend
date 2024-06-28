@@ -35,10 +35,12 @@ import {
 import { ModeToggle } from "@/components/mode-toggle";
 import { Logout } from "@/actions/logout";
 import useReportDialogStore from "@/stores/useReportDialogStore";
+import useCommandStore from "@/stores/useCommandStore";
 
 export const UserButton = () => {
   const router = useRouter();
   const { setIsOpenReportDialog } = useReportDialogStore();
+  const { setIsOpenCommandMenu } = useCommandStore();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -117,7 +119,7 @@ export const UserButton = () => {
               <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setIsOpenCommandMenu(true)}>
             <Keyboard className="mr-2 h-4 w-4" />
             <span>Keyboard shortcuts</span>
             <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
