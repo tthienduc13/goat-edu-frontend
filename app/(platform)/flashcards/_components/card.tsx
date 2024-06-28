@@ -21,12 +21,15 @@ export function Card({ data }: CardProps) {
             </h1>
           </Link>
           <Link href={`flashcards/${data.id}`}>
-            <p className=" h-[100px] text-justify overflow-hidden font-medium text-sm text-slate-500 mb-4 relative z-50">
+            <p className=" line-clamp-2 text- mb-4 overflow-hidden font-medium text-sm text-slate-500 relative z-50">
               {data.flashcardDescription}
             </p>
           </Link>
-
-          <div className="w-full justify-end flex">
+          <div className="w-full justify-between flex">
+            <div className="text-muted-foreground text-sm">
+              {data.numberOfFlashcardContent} {""}{" "}
+              {data.numberOfFlashcardContent > 1 ? "terms" : "term"}
+            </div>
             <Link href={`flashcards/${data.id}`}>
               <Button className="border px-4 py-1 rounded-lg ">Explore</Button>
             </Link>

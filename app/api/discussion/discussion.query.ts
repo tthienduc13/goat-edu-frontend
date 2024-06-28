@@ -1,6 +1,11 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { getAllDiscussion, getDiscussionById } from "./discussion.api";
+import {
+  getAllDiscussion,
+  getAllUserDisscusion,
+  getDiscussionById,
+} from "./discussion.api";
+
 import { Status } from "@/types/discussion";
 
 export const useDiscussionById = ({
@@ -29,4 +34,19 @@ export const useDiscussion = (token: string, status: Status) => {
     },
     refetchOnWindowFocus: true,
   });
+};
+
+export const useUserDiscussions = ({
+  token,
+  pageNumber,
+}: {
+  token: string;
+  pageNumber: number;
+}) => {
+  const queryKey = ["discussion", "user"];
+  const queryFn = async () => {
+    return getAllUserDisscusion({ token: token, pageNumber: pageNumber });
+  };
+
+  return { queryKey, queryFn };
 };
