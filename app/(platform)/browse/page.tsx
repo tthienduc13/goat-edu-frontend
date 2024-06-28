@@ -1,21 +1,15 @@
 "use client";
-import confetti from "canvas-confetti";
+
+import { Features } from "./_components/features";
+import { PopularFlashcard } from "./_components/popular-flashcard";
+import { RecentView } from "./_components/recent";
 
 const BrowsePage = () => {
   return (
-    <div className="h-screen w-full p-10">
-      {/* <DynamicConfetti show={true} /> */}
-      <button
-        onClick={() =>
-          confetti({
-            particleCount: 500,
-            spread: 323,
-            origin: { x: 0.5, y: 0.5 },
-          })
-        }
-      >
-        click for confetti
-      </button>
+    <div className="w-full h-full flex flex-col gap-y-12">
+      <RecentView />
+      <Features />
+      <PopularFlashcard />
     </div>
   );
 };

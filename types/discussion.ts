@@ -14,7 +14,11 @@ export type Discussion = {
   isUserVoted: boolean;
 };
 
-export type Status = "Approved" | "Unapproved" | "Vac";
+export enum Status {
+  Approved = "Approved",
+  Unapproved = "Unapproved",
+  Vac = "VAC",
+}
 
 type UserAndSubject = {
   userId: string;

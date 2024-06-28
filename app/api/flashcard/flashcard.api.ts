@@ -29,7 +29,7 @@ export const getAllFlashcard = async (
 ): Promise<Flashcard[]> => {
   try {
     const queryParams = new URLSearchParams({
-      page_size: "20",
+      page_size: "3",
       page_number: pageNumber?.toString() ?? "",
     });
     const response = await axiosClient.get(

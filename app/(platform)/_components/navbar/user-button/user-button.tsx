@@ -52,14 +52,12 @@ export const UserButton = () => {
               event.preventDefault();
               router.push("/account/profile");
             }
+            event.preventDefault();
+            router.push("/personal");
             break;
           case "b":
             event.preventDefault();
             router.push("/account/billing");
-            break;
-          case "s":
-            event.preventDefault();
-            router.push("/personal");
             break;
           case "i":
             event.preventDefault();
@@ -116,7 +114,7 @@ export const UserButton = () => {
             <DropdownMenuItem>
               <Tablets className="mr-2 h-4 w-4" />
               <span>Personals</span>
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+              <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
           <DropdownMenuItem>
