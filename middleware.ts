@@ -14,7 +14,7 @@ const { auth } = NextAuth(authConfig);
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
-  const isNewUser = !!req.auth?.user?.isNewUser;
+  const isNewUser = req.auth?.user?.isNewUser;
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
@@ -22,13 +22,21 @@ export default auth((req) => {
 
   if (isAuthRoute || isPublicRoute) {
     if (isLoggedIn) {
-      if (!isNewUser) {
-        return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      if (isNewUser) {
+        return Response.redirect(new URL(DEFAULT_ONBOARDING_REDIRECT, nextUrl));
       }
-      return Response.redirect(new URL(DEFAULT_ONBOARDING_REDIRECT, nextUrl));
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
     return;
   }
+
+  // if (
+  //   isLoggedIn &&
+  //   isNewUser &&
+  //   nextUrl.pathname !== DEFAULT_ONBOARDING_REDIRECT
+  // ) {
+  //   return Response.redirect(new URL(DEFAULT_ONBOARDING_REDIRECT, nextUrl));
+  // }
 
   if (!isLoggedIn && !isPublicRoute) {
     let callbackUrl = nextUrl.pathname;

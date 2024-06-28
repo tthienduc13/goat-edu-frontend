@@ -27,6 +27,7 @@ import {
   LifeBuoy,
   LogOut,
   Settings,
+  Tablets,
   User,
   UserPlus,
   Zap,
@@ -34,10 +35,12 @@ import {
 import { ModeToggle } from "@/components/mode-toggle";
 import { Logout } from "@/actions/logout";
 import useReportDialogStore from "@/stores/useReportDialogStore";
+import useCommandStore from "@/stores/useCommandStore";
 
 export const UserButton = () => {
   const router = useRouter();
   const { setIsOpenReportDialog } = useReportDialogStore();
+  const { setIsOpenCommandMenu } = useCommandStore();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -51,13 +54,15 @@ export const UserButton = () => {
               event.preventDefault();
               router.push("/account/profile");
             }
+            event.preventDefault();
+            router.push("/personal");
             break;
           case "b":
             event.preventDefault();
             router.push("/account/billing");
             break;
           case "i":
-            event.preventDefault;
+            event.preventDefault();
             router.push("/account/invite");
             break;
           case "q":
@@ -107,12 +112,14 @@ export const UserButton = () => {
               <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
+          <Link href={"/personal"}>
+            <DropdownMenuItem>
+              <Tablets className="mr-2 h-4 w-4" />
+              <span>Personals</span>
+              <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
+          <DropdownMenuItem onClick={() => setIsOpenCommandMenu(true)}>
             <Keyboard className="mr-2 h-4 w-4" />
             <span>Keyboard shortcuts</span>
             <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>

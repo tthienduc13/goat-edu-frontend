@@ -1,14 +1,14 @@
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
 import Image from "next/image";
-import SampleImage from "@/assets/sample2.png";
+import ScreenShot from "@/public/images/screenshot.jpeg";
 
 export const IpadScroll = () => {
   return (
     <div className="flex flex-col gap-y-10 overflow-hidden">
       <ContainerScroll>
         <Image
-          src={SampleImage}
+          src={ScreenShot}
           alt="hero"
           height={720}
           width={1400}

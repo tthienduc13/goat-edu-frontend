@@ -25,11 +25,15 @@ import { Button } from "@/components/ui/button";
 import EditIconAnimate from "@/assets/gif/edit.gif";
 import EditIconPause from "@/assets/gif/edit_pause.png";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { AtSign, Mail, Phone, User } from "lucide-react";
+import { AtSign, LoaderCircle, Mail, Phone, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { patchUserProfile } from "@/app/api/user/user.api";
+import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 export const AccountInformation = () => {
   const user = useCurrentUser();
+  const { update } = useSession();
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
   const handleEditClick = () => {
@@ -40,13 +44,28 @@ export const AccountInformation = () => {
     resolver: zodResolver(EditProfileSchema),
     mode: "onChange",
     defaultValues: {
-      fullname: user?.fullname!,
-      phoneNumber: "",
+      fullname: user?.name ?? "Not set yet",
+      phoneNumber: user?.phoneNumber ?? "Not set yet",
     },
   });
 
   const onSubmit = (values: z.infer<typeof EditProfileSchema>) => {
-    // TODO: Add function
+    startTransition(async () => {
+      const response = await patchUserProfile({
+        token: user?.token!,
+        fullName: values.fullname,
+        phoneNumber: values.phoneNumber,
+      });
+
+      if (response.status === 200) {
+        toast.success("Information updated successfully!");
+        await update({
+          user: { name: values.fullname, phoneNumber: values.phoneNumber },
+        });
+      } else {
+        toast.error("Failed to update information.");
+      }
+    });
   };
   return (
     <div className="w-full flex flex-col gap-y-6 px-1">
@@ -155,6 +174,9 @@ export const AccountInformation = () => {
           />
           <div className="flex justify-end ">
             <Button type="submit" disabled={isPending || !isEdit}>
+              {isPending && (
+                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Save Changes
             </Button>
           </div>

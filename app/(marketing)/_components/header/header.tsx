@@ -1,56 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import { Logo } from "@/components/custom/logo";
 import { Hint } from "@/components/custom/hint";
 
 import Link from "next/link";
-import {
-  BookOpenCheck,
-  BookOpenText,
-  Check,
-  LibraryBig,
-  NotebookPen,
-} from "lucide-react";
-import { NavBar } from "./nav-bar";
 
-const toolSubMenu = [
-  {
-    title: "Student",
-    list: [
-      {
-        icon: <LibraryBig />,
-        item: "Flashcard",
-      },
-      {
-        icon: <BookOpenText />,
-        item: "Learn",
-      },
-      {
-        icon: <NotebookPen />,
-        item: "Notes",
-      },
-      {
-        icon: <BookOpenCheck />,
-        item: "Text",
-      },
-    ],
-  },
-  {
-    title: "Teacher",
-    list: [
-      {
-        icon: <LibraryBig />,
-        item: "Flashcard",
-      },
-      {
-        icon: <Check />,
-        item: "Checkpoint",
-      },
-    ],
-  },
-];
+import { NavBar } from "./nav-bar";
 
 export const Header = () => {
   return (

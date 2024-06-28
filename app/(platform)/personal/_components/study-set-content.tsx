@@ -4,16 +4,12 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { isToday, isYesterday } from "date-fns";
 
-import Logo from "@/public/logo.png";
-
+import EmptyStudySet from "@/public/icons/empty/empty-study-set.svg";
 import { cn } from "@/lib/utils";
 import { Flashcard } from "@/types/flashcard";
-
 import { useCurrentUser } from "@/hooks/use-current-user";
-
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ChevronDown, Globe, LoaderCircle, PenLine } from "lucide-react";
-
 import useCreateDialogStore from "@/stores/useCreateDialogStore";
 import { useUserFlashcards } from "@/app/api/flashcard/flashcard.query";
 
@@ -22,7 +18,7 @@ const groupFlashcards = (flashcards: Flashcard[]) => {
   const yesterday: Flashcard[] = [];
   const longTimeAgo: Flashcard[] = [];
 
-  flashcards.forEach((flashcard: Flashcard) => {
+  flashcards.forEach((flashcard) => {
     const updatedAt = new Date(flashcard.updatedAt);
     if (isToday(updatedAt)) {
       today.push(flashcard);
@@ -60,11 +56,11 @@ export const StudySetContent = () => {
     );
   }
 
-  if (!data) {
+  if (!data || data.length === 0) {
     return (
-      <div className=" h-[500px] flex flex-col justify-center items-center gap-y-10">
-        <Image src={Logo} alt="logo" width={150} height={150} />
-        <Button onClick={() => setIsOpenCreateDialog(true)} size={"lg"}>
+      <div className="h-[500px] flex flex-col justify-center items-center gap-y-10">
+        <Image src={EmptyStudySet} alt="No study sets" width={350} />
+        <Button onClick={() => setIsOpenCreateDialog(true)} size="lg">
           Create your first study set
         </Button>
       </div>
@@ -79,7 +75,7 @@ export const StudySetContent = () => {
         <>
           <div className="flex flex-row items-center gap-x-5">
             <div className="text-2xl font-bold">{label}</div>
-            <div className="h-[1px] bg-primary w-full "></div>
+            <div className="h-[1px] bg-primary w-full"></div>
           </div>
           <div className="flex flex-col gap-y-5">
             {flashcards.map((flashcard) => (
@@ -94,7 +90,7 @@ export const StudySetContent = () => {
                   </div>
                   <div className="flex flex-row items-center gap-x-5">
                     <Link href={`/flashcards/edit?id=${flashcard.id}`}>
-                      <Button variant={"destructive"}>
+                      <Button variant="destructive">
                         <PenLine className="h-4 w-4 mr-2" />
                         Edit
                       </Button>
@@ -107,7 +103,7 @@ export const StudySetContent = () => {
                   </div>
                 </div>
                 <Link
-                  href={`flashcards/${flashcard.id}`}
+                  href={`/flashcards/${flashcard.id}`}
                   className="text-lg font-semibold w-full"
                 >
                   {flashcard.flashcardName}
@@ -124,7 +120,7 @@ export const StudySetContent = () => {
     <div className="flex flex-col gap-y-10">
       {renderFlashcards(today, "Today")}
       {renderFlashcards(yesterday, "Yesterday")}
-      {renderFlashcards(longTimeAgo, "Long time ago")}
+      {renderFlashcards(longTimeAgo, "Longtime")}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { NavItem } from "./types/nav-item";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Facebook from "next-auth/providers/facebook";
@@ -111,16 +112,31 @@ export default {
         return false;
       }
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update" && session.user.image) {
+        token.picture = session.user.image;
+      }
+
+      if (
+        trigger === "update" &&
+        session.user.name &&
+        session.user.phoneNumber
+      ) {
+        token.name = session.user.name;
+        token.phoneNumber = session.user.phoneNumber;
+      }
+
       if (user) {
         token.userId = user.userId;
         token.username = user.username;
-        token.fullname = user.fullname;
+        token.name = user.fullname;
         token.emailVerify = user.emailVerify;
         token.role = user.role;
         token.token = user.token;
         token.subscription = user.subscription;
         token.isNewUser = user.isNewUser;
+        token.phoneNumber = user.phoneNumber;
+        token.picture = user.image;
       }
       return token;
     },
@@ -128,13 +144,14 @@ export default {
       if (session?.user) {
         session.user.id = token.userId;
         session.user.username = token.username;
-        session.user.name = token.fullname;
+        session.user.name = token.name;
         session.user.emailVerify = token.emailVerify;
         session.user.role = token.role;
         session.user.token = token.token;
-        session.user.fullname = token.fullname;
         session.user.subscription = token.subscription;
         session.user.isNewUser = token.isNewUser;
+        session.user.phoneNumber = token.phoneNumber;
+        session.user.image = token.picture;
       }
       return session;
     },
