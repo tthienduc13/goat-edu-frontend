@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { NoteCreateButton } from "../note-control/note-create-button";
-import EmptyNote from "@/public/icons/note/empty-note.svg";
+import EmptyNote from "@/public/icons/empty/empty-note.svg";
 
 export const NoteContentEmpty = () => {
   return (

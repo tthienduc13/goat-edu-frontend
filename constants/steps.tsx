@@ -19,7 +19,7 @@ export const steps: any = [
       </>
     ),
     selector: "#onborda-step2",
-    side: "bottom",
+    side: "left",
     showControls: true,
     pointerPadding: -1,
     pointerRadius: 24,
@@ -64,7 +64,7 @@ export const steps: any = [
     pointerRadius: 24,
   },
   {
-    icon: <>🕹️</>,
+    icon: <>🪄</>,
     title: "Setting",
     content: <>Open it and change the setting of the flashcard</>,
     selector: "#onborda-step6",

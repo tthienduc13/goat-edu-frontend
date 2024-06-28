@@ -90,7 +90,6 @@ export const RegisterForm = () => {
     });
   };
 
-  if (isLoading) return null;
   if (error) return null;
 
   return (

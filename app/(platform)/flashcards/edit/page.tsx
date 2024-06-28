@@ -52,8 +52,8 @@ const EditFlashcardPage = () => {
           </MoreButton>
         </div>
       </div>
-      <EditFlashcardForm />
-      <EditFlashcardContentForm />
+      <EditFlashcardForm id={id} token={user?.token!} />
+      <EditFlashcardContentForm id={id} token={user?.token!} />
     </div>
   );
 };

@@ -27,6 +27,7 @@ import {
   LifeBuoy,
   LogOut,
   Settings,
+  Tablets,
   User,
   UserPlus,
   Zap,
@@ -56,8 +57,12 @@ export const UserButton = () => {
             event.preventDefault();
             router.push("/account/billing");
             break;
+          case "s":
+            event.preventDefault();
+            router.push("/personal");
+            break;
           case "i":
-            event.preventDefault;
+            event.preventDefault();
             router.push("/account/invite");
             break;
           case "q":
@@ -107,11 +112,13 @@ export const UserButton = () => {
               <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <Link href={"/personal"}>
+            <DropdownMenuItem>
+              <Tablets className="mr-2 h-4 w-4" />
+              <span>Personals</span>
+              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
           <DropdownMenuItem>
             <Keyboard className="mr-2 h-4 w-4" />
             <span>Keyboard shortcuts</span>

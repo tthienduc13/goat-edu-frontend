@@ -40,8 +40,8 @@ export const AccountInformation = () => {
     resolver: zodResolver(EditProfileSchema),
     mode: "onChange",
     defaultValues: {
-      fullname: user?.fullname!,
-      phoneNumber: "",
+      fullname: user?.fullname ?? "Not set yet",
+      phoneNumber: user?.phoneNumber ?? "Not set yet",
     },
   });
 
