@@ -1,14 +1,23 @@
 import { useFlashcards } from "@/app/api/flashcard/flashcard.query";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { Card } from "../../flashcards/_components/card";
+import { EmptyCard } from "./empty-card";
 
 export const RecentView = () => {
   const user = useCurrentUser();
   const {
     data: flashcardsData,
     isLoading: flashcardsLoading,
-    error: flascardsError,
+    error: flashcardsError,
   } = useFlashcards(1, user?.token!);
+
+  if (flashcardsLoading) {
+    return <EmptyCard />;
+  }
+
+  if (flashcardsError) {
+    return;
+  }
   return (
     <div className="flex flex-col gap-y-5">
       <h1 className="text-xl">Recent</h1>

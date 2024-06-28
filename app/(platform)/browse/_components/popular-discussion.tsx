@@ -3,7 +3,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { Card } from "../../flashcards/_components/card";
 import { EmptyCard } from "./empty-card";
 
-export const PopularFlashcard = () => {
+export const PopularDiscussion = () => {
   const user = useCurrentUser();
   const {
     data: flashcardsData,
@@ -20,7 +20,7 @@ export const PopularFlashcard = () => {
   }
   return (
     <div className="flex flex-col gap-y-5">
-      <h1 className="text-xl">Popular flashcard</h1>
+      <h1 className="text-xl">Popular questions</h1>
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-5">
         {flashcardsData?.map((data) => (
           <Card key={data.id} data={data} />
