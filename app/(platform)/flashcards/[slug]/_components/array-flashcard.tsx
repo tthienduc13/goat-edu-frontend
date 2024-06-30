@@ -1,6 +1,7 @@
 import { FlashcardContent } from "@/types/flashcard";
 import { useEffect, useRef, useState } from "react";
-import { FlashcardArray } from "react-quizlet-flashcard";
+// import { FlashcardArray } from "react-quizlet-flashcard";
+import FlashcardArray from "@/components/flash-card/flashcard-array/flashcard-array";
 
 interface ControlRef {
   nextCard: () => void;

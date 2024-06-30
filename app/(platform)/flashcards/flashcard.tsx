@@ -21,7 +21,6 @@ import {
 import { Star } from "./[slug]/_components/star-rating";
 import { Hint } from "@/components/custom/hint";
 import { Button } from "@/components/ui/button";
-import FlashcardArrayProps from "react-quizlet-flashcard/dist/interfaces/IFlashcardArray";
 import { ArrayFlashcard } from "./[slug]/_components/array-flashcard";
 import { FlashcardContent } from "@/types/flashcard";
 import { SettingButton } from "./[slug]/_components/control/setting-button";
