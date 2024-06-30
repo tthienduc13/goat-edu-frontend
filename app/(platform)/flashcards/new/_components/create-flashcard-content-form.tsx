@@ -198,7 +198,7 @@ export const CreateFlashcardContentForm = () => {
           <div className="flex flex-row justify-between">
             <ImportTerms onImport={handleImport} />
             <div className="flex flex-row items-center gap-x-2">
-              <ChangeVisibility />
+              <ChangeVisibility status={flashcardData?.status!} />
               <KeyBoardShorcuts />
             </div>
           </div>

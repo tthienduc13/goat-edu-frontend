@@ -24,8 +24,10 @@ import { Button } from "@/components/ui/button";
 
 import EditIconAnimate from "@/assets/gif/edit.gif";
 import EditIconPause from "@/assets/gif/edit_pause.png";
-import { Eye, EyeOff, Lock } from "lucide-react";
+import { Eye, EyeOff, LoaderCircle, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ChangePassword } from "@/actions/change-password";
+import { toast } from "sonner";
 
 export const AccountPassword = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -50,7 +52,18 @@ export const AccountPassword = () => {
   };
 
   const onSubmit = (values: z.infer<typeof ChangePasswordSchema>) => {
-    console.log(values);
+    startTransition(() =>
+      ChangePassword(values).then((data) => {
+        if (data.error) {
+          toast.error(data.error);
+        }
+        if (data.success) {
+          toast.success(data.success);
+          setIsEdit(false);
+        }
+        form.reset();
+      })
+    );
   };
   return (
     <div className="w-full flex flex-col gap-y-6 px-1">
@@ -92,7 +105,7 @@ export const AccountPassword = () => {
                       <Input
                         type={isPasswordVisible ? "text" : "password"}
                         placeholder="Password"
-                        disabled={isPending}
+                        disabled={isPending || !isEdit}
                         className="border-none text-base w-full outline-none flex-1 text-muted-foreground shadow-none focus-visible:ring-0 "
                         {...field}
                       />
@@ -138,7 +151,7 @@ export const AccountPassword = () => {
                       <Input
                         type={isPasswordVisible ? "text" : "password"}
                         placeholder="New password"
-                        disabled={isPending}
+                        disabled={isPending || !isEdit}
                         className="border-none text-base w-full outline-none flex-1 text-muted-foreground shadow-none focus-visible:ring-0 "
                         {...field}
                       />
@@ -169,7 +182,14 @@ export const AccountPassword = () => {
           </div>
           <div className="flex justify-end">
             <Button type="submit" disabled={isPending || !isEdit}>
-              Set password
+              {isPending ? (
+                <div className="flex flex-row items-center">
+                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                  Saving Changes
+                </div>
+              ) : (
+                "  Set Password"
+              )}
             </Button>
           </div>
         </form>

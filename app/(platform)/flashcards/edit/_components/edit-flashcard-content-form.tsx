@@ -140,7 +140,8 @@ export const EditFlashcardContentForm = ({
           <div className="flex flex-row justify-between">
             <ImportTerms onImport={handleImport} />
             <div className="flex flex-row items-center gap-x-2">
-              <ChangeVisibility />
+              {/* <ChangeVisibility status={} /> */}
+              {/* TODO: ADD STATUS */}
               <KeyBoardShorcuts />
             </div>
           </div>

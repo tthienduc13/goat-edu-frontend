@@ -1,6 +1,5 @@
 import axiosClient, { axiosClientUpload } from "@/lib/axiosClient";
 import { ChangePasswordSchema } from "@/schemas/account";
-import { NewPasswordSchema } from "@/schemas/auth";
 import { Subject } from "@/types/subject";
 import * as z from "zod";
 
@@ -28,48 +27,6 @@ export const patchNewUser = async ({ token }: { token: string }) => {
     throw error;
   }
 };
-
-// export const patchUserProfile = async ({
-//   token,
-//   fullName,
-//   phoneNumber,
-//   imageFile,
-//   password,
-// }: {
-//   token: string;
-//   fullName?: string;
-//   phoneNumber?: string;
-//   imageFile?: File | null;
-//   password?: string;
-// }) => {
-//   try {
-//     const formData = new FormData();
-//     formData.append("FullName", fullName ?? "");
-//     formData.append("PhoneNumber", phoneNumber ?? "");
-//     if (imageFile) {
-//       formData.append("Image", imageFile);
-//     } else {
-//       formData.append("Image", "");
-//     }
-//     formData.append("password", password ?? "");
-
-//     const response = await fetch(
-//       "https://goateduaspbackend.azurewebsites.net/api/user/profile",
-//       {
-//         method: "PATCH",
-//         body: formData,
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       }
-//     );
-//     console.log(response);
-//     return response;
-//   } catch (error) {
-//     console.error("Error patching user profile with image:", error);
-//     throw error;
-//   }
-// };
 
 export const patchUserProfile = async ({
   token,
@@ -109,14 +66,23 @@ export const patchUserProfile = async ({
   }
 };
 
-export const patchPassword = async (
-  values: z.infer<typeof ChangePasswordSchema>
-) => {
+export const patchPassword = async ({
+  token,
+  values,
+}: {
+  token: string;
+  values: z.infer<typeof ChangePasswordSchema>;
+}) => {
   try {
-    const response = await axiosClient.patch(END_POINT.PATCH_PASSWORD, {
-      old_password: values.oldPassword,
-      new_password: values.newPassword,
-    });
+    const response = await axiosClient.patch(
+      `${END_POINT.PATCH_PASSWORD}`,
+      { old_password: values.oldPassword, new_password: values.newPassword },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.log("Error changing password", error);

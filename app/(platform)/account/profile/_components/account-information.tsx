@@ -62,6 +62,7 @@ export const AccountInformation = () => {
         await update({
           user: { name: values.fullname, phoneNumber: values.phoneNumber },
         });
+        setIsEdit(false);
       } else {
         toast.error("Failed to update information.");
       }
@@ -174,10 +175,14 @@ export const AccountInformation = () => {
           />
           <div className="flex justify-end ">
             <Button type="submit" disabled={isPending || !isEdit}>
-              {isPending && (
-                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+              {isPending ? (
+                <div className="flex flex-row items-center">
+                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                  Saving changes
+                </div>
+              ) : (
+                "  Save Changes"
               )}
-              Save Changes
             </Button>
           </div>
         </form>

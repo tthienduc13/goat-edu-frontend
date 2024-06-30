@@ -4,7 +4,7 @@ import { useCallback, useMemo, useRef } from "react";
 
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { DiscussedCard } from "./_components/discussed-card";
-import { useDiscussion } from "@/app/api/discussion/discussion.query";
+import { useInifiniteDiscussion } from "@/app/api/discussion/discussion.query";
 import { DiscussionLoading } from "./_components/discussed-loading";
 import { Status } from "@/types/discussion";
 
@@ -14,7 +14,11 @@ const DiscussedPage = () => {
   const observer = useRef<IntersectionObserver>();
 
   const { data, error, fetchNextPage, hasNextPage, isFetching, isLoading } =
-    useDiscussion(user?.token!, Status.Approved);
+    useInifiniteDiscussion({
+      token: user?.token!,
+      status: Status.Approved,
+      pageSize: 6,
+    });
 
   const lastElementRef = useCallback(
     (node: HTMLDivElement) => {
@@ -47,6 +51,10 @@ const DiscussedPage = () => {
         <DiscussionLoading />
       </div>
     );
+  }
+
+  if (error) {
+    //TODO: 500 error page
   }
   return (
     <div className="w-[1000px] h-full grid grid-cols-1 divide-y-[1px] border-y-[1px] mx-auto">

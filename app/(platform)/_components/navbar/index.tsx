@@ -54,7 +54,7 @@ export const Navbar = () => {
                   defaultChecked
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    "font-bold text-sm"
+                    "font-semibold text-base"
                   )}
                 >
                   Home
@@ -66,10 +66,22 @@ export const Navbar = () => {
                 <NavigationMenuLink
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    "font-bold text-sm"
+                    "font-semibold text-base"
                   )}
                 >
                   Discussions
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link href="/subjects" legacyBehavior passHref>
+                <NavigationMenuLink
+                  className={cn(
+                    navigationMenuTriggerStyle(),
+                    "font-semibold text-base"
+                  )}
+                >
+                  Courses
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>

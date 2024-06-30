@@ -34,12 +34,20 @@ import {
   CommandEmpty,
 } from "@/components/ui/command";
 import { useSubjects } from "@/app/api/subject/subject.query";
-import { Check, LoaderCircle } from "lucide-react";
+import { Check, LoaderCircle, Lock, Globe } from "lucide-react";
 import { CreateFlashcard } from "@/actions/create-flashcard";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import useCreateDialogStore from "@/stores/useCreateDialogStore";
 import { useQueryClient } from "@tanstack/react-query";
+import { Status } from "@/types/flashcard";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const CreateFlashcardForm = () => {
   const { setIsOpenCreateDialog } = useCreateDialogStore();
@@ -62,6 +70,7 @@ export const CreateFlashcardForm = () => {
       flashcardName: "",
       flashcardDescription: "",
       subjectId: "",
+      status: Status.Open,
     },
   });
 
@@ -107,74 +116,122 @@ export const CreateFlashcardForm = () => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="subjectId"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel className="px-4">Subject</FormLabel>
-                <div className="h-12 w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl className="w-full">
-                        <Button
-                          variant="ghost"
-                          role="combobox"
-                          className={cn(
-                            " justify-between hover:bg-none w-full",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value
-                            ? subjectData?.pages[0].find(
-                                (subject) => subject.id === field.value
-                              )?.subjectName
-                            : "Select a subject"}
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-full hover:bg-none">
-                      <Command className="w-full">
-                        <CommandInput
-                          className="w-full"
-                          value={searchQuery}
-                          onValueChange={setSearchQuery}
-                          placeholder="Search subject"
-                        ></CommandInput>
-                        <CommandEmpty>No Subject found</CommandEmpty>
-                        <CommandGroup className="w-full">
-                          <CommandList className="w-full">
-                            {subjectData?.pages &&
-                              subjectData.pages[0].map((subject) => (
-                                <CommandItem
-                                  className="w-full"
-                                  key={subject.id}
-                                  value={subject.id}
-                                  onSelect={() => {
-                                    form.setValue("subjectId", subject.id);
-                                  }}
-                                >
-                                  <Check
-                                    className={cn(
-                                      "mr-2 h-4 w-4",
-                                      subject.id === field.value
-                                        ? "opacity-100"
-                                        : "opacity-0"
-                                    )}
-                                  />
-                                  {subject.subjectName}
-                                </CommandItem>
-                              ))}
-                          </CommandList>
-                        </CommandGroup>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex flex-row items-center gap-x-2">
+            <FormField
+              control={form.control}
+              name="subjectId"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel className="px-4">Subject</FormLabel>
+                  <div className="h-12 w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl className="w-full">
+                          <Button
+                            variant="ghost"
+                            role="combobox"
+                            className={cn(
+                              " justify-between hover:bg-none w-full",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value
+                              ? subjectData?.pages[0].find(
+                                  (subject) => subject.id === field.value
+                                )?.subjectName
+                              : "Select a subject"}
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-full hover:bg-none">
+                        <Command className="w-full">
+                          <CommandInput
+                            className="w-full"
+                            value={searchQuery}
+                            onValueChange={setSearchQuery}
+                            placeholder="Search subject"
+                          ></CommandInput>
+                          <CommandEmpty>No Subject found</CommandEmpty>
+                          <CommandGroup className="w-full">
+                            <CommandList className="w-full">
+                              {subjectData?.pages &&
+                                subjectData.pages[0].map((subject) => (
+                                  <CommandItem
+                                    className="w-full"
+                                    key={subject.id}
+                                    value={subject.id}
+                                    onSelect={() => {
+                                      form.setValue("subjectId", subject.id);
+                                    }}
+                                  >
+                                    <Check
+                                      className={cn(
+                                        "mr-2 h-4 w-4",
+                                        subject.id === field.value
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                    {subject.subjectName}
+                                  </CommandItem>
+                                ))}
+                            </CommandList>
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="status"
+              render={({ field }) => (
+                <FormItem className="flex flex-col w-full gap-y-2">
+                  <FormLabel className="px-4">Privacy</FormLabel>
+                  <Select
+                    disabled={isPending}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    value={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="h-12 rounded-xl overflow-hidden outline-none border-none focus-visible:ring-0 flex flex-row items-center bg-[#a8b3cf14] px-4">
+                        <SelectValue placeholder="Are you a student or teacher" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {Object.values(Status)
+                        .filter((status) => status !== Status.Closed)
+                        .map((status) => (
+                          <SelectItem
+                            key={status}
+                            value={status}
+                            className="flex flex-row items-center"
+                          >
+                            <div className="flex flex-row items-center">
+                              <div>
+                                {status === Status.Open ? (
+                                  <Globe className="mr-2 h-4 w-4" />
+                                ) : (
+                                  <Lock className="mr-2 h-4 w-4" />
+                                )}
+                              </div>
+                              <div>
+                                {status === Status.Open ? "Public" : "Private"}
+                              </div>
+                            </div>
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
             name="flashcardDescription"
@@ -196,7 +253,7 @@ export const CreateFlashcardForm = () => {
               </FormItem>
             )}
           />
-          <Button disabled={isPending} type="submit">
+          <Button disabled={isPending} size={"lg"} type="submit">
             {isPending && (
               <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
             )}

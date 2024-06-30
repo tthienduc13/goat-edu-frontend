@@ -12,6 +12,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { ChevronDown, Globe, LoaderCircle, PenLine } from "lucide-react";
 import useCreateDialogStore from "@/stores/useCreateDialogStore";
 import { useUserFlashcards } from "@/app/api/flashcard/flashcard.query";
+import { ChangeVisibility } from "../../flashcards/new/_components/change-visibility";
 
 const groupFlashcards = (flashcards: Flashcard[]) => {
   const today: Flashcard[] = [];
@@ -95,11 +96,7 @@ export const StudySetContent = () => {
                         Edit
                       </Button>
                     </Link>
-                    <div className={cn(buttonVariants({ variant: "custom" }))}>
-                      <Globe className="h-4 w-4 mr-2" />
-                      <div>Public</div>
-                      <ChevronDown className="h-4 w-4 ml-2" />
-                    </div>
+                    <ChangeVisibility status={flashcard.status!} />
                   </div>
                 </div>
                 <Link

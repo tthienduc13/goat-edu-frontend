@@ -10,6 +10,7 @@ import { Terms } from "./[slug]/_components/terms";
 import { Wrapper } from "./[slug]/_components/wrapper";
 import { useEffect } from "react";
 import { useOnborda } from "onborda";
+import { useUserRate } from "@/app/api/rate/rate.query";
 
 interface FlashcardProps {
   token: string;
@@ -34,6 +35,8 @@ export const Flashcard = ({ token, id }: FlashcardProps) => {
     error: flashcardError,
   } = useQuery(useFlashcardById({ token: token, id: id }));
 
+  const { data: isRate } = useQuery(useUserRate({ token: token, id: id }));
+
   useEffect(() => {
     if (!localStorage.getItem("firstVisited")) {
       handleStartOnboarda();
@@ -54,6 +57,9 @@ export const Flashcard = ({ token, id }: FlashcardProps) => {
         headerTitle={flashcardData?.flashcardName!}
         headerDes={flashcardData?.flashcardDescription!}
         headerStar={flashcardData?.star!}
+        flashcardId={id}
+        isRated={isRate}
+        withStar
       >
         <div className="max-w-[1000px]  bg-background mx-auto flex flex-col gap-y-10">
           <Card

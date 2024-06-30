@@ -12,6 +12,7 @@ export const NewFlashcardSchema = z.object({
   subjectId: z
     .string({ required_error: "Please choose related subject" })
     .nonempty("Please choose a related subject"),
+  status: z.string(),
 });
 
 export const NewFlashcardContentSchema = z.object({
