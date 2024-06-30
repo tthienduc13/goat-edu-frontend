@@ -71,7 +71,7 @@ export const createFlashcard = async ({
     {
       flashcardName: values.flashcardName,
       flashcardDescription: values.flashcardDescription,
-      status: Status.Open,
+      status: values.status,
     },
     {
       headers: {

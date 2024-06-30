@@ -1,19 +1,25 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Star } from "lucide-react";
-import { MutableRefObject } from "react";
+import { Star } from "./star-rating";
+import { StarIcon } from "lucide-react";
 
 interface WrapperProps {
   children: React.ReactNode;
+  flashcardId?: string;
   headerTitle: string;
   headerDes?: string;
   headerStar?: number;
+  withStar?: boolean;
+  isRated?: boolean;
 }
 
 export const Wrapper = ({
   children,
   headerTitle,
+  flashcardId,
   headerDes,
   headerStar,
+  isRated,
+  withStar = false,
 }: WrapperProps) => {
   return (
     <Card className="w-full h-full border-none shadow-none">
@@ -21,15 +27,19 @@ export const Wrapper = ({
         <div className="flex flex-col gap-y-4">
           <div className="w-full flex flex-row justify-between items-center">
             <div className="text-3xl font-bold">{headerTitle}</div>
-            <div
-              id="onborda-step2"
-              className="flex flex-row items-center gap-x-2"
-            >
-              <div>
-                <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
+            {withStar && (
+              <div
+                id="onborda-step2"
+                className="flex flex-row items-center gap-x-2"
+              >
+                {isRated ? (
+                  <StarIcon className="h-4 w-4 text-[#FFB23F] fill-[#FFB23F]" />
+                ) : (
+                  <Star id={flashcardId!} />
+                )}
+                <span>{headerStar}</span>
               </div>
-              <span>{headerStar}</span>
-            </div>
+            )}
           </div>
           <div className="text-sm font-light text-muted-foreground">
             {headerDes}

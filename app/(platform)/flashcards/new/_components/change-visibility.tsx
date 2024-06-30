@@ -1,12 +1,19 @@
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { ChevronDown, Globe } from "lucide-react";
 
-export const ChangeVisibility = () => {
+interface ChangeVisibilityProps {
+  status: string;
+}
+
+export const ChangeVisibility = ({ status }: ChangeVisibilityProps) => {
   return (
-    <Button variant={"ghost"}>
+    <div className={cn(buttonVariants({ variant: "ghost" }))}>
       <Globe className="w-4 h-4 mr-2" />
-      <span>Public</span>
+      <span>
+        {status === "Open" ? "Public" : status === "Hidden" ? "Private" : ""}
+      </span>
       <ChevronDown className="w-4 h-4 ml-3" />
-    </Button>
+    </div>
   );
 };

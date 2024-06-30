@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
+import "@smastrom/react-rating/style.css";
 import { ReactQueryProvider } from "@/providers/react-query-provider";
 import { cookies } from "next/headers";
 
