@@ -12,10 +12,9 @@ export type Flashcard = {
 };
 
 export type FlashcardContent = {
-  flashcardId: string;
-  image: string;
-  flashcardContentQuestion: string;
-  flashcardContentAnswer: string;
+  id: string;
+  frontHTML: string | JSX.Element;
+  backHTML: string | JSX.Element;
 };
 
 export enum Status {

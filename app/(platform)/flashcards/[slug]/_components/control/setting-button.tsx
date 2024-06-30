@@ -11,18 +11,12 @@ import { Settings } from "lucide-react";
 export const SettingButton = () => {
   return (
     <Dialog>
-      <Hint label="Settings" side="bottom" sideOffset={10}>
-        <DialogTrigger asChild>
-          <Button
-            id="onborda-step6"
-            variant="ghost"
-            size="icon"
-            className="rounded-full"
-          >
-            <Settings className="h-5 w-5" />
-          </Button>
-        </DialogTrigger>
-      </Hint>
+      <DialogTrigger asChild>
+        <Button id="onborda-step6" size={"lg"} variant={"ghost"}>
+          <Settings className="w-5 h-5 mr-2" />
+          <div className="text-base">Setttings</div>
+        </Button>
+      </DialogTrigger>
       <DialogContent className="max-w-[600px]">
         <DialogHeader>Settings</DialogHeader>
       </DialogContent>
