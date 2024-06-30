@@ -15,7 +15,7 @@ export const MoreButton = ({ children }: MoreButtonProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="rounded-full" size="icon" variant="ghost">
+        <Button size="icon" variant="ghost">
           <Ellipsis className="w-5 h-5" />
         </Button>
       </DropdownMenuTrigger>
