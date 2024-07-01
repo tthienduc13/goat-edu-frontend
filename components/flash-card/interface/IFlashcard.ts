@@ -51,4 +51,5 @@ export default interface FlashcardProps {
    * When passed with a ref, ref.current object will contain reference to `flipCard()` function
    */
   manualFlipRef?: React.MutableRefObject<(() => void) | null>;
+  progressWidth: number;
 }

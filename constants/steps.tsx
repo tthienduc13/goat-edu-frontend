@@ -73,14 +73,4 @@ export const steps: any = [
     pointerPadding: -1,
     pointerRadius: 24,
   },
-  {
-    icon: <>🔎</>,
-    title: "Full screen",
-    content: <>Enjoy learning in full screen</>,
-    selector: "#onborda-step7",
-    side: "top",
-    showControls: true,
-    pointerPadding: -1,
-    pointerRadius: 24,
-  },
 ];

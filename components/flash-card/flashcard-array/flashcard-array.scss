@@ -15,7 +15,7 @@
 
   &__CardHolder {
     perspective: 1000px;
-    @include box(100%, 340px);
+    @include box(100%);
     @include make-flex($dir: row);
     .FlashcardWrapper {
       &:nth-child(1),

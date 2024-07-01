@@ -1,6 +1,6 @@
 "use client";
 
-import { Star } from "../flashcards/[slug]/_components/star-rating";
+import { Star } from "../flashcards/[slug]/_components/flashcard-header/star-rating";
 import { AppFeatures } from "./_components/app-features";
 import { EnrollCourses } from "./_components/enrolled-courses";
 import { Footer } from "./_components/footer";

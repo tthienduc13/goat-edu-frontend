@@ -10,7 +10,7 @@ export const END_POINT = {
 };
 
 type FlashcardContentResponse = {
-  flashcardId: string;
+  id: string;
   image: string;
   flashcardContentQuestion: string;
   flashcardContentAnswer: string;
@@ -32,7 +32,7 @@ export const getAllFlashcardContentById = async (
     );
     const flashcardContent: FlashcardContent[] = response.data.map(
       (item: FlashcardContentResponse) => ({
-        id: item.flashcardId,
+        id: item.id,
         frontHTML: `<div>${item.flashcardContentQuestion}</div>`,
         backHTML: `<div>${item.flashcardContentAnswer}</div>`,
       })

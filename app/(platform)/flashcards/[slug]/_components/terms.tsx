@@ -1,6 +1,4 @@
 import { FlashcardContent } from "@/types/flashcard";
-import { Wrapper } from "./wrapper";
-import { MutableRefObject } from "react";
 import { Layers } from "lucide-react";
 
 interface TermsProps {

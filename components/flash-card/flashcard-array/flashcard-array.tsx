@@ -17,6 +17,7 @@ function FlashcardArray({
   FlashcardArrayStyle = {},
   currentCardFlipRef,
   cycle = false,
+  progressWidth,
 }: FlashcardArrayProps) {
   const [cardNumber, setCardNumber] = useState(0);
   const [cardsInDisplay, setCardsInDisplay] = useState(
@@ -26,6 +27,7 @@ function FlashcardArray({
 
   const placeFillerCard = (
     <Flashcard
+      progressWidth={progressWidth}
       className="FlashcardArrayWrapper__empty"
       width="100%"
       backHTML=""
@@ -35,6 +37,7 @@ function FlashcardArray({
 
   const cardsList = cards.map((card, index) => (
     <Flashcard
+      progressWidth={progressWidth}
       key={index}
       frontHTML={card.frontHTML}
       backHTML={card.backHTML}

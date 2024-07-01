@@ -29,4 +29,5 @@ export default interface FlashcardArrayProps {
   onCardFlip?: (id: any, index: number, state: boolean) => void;
   currentCardFlipRef?: React.MutableRefObject<() => void>;
   cycle?: boolean;
+  progressWidth: number;
 }
