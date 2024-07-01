@@ -1,4 +1,4 @@
-import { QuestionInQuizz } from "./questionInQuizz";
+import { QuestionInQuizz } from "./question-in-quiz";
 
 export type Quiz = {
   id: string;

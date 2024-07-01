@@ -17,6 +17,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
+import { useQuizByType } from "@/app/api/quiz/quiz.query";
+import { getQuizById, getQuizByType } from "@/app/api/quiz/quiz.api";
+import { useCurrentUser } from "@/hooks/use-current-user";
+
+interface QuizDetailProps {}
 
 type Quiz = {
   quizId: string;
@@ -86,7 +91,9 @@ const mapQuizzesToCorrects = (quizzes: Quiz[]): Correct[] => {
   }));
 };
 
-const QuizDetailPage = () => {
+const QuizDetailPage = ({}: QuizDetailProps) => {
+  const user = useCurrentUser();
+
   const [shuffledAnswers, setShuffledAnswers] =
     useState<{ id: string; newAnswer: string[] }[]>();
   const [selectedAnswers, setSelectedAnswers] = useState<
@@ -94,8 +101,12 @@ const QuizDetailPage = () => {
   >([]);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [correctCount, setCorrectCount] = useState<number>(0);
-
   useEffect(() => {
+    const Quiz = getQuizByType(
+      "8a6f94ce-f5da-4b82-915c-bd74f17ea98d",
+      "lesson",
+      user?.token as string
+    );
     const shuffled = quizs.map((data) => {
       const answers = [
         data.quizCorrect,
