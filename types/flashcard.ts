@@ -7,15 +7,15 @@ export type Flashcard = {
   subjectName: string;
   numberOfFlashcardContent: number;
   userImage: string;
+  userId: string;
   updatedAt: Date;
   status: Status;
 };
 
 export type FlashcardContent = {
-  flashcardId: string;
-  image: string;
-  flashcardContentQuestion: string;
-  flashcardContentAnswer: string;
+  id: string;
+  frontHTML: string | JSX.Element;
+  backHTML: string | JSX.Element;
 };
 
 export enum Status {

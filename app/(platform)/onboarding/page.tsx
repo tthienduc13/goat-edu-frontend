@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { notFound } from "next/navigation";
 import { OnboardingIntro } from "./_components/onboarding-intro";
 import { OnboardingTheme } from "./_components/onboarding-theme";
 import { useSearchParams } from "next/navigation";
@@ -9,14 +9,13 @@ import { OnboardingCommand } from "./_components/onboarding-command";
 import { OnboardingUser } from "./_components/command-user";
 
 const OnboardingPage = () => {
-  const router = useRouter();
   const params = useSearchParams();
   const page = params.get("page");
 
   const query = ["intro", "theme", "done", "role", "command", "user"];
 
   if (!page || !query.includes(page)) {
-    router.push("/not-found");
+    notFound();
     return null;
   }
   return (

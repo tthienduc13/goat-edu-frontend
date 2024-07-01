@@ -15,7 +15,11 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { patchUserProfile } from "@/app/api/user/user.api";
 import { useSession } from "next-auth/react";
 
-export const AvatarChanging = () => {
+interface AvatarChangingProps {
+  page?: "onboarding" | "profile";
+}
+
+export const AvatarChanging = ({ page = "profile" }: AvatarChangingProps) => {
   const user = useCurrentUser();
   const { update } = useSession();
   const fileInputRef = useRef(null);
@@ -75,10 +79,12 @@ export const AvatarChanging = () => {
 
   return (
     <div className="w-full flex flex-col gap-y-6">
-      <Header
-        title="Profile picture"
-        label="Upload a picture to make your profile stand out and let people recognize your comments and contributions easily!"
-      />
+      {page === "profile" && (
+        <Header
+          title="Profile picture"
+          label="Upload a picture to make your profile stand out and let people recognize your comments and contributions easily!"
+        />
+      )}
       <div className="flex w-full justify-between items-end ">
         <div className="rounded-[10px] overflow-hidden">
           <Avatar className="w-24 h-24">
@@ -107,10 +113,14 @@ export const AvatarChanging = () => {
 
               {imageState ? (
                 <Button disabled={isPending} onClick={() => handleSaveImage()}>
-                  {isPending && (
-                    <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                  {isPending ? (
+                    <div className="flex flex-row items-center">
+                      <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                      Saving
+                    </div>
+                  ) : (
+                    "  Save "
                   )}
-                  Save
                 </Button>
               ) : null}
             </div>

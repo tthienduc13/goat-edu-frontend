@@ -11,6 +11,7 @@ import { AtSign, Command } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { UserAvatar } from "@/components/custom/user-avatar";
+import { AvatarChanging } from "../../account/profile/_components/avatar-changing";
 
 export const OnboardingUser = () => {
   const user = useCurrentUser();
@@ -55,8 +56,7 @@ export const OnboardingUser = () => {
           </div>
         </div>
         <div className="w-full flex flex-row items-center gap-x-5">
-          <UserAvatar shape="circle" />
-          <div>TODO: Add avatar change function</div>
+          <AvatarChanging page="onboarding" />
         </div>
       </motion.div>
       <motion.div variants={STAGGER_CHILD_VARIANTS}>

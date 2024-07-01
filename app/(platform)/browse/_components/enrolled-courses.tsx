@@ -18,7 +18,7 @@ export const EnrollCourses = () => {
     return <EmptyCard />;
   }
 
-  if (!data || error) {
+  if (!data || error || data.length === 0) {
     return;
   }
   return (

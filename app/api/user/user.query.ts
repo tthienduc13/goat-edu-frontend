@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { getUserSubjects, patchNewUser } from "./user.api";
 
 export const usePatchNewUser = (token: string) => {
@@ -16,7 +16,7 @@ export const useUserEnroll = ({
   pageNumber?: number;
   pageSize?: number;
 }) => {
-  const queryKey = ["subject", "user", pageNumber, pageSize];
+  const queryKey = ["subject", "user", "enroll", pageNumber, pageSize];
   const queryFn = async () => {
     return getUserSubjects({
       token: token,

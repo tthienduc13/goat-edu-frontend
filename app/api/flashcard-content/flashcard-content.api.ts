@@ -9,6 +9,13 @@ export const END_POINT = {
   GET_BY_ID: "/flashcard_content",
 };
 
+type FlashcardContentResponse = {
+  id: string;
+  image: string;
+  flashcardContentQuestion: string;
+  flashcardContentAnswer: string;
+};
+
 export const getAllFlashcardContentById = async (
   token: string,
   id: string
@@ -23,7 +30,14 @@ export const getAllFlashcardContentById = async (
         },
       }
     );
-    return response.data;
+    const flashcardContent: FlashcardContent[] = response.data.map(
+      (item: FlashcardContentResponse) => ({
+        id: item.id,
+        frontHTML: `<div>${item.flashcardContentQuestion}</div>`,
+        backHTML: `<div>${item.flashcardContentAnswer}</div>`,
+      })
+    );
+    return flashcardContent;
   } catch (error) {
     console.error("Error fetching flashcard:", error);
     throw error;

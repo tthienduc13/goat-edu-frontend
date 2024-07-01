@@ -11,28 +11,28 @@ interface Match {
 // TODO: get this data from the backend
 const flashcards = [
   {
-    flashcardContentQuestion: "What is the atomic number of Hydrogen?",
+    flashcardContentQuestion: "1",
     flashcardContentAnswer: "1",
   },
   {
-    flashcardContentQuestion: "Who discovered the theory of relativity?",
-    flashcardContentAnswer: "Albert Einstein",
+    flashcardContentQuestion: "2",
+    flashcardContentAnswer: "2",
   },
   {
-    flashcardContentQuestion: "What is the unit of electric current?",
-    flashcardContentAnswer: "Ampere",
+    flashcardContentQuestion: "3",
+    flashcardContentAnswer: "3",
   },
   {
-    flashcardContentQuestion: "What is the largest organ in the human body?",
-    flashcardContentAnswer: "Skin",
+    flashcardContentQuestion: "4",
+    flashcardContentAnswer: "4",
   },
   {
-    flashcardContentQuestion: "What is the chemical symbol for gold?",
-    flashcardContentAnswer: "Au",
+    flashcardContentQuestion: "5",
+    flashcardContentAnswer: "5",
   },
   {
-    flashcardContentQuestion: "What is the speed of light in a vacuum?",
-    flashcardContentAnswer: "299,792,458 meters per second",
+    flashcardContentQuestion: "6",
+    flashcardContentAnswer: "6",
   },
 ];
 
