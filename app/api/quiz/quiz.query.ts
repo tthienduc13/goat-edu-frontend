@@ -6,5 +6,8 @@ export const useQuizById = (id: string, token: string) => {
 };
 
 export const useQuizByType = (typeId: string, type: string, token: string) => {
-  return useQuery(queries.quiz.type(typeId, type, token));
+  return useQuery({
+    ...queries.quiz.type(typeId, type, token),
+    enabled: !!typeId,
+  });
 };

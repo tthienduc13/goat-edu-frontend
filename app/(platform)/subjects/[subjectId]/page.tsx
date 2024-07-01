@@ -206,7 +206,7 @@ const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
             alt="Subject Image"
           /> */}
           <div className="flex flex-col items-center">
-            <Link href={"/study"}>
+            <Link href={`/study/${data?.id}`}>
               <Button>Enroll</Button>
             </Link>
           </div>

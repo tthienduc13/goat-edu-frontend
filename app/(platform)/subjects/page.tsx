@@ -10,6 +10,7 @@ import { Subject } from "@/types/subject";
 interface ClassData {
   className: "Class 10" | "Class 11" | "Class 12";
   data: Subject[];
+  isLoading: boolean;
 }
 
 const SubjectPage = () => {
@@ -46,46 +47,52 @@ const SubjectPage = () => {
     }));
   };
   const classes: ClassData[] = [
-    { className: "Class 10", data: data10 },
-    { className: "Class 11", data: data11 },
-    { className: "Class 12", data: data12 },
+    { className: "Class 10", data: data10, isLoading: isLoading10 },
+    { className: "Class 11", data: data11, isLoading: isLoading11 },
+    { className: "Class 12", data: data12, isLoading: isLoading12 },
   ];
 
-  if (isLoading10 || isLoading11 || isLoading12) {
-    return (
-      <div className="flex flex-col w-full gap-y-8">
-        <SubjectLoading />
-        <SubjectLoading />
-        <SubjectLoading />
-      </div>
-    );
-  }
+  // if (isLoading10 || isLoading11 || isLoading12) {
+  //   return (
+  //     <div className="flex flex-col w-full gap-y-8">
+  //       <SubjectLoading />
+  //       <SubjectLoading />
+  //       <SubjectLoading />
+  //     </div>
+  //   );
+  // }
   return (
     <div className="flex flex-col w-full gap-y-8">
-      {classes.map(({ className, data }) => (
-        <div key={className} className="flex flex-col gap-y-10">
-          <div className="w-full flex flex-row justify-between items-center">
-            <h2 className=" text-3xl font-bold ">{className}</h2>
-            <Button
-              variant={"link"}
-              onClick={() => {
-                showAll[className] == less
-                  ? handleViewMore(className, more)
-                  : handleViewMore(className, less);
-              }}
-            >
-              {showAll[className] == less ? "View more" : "View less"}
-            </Button>
+      {classes.map(({ className, data, isLoading }) => {
+        if (isLoading) {
+          return <SubjectLoading key={className} />;
+        }
+
+        return (
+          <div key={className} className="flex flex-col gap-y-10">
+            <div className="w-full flex flex-row justify-between items-center">
+              <h2 className=" text-3xl font-bold ">{className}</h2>
+              <Button
+                variant={"link"}
+                onClick={() => {
+                  showAll[className] == less
+                    ? handleViewMore(className, more)
+                    : handleViewMore(className, less);
+                }}
+              >
+                {showAll[className] == less ? "View more" : "View less"}
+              </Button>
+            </div>
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {data!.map((data) => (
+                <div key={data.id}>
+                  <SubjectCard data={data} type="enroll" />
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {data!.map((data) => (
-              <div key={data.id}>
-                <SubjectCard data={data} type="enroll" />
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

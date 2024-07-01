@@ -11,6 +11,7 @@ import { note } from "./note";
 import { chapter } from "./chapter";
 import { Lesson } from "./lesson";
 import { Quiz } from "./quiz";
+import { theory } from "./theory";
 
 export const queries = mergeQueryKeys(
   roles,
@@ -23,5 +24,6 @@ export const queries = mergeQueryKeys(
   note,
   chapter,
   Lesson,
-  Quiz
+  Quiz,
+  theory
 );
