@@ -16,6 +16,7 @@ function Flashcard({
   width,
   onCardFlip = (state = false) => {},
   manualFlipRef,
+  progressWidth,
 }: FlashcardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -56,7 +57,7 @@ function Flashcard({
         }}
       >
         <div
-          className="FlashcardWrapper__item--front"
+          className="FlashcardWrapper__item--front relative overflow-hidden"
           style={{
             ...frontCardStyle,
             cursor:
@@ -79,9 +80,13 @@ function Flashcard({
               style={frontContentStyle}
             />
           )}
+          <div
+            style={{ width: `${progressWidth}%` }}
+            className="absolute w-full bottom-0 left-0 h-1 bg-violet-500 custom-transition"
+          ></div>
         </div>
         <div
-          className="FlashcardWrapper__item--back"
+          className="FlashcardWrapper__item--back relative overflow-hidden"
           style={{
             ...backCardStyle,
             cursor:
@@ -104,6 +109,10 @@ function Flashcard({
               style={backContentStyle}
             />
           )}
+          <div
+            style={{ width: `${progressWidth}%` }}
+            className="absolute w-full top-0 left-0 h-1 bg-violet-500 custom-transition"
+          ></div>
         </div>
       </div>
     </div>

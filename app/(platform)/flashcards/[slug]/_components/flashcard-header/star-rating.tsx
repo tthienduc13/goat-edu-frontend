@@ -22,6 +22,7 @@ export const Star = ({ id }: StarProps) => {
   };
   return (
     <ReactRating
+      className="h-5 w-5"
       style={{ maxWidth: 100 }}
       readOnly={isReadOnly}
       value={ratingCount}
