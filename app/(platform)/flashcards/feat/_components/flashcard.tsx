@@ -47,9 +47,7 @@ export const Flashcard = ({ id }: FlashcardProps) => {
           <Button size={"lg"} variant={"secondary"}>
             Flashcard
           </Button>
-          <div className="text-lg font-bold">
-            ${flashcardData.flashcardName}
-          </div>
+          <div className="text-lg font-bold">{flashcardData.flashcardName}</div>
           <Hint label="Go back" side="bottom" sideOffset={10}>
             <Button onClick={handleLeave} size={"icon"} variant={"ghost"}>
               <X className="h-4 w-4" />

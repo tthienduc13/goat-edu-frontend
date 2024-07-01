@@ -10,7 +10,6 @@ import useSaveStatusStore from "@/stores/useSaveStatusStore";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useDeleteFlashcard } from "@/app/api/flashcard/flashcard.query";
 import { notFound, useRouter, useSearchParams } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
 
 const EditFlashcardPage = () => {
   const user = useCurrentUser();

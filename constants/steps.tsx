@@ -19,7 +19,7 @@ export const steps: any = [
       </>
     ),
     selector: "#onborda-step2",
-    side: "left",
+    side: "bottom",
     showControls: true,
     pointerPadding: -1,
     pointerRadius: 24,
