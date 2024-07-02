@@ -10,6 +10,7 @@ import { QuizLoading } from "./quiz-loading";
 
 interface QuizDetailProps {
   lessonId: string;
+  lessonName: string;
 }
 
 type Correct = {
@@ -27,7 +28,7 @@ const mapQuizzesToCorrects = (quizzes: QuestionInQuizz[]): Correct[] => {
   }));
 };
 
-const LessonQuiz = ({ lessonId }: QuizDetailProps) => {
+const LessonQuiz = ({ lessonId, lessonName }: QuizDetailProps) => {
   const user = useCurrentUser();
   const [isPassed, setIsPassed] = useState<boolean>(false);
   const [totalQuestion, setTotalQuestion] = useState<number>(0);
@@ -105,7 +106,7 @@ const LessonQuiz = ({ lessonId }: QuizDetailProps) => {
   }
   return (
     <div className="w-[800px] mx-auto space-y-9">
-      <h1 className=" text-4xl font-medium">Quiz : {}</h1>
+      <h1 className=" text-4xl font-medium"> {lessonName}</h1>
       {isSubmitted && (
         <ResultSection
           isPassed={isPassed}

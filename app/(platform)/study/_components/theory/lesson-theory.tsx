@@ -1,52 +1,39 @@
-import { fetchAndParseDocx } from "@/actions/read-docs";
 import { useTheoryByLesson } from "@/app/api/theory/theory.query";
-import Tiptap from "@/components/math-render/tiptap";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import axios from "axios";
-import mammoth from "mammoth";
 import React, { useEffect, useState } from "react";
+import sampleImage from "@/assets/sample2.png";
+import katex from "katex";
+import "katex/dist/katex.min.css";
+import Image from "next/image";
+import TheorySection from "./theory-section";
+import TheoryLoading from "./theory-loading";
 
-const LessonTheory = () => {
-  const [content, setContent] = useState("");
-  const [error, setError] = useState("");
+interface LatexRendererProps {
+  latex: string;
+}
+
+interface LessonTheoryProps {
+  lessonId: string;
+  lessonName: string;
+}
+
+const LessonTheory = ({ lessonId, lessonName }: LessonTheoryProps) => {
   const user = useCurrentUser();
-  // const {
-  //   data: theoryData,
-  //   isLoading: theoryLoading,
-  //   error: theoryError,
-  // } = useTheoryByLesson(
-  //   "8a6f94ce-f5da-4b82-915c-bd74f17ea98d",
-  //   user?.token as string
-  // );
-
-  // useEffect(() => {
-  //   const fetchAndReadDocx = async (url: string): Promise<void> => {
-  //     try {
-  //       const apiUrl = `/api/fetch-docx?url=${encodeURIComponent(url)}`;
-  //       const response = await fetch(apiUrl, { method: "GET" });
-  //       if (!response.ok) {
-  //         throw new Error(`Error fetching document: ${response.statusText}`);
-  //       }
-  //       const arrayBuffer = await response.arrayBuffer();
-  //       const result = await mammoth.extractRawText({ arrayBuffer });
-  //       setContent(result.value);
-  //       console.log(result.value);
-  //     } catch (error) {
-  //       console.error("Error reading DOCX:", error);
-  //     }
-  //   };
-  //   fetchAndReadDocx(
-  //     "https://storage.googleapis.com/swd392/theory/.docx/5efc058a-00b0-4afc-86dc-37ec9749ccf31719857668"
-  //   );
-  // }, []);
-
-  if (error) {
-    return <div>{error}</div>;
+  const {
+    data: theoryData,
+    isLoading: theoryLoading,
+    error: theoryError,
+  } = useTheoryByLesson(lessonId, user?.token as string);
+  if (theoryLoading) {
+    return <TheoryLoading />;
   }
 
   return (
-    <div>
-      <Tiptap />
+    <div className="space-y-4">
+      <h1 className="text-3xl font-semibold">{lessonName}</h1>
+      {theoryData?.map((theory) => (
+        <TheorySection key={theory.id} theory={theory} />
+      ))}
     </div>
   );
 };

@@ -20,7 +20,7 @@ import { LessonByChapter } from "@/types/lesson";
 interface StudySideMenuProps {
   chapters: Chapter[] | undefined;
   lessonsByChapter: LessonByChapter[];
-  handleOnClick: (value: string, id: string) => void;
+  handleOnClick: (value: string, id: string, name: string) => void;
   source: {
     theory: string;
     theoryFlashcard: string;
@@ -61,7 +61,13 @@ const StudySideMenu = ({
                   <AccordionTrigger>{lesson.lessonName}</AccordionTrigger>
                   <AccordionContent>
                     <Button
-                      onClick={() => handleOnClick(source.theory, lesson.id)}
+                      onClick={() =>
+                        handleOnClick(
+                          source.theory,
+                          lesson.id,
+                          lesson.lessonName
+                        )
+                      }
                       variant={"link"}
                     >
                       Theory
@@ -69,7 +75,9 @@ const StudySideMenu = ({
                   </AccordionContent>
                   <AccordionContent>
                     <Button
-                      onClick={() => handleOnClick(source.quiz, lesson.id)}
+                      onClick={() =>
+                        handleOnClick(source.quiz, lesson.id, lesson.lessonName)
+                      }
                       variant={"link"}
                     >
                       Flashcard
