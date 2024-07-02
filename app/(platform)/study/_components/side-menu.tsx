@@ -20,9 +20,20 @@ import { LessonByChapter } from "@/types/lesson";
 interface StudySideMenuProps {
   chapters: Chapter[] | undefined;
   lessonsByChapter: LessonByChapter[];
+  handleOnClick: (value: string, id: string, name: string) => void;
+  source: {
+    theory: string;
+    theoryFlashcard: string;
+    quiz: string;
+  };
 }
 
-const StudySideMenu = ({ chapters, lessonsByChapter }: StudySideMenuProps) => {
+const StudySideMenu = ({
+  chapters,
+  lessonsByChapter,
+  handleOnClick,
+  source,
+}: StudySideMenuProps) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -49,10 +60,28 @@ const StudySideMenu = ({ chapters, lessonsByChapter }: StudySideMenuProps) => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger>{lesson.lessonName}</AccordionTrigger>
                   <AccordionContent>
-                    <Button variant={"link"}>Theory</Button>
+                    <Button
+                      onClick={() =>
+                        handleOnClick(
+                          source.theory,
+                          lesson.id,
+                          lesson.lessonName
+                        )
+                      }
+                      variant={"link"}
+                    >
+                      Theory
+                    </Button>
                   </AccordionContent>
                   <AccordionContent>
-                    <Button variant={"link"}>Flashcard</Button>
+                    <Button
+                      onClick={() =>
+                        handleOnClick(source.quiz, lesson.id, lesson.lessonName)
+                      }
+                      variant={"link"}
+                    >
+                      Flashcard
+                    </Button>
                   </AccordionContent>
                   <AccordionContent>
                     <Button variant={"link"}>Quiz</Button>

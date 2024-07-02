@@ -13,15 +13,24 @@ interface StudyPageProps {
 }
 
 const SubjectStudyPage = ({ params }: StudyPageProps) => {
+  const source = {
+    theory: "Theory",
+    theoryFlashcard: "TheoryFlashCard",
+    quiz: "Quiz",
+  };
+  const [lessonsByChapter, setLessonsByChapter] = useState<LessonByChapter[]>(
+    []
+  );
+
   const user = useCurrentUser();
-  const [display, setDisplay] = useState<boolean>(false);
+  const [display, setDisplay] = useState<string>("Theory");
+
   const { data, isLoading, error } = useSubjectById(
     params.subjectId,
     user?.token as string
   );
-  const [lessonsByChapter, setLessonsByChapter] = useState<LessonByChapter[]>(
-    []
-  );
+  const [sourceId, setSourceId] = useState<string>("");
+  const [sourceName, setsourceName] = useState<string>("");
 
   useEffect(() => {
     const fetchLessons = async () => {
@@ -39,24 +48,35 @@ const SubjectStudyPage = ({ params }: StudyPageProps) => {
         }));
 
         setLessonsByChapter(mappedLessons);
+        setSourceId(mappedLessons[0].lessonList[0].id);
+        setsourceName(mappedLessons[0].lessonList[0].lessonName);
       }
     };
 
     fetchLessons();
   }, [data?.chapters, user?.token]);
 
-  const handleOnClick = (value: boolean) => {
+  const handleOnClick = (value: string, id: string, name: string) => {
     setDisplay(value);
+    setSourceId(id);
+    setsourceName(name);
   };
   return (
     <div className="w-full">
-      <div className="w-full">
-        {/* <LessonQuiz lessonName={"Lesson name"} /> */}
-        <LessonTheory />
+      <div className="w-full flex justify-center">
+        {display === source.theory ? (
+          <LessonTheory lessonId={sourceId} lessonName={sourceName} />
+        ) : display === source.quiz ? (
+          <LessonQuiz lessonId={sourceId} lessonName={sourceName} />
+        ) : (
+          "Flashcard"
+        )}
       </div>
       <StudySideMenu
         chapters={data?.chapters}
         lessonsByChapter={lessonsByChapter}
+        handleOnClick={handleOnClick}
+        source={source}
       />
     </div>
   );
