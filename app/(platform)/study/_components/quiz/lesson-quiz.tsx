@@ -9,7 +9,7 @@ import { ResultSection } from "./result-section";
 import { QuizLoading } from "./quiz-loading";
 
 interface QuizDetailProps {
-  lessonName: string;
+  lessonId: string;
 }
 
 type Correct = {
@@ -27,7 +27,7 @@ const mapQuizzesToCorrects = (quizzes: QuestionInQuizz[]): Correct[] => {
   }));
 };
 
-const LessonQuiz = ({ lessonName }: QuizDetailProps) => {
+const LessonQuiz = ({ lessonId }: QuizDetailProps) => {
   const user = useCurrentUser();
   const [isPassed, setIsPassed] = useState<boolean>(false);
   const [totalQuestion, setTotalQuestion] = useState<number>(0);
@@ -36,11 +36,7 @@ const LessonQuiz = ({ lessonName }: QuizDetailProps) => {
     data: quizData,
     isLoading: quizIsLoading,
     error: quizError,
-  } = useQuizByType(
-    "8a6f94ce-f5da-4b82-915c-bd74f17ea98d",
-    "lesson",
-    user?.token!
-  );
+  } = useQuizByType(lessonId, "lesson", user?.token!);
 
   const [shuffledAnswers, setShuffledAnswers] = useState<
     { id: string; newAnswer: string[] }[] | undefined
@@ -109,7 +105,7 @@ const LessonQuiz = ({ lessonName }: QuizDetailProps) => {
   }
   return (
     <div className="w-[800px] mx-auto space-y-9">
-      <h1 className=" text-4xl font-medium">Quiz : {lessonName}</h1>
+      <h1 className=" text-4xl font-medium">Quiz : {}</h1>
       {isSubmitted && (
         <ResultSection
           isPassed={isPassed}

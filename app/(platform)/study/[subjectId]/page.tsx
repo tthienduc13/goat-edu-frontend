@@ -13,8 +13,15 @@ interface StudyPageProps {
 }
 
 const SubjectStudyPage = ({ params }: StudyPageProps) => {
+  const source = {
+    theory: "Theory",
+    theoryFlashcard: "TheoryFlashCard",
+    quiz: "Quiz",
+  };
+
   const user = useCurrentUser();
-  const [display, setDisplay] = useState<boolean>(false);
+  const [display, setDisplay] = useState<string>("Theory");
+  const [sourceId, setSourceId] = useState<string>("");
   const { data, isLoading, error } = useSubjectById(
     params.subjectId,
     user?.token as string
@@ -45,18 +52,28 @@ const SubjectStudyPage = ({ params }: StudyPageProps) => {
     fetchLessons();
   }, [data?.chapters, user?.token]);
 
-  const handleOnClick = (value: boolean) => {
+  const handleOnClick = (value: string, id: string) => {
     setDisplay(value);
+    setSourceId(id);
   };
   return (
     <div className="w-full">
       <div className="w-full">
         {/* <LessonQuiz lessonName={"Lesson name"} /> */}
-        <LessonTheory />
+        {/* <LessonTheory /> */}
+        {display === source.theory ? (
+          <LessonTheory />
+        ) : display === source.quiz ? (
+          <LessonQuiz lessonId={sourceId} />
+        ) : (
+          "Flashcard"
+        )}
       </div>
       <StudySideMenu
         chapters={data?.chapters}
         lessonsByChapter={lessonsByChapter}
+        handleOnClick={handleOnClick}
+        source={source}
       />
     </div>
   );

@@ -17,6 +17,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 
 import { cx } from "class-variance-authority";
 import { common, createLowlight } from "lowlight";
+import MathExtension from "../math-render/_components/math-extention";
 
 const aiHighlight = AIHighlight;
 const placeholder = Placeholder.configure({
@@ -128,8 +129,12 @@ const youtube = Youtube.configure({
   inline: false,
 });
 
-const characterCount = CharacterCount.configure();
+const mathextension = MathExtension.configure({
+  evaluation: false,
+  katexOptions: { macros: { "\\B": "\\mathbb{B}" } },
+});
 
+const characterCount = CharacterCount.configure();
 export const defaultExtensions = [
   starterKit,
   placeholder,
@@ -144,4 +149,5 @@ export const defaultExtensions = [
   youtube,
   characterCount,
   GlobalDragHandle,
+  mathextension,
 ];
