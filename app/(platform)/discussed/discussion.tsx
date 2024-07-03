@@ -5,8 +5,9 @@ import { BackButton } from "@/components/custom/buttons/back-button";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 import { useQuery } from "@tanstack/react-query";
 import { DiscussedDetail } from "./[slug]/_components/discussed-detail";
-import { Comment } from "./[slug]/_components/comment";
+import { Comment } from "./[slug]/_components/comment/comment";
 import { SideNav } from "./[slug]/_components/side-nav";
+import Error from "@/app/error";
 
 interface DiscussionProps {
   token: string;
@@ -18,17 +19,21 @@ export const Discussion = ({ token, id }: DiscussionProps) => {
     useDiscussionById({ token: token, id: id })
   );
 
-  if (!data) {
+  if (!data || error) {
+    Error();
+  }
+
+  if (isLoading) {
     return null;
   }
 
   return (
-    <div className="w-full min-h-[calc(100vh-80px-64px)] ">
+    <div className="w-full h-fit ">
       <TracingBeam>
         <div className="w-full flex flex-row items-start gap-x-5">
-          <div className="flex-1 border-r-[1px] min-h-[calc(100vh-80px-64px)]">
+          <div className="flex-1 px-5  ">
             <BackButton />
-            <DiscussedDetail data={data} />
+            <DiscussedDetail data={data!} />
             <Comment />
           </div>
           <SideNav />

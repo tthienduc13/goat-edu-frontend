@@ -23,6 +23,7 @@ export const Login = async (
       username,
       password,
       redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+      // redirectTo: "/",
     });
 
     return { success: "Login successfully" };

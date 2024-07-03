@@ -11,32 +11,39 @@ import {
 
 const { auth } = NextAuth(authConfig);
 
-export default auth((req) => {
+export default auth(async (req) => {
   const { nextUrl } = req;
+  if (!req.auth) {
+    return;
+  }
   const isLoggedIn = !!req.auth;
-  const isNewUser = req.auth?.user?.isNewUser;
+  const isNewUser = !!req.auth.user?.isNewUser;
+  console.log("isNewUser:", isNewUser);
+
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+
   if (isApiAuthRoute) return;
 
   if (isAuthRoute || isPublicRoute) {
     if (isLoggedIn) {
-      if (isNewUser) {
+      if (
+        isNewUser &&
+        nextUrl.pathname !== DEFAULT_ONBOARDING_REDIRECT &&
+        nextUrl.pathname === DEFAULT_LOGIN_REDIRECT
+      ) {
         return Response.redirect(new URL(DEFAULT_ONBOARDING_REDIRECT, nextUrl));
+      } else if (
+        !isNewUser &&
+        nextUrl.pathname.startsWith(DEFAULT_ONBOARDING_REDIRECT)
+      ) {
+        return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
       }
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      return;
     }
     return;
   }
-
-  // if (
-  //   isLoggedIn &&
-  //   isNewUser &&
-  //   nextUrl.pathname !== DEFAULT_ONBOARDING_REDIRECT
-  // ) {
-  //   return Response.redirect(new URL(DEFAULT_ONBOARDING_REDIRECT, nextUrl));
-  // }
 
   if (!isLoggedIn && !isPublicRoute) {
     let callbackUrl = nextUrl.pathname;
@@ -55,4 +62,3 @@ export default auth((req) => {
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
-3;

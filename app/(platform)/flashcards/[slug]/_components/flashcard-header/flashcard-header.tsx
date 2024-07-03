@@ -46,7 +46,7 @@ export const FlashcardHeader = ({
       <div className="flex flex-col gap-y-1">
         <div className="text-3xl font-bold">{data?.flashcardName}</div>
         <div id="onborda-step2" className="flex flex-row items-center gap-x-2">
-          {isRated ? (
+          {isRated || data.userId === user?.id! ? (
             <StarIcon className="h-5 w-5 text-[#FFB23F] fill-[#FFB23F]" />
           ) : (
             <Star id={id} />

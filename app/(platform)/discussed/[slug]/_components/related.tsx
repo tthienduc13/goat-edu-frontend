@@ -12,7 +12,7 @@ export const Realted = () => {
         </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-y-1 divide-y-[1px]">
-        <RelatedCard />
+        {/* <RelatedCard /> */}
       </CardContent>
     </Card>
   );

@@ -114,11 +114,13 @@ export const patchFlashcard = async ({
   id,
   flashcardName,
   flashcardDescription,
+  status,
 }: {
   token: string;
   id: string;
   flashcardName?: string | null;
   flashcardDescription?: string | null;
+  status?: string | null;
 }) => {
   try {
     const response = await axiosClient.patch(
@@ -126,6 +128,7 @@ export const patchFlashcard = async ({
       {
         flashcardName: flashcardName ?? null,
         flashcardDescription: flashcardDescription ?? null,
+        status: status ?? null,
       },
       {
         headers: {

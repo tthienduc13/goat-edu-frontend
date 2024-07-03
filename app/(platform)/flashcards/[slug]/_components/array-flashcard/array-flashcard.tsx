@@ -14,6 +14,8 @@ interface ArrayFlashcardProps {
   data: FlashcardContent[];
 }
 
+// TODO: RESET FLASHCARD FUNCTION
+
 export const ArrayFlashcard = ({ data }: ArrayFlashcardProps) => {
   const [progressWidth, setProgressWidth] = useState<number>(0);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -46,6 +48,11 @@ export const ArrayFlashcard = ({ data }: ArrayFlashcardProps) => {
         controlRef.current.prevCard();
         setProgressWidth((prev) => prev - 100 / (data.length - 1));
       }
+    }
+  };
+  const handleReset = () => {
+    if (controlRef.current) {
+      controlRef.current.resetArray();
     }
   };
 
@@ -89,8 +96,6 @@ export const ArrayFlashcard = ({ data }: ArrayFlashcardProps) => {
     return () => window.removeEventListener("keydown", handleKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCardIndex]);
-
-  console.log(currentCardIndex);
 
   return (
     <div className="w-full h-full flex-col flex gap-y-4">
@@ -161,7 +166,7 @@ export const ArrayFlashcard = ({ data }: ArrayFlashcardProps) => {
         </div>
         <Button
           onClick={handleNextCard}
-          disabled={currentCardIndex === data.length}
+          disabled={currentCardIndex + 1 === data.length}
           size={"lg"}
           className="w-[40%]"
           variant={"secondary"}
