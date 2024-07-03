@@ -76,7 +76,7 @@ const DiscussedPage = () => {
   }
 
   return (
-    <div className="flex flex-col w-full h-[calc(100vh-64px)] ">
+    <div className="flex flex-col w-full ">
       <div className="w-full flex flex-row justify-between">
         <div className="max-w-[920px] w-full h-full grid grid-cols-1 divide-y-[1px]  ">
           {discussions &&

@@ -25,7 +25,7 @@ export const UpvoteButton = ({
 
   const { mutationKey, mutationFn } = useVote({ token: user?.token!, id: id });
 
-  const { mutate, isSuccess, isError, error } = useMutation({
+  const { mutate, isSuccess, isError, error, isPending } = useMutation({
     mutationKey,
     mutationFn,
     onSuccess: (data) => {
@@ -44,6 +44,7 @@ export const UpvoteButton = ({
   return (
     <div className="flex items-center gap-x-1 flex-row">
       <Button
+        disabled={isPending}
         onClick={() => mutate()}
         variant="ghost"
         size="icon"

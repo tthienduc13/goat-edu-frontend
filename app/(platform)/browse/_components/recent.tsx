@@ -2,6 +2,8 @@ import { useFlashcards } from "@/app/api/flashcard/flashcard.query";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { Card } from "../../flashcards/_components/card";
 import { EmptyCard } from "./empty-card";
+import { useQuery } from "@tanstack/react-query";
+import { Status } from "@/types/flashcard";
 
 export const RecentView = () => {
   const user = useCurrentUser();
@@ -9,7 +11,15 @@ export const RecentView = () => {
     data: flashcardsData,
     isLoading: flashcardsLoading,
     error: flashcardsError,
-  } = useFlashcards(1, user?.token!);
+  } = useQuery(
+    useFlashcards({
+      token: user?.token!,
+      sort: "top",
+      pageNumber: 1,
+      pageSize: 3,
+      status: Status.Open,
+    })
+  );
 
   if (flashcardsLoading) {
     return <EmptyCard />;

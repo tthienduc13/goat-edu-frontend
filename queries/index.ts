@@ -5,7 +5,6 @@ import { notifications } from "./notification";
 import { tags } from "./tag";
 import { discussion } from "./discussion";
 import { subject } from "./subject";
-import { flashcard } from "./flashcard";
 import { flashcardContent } from "./flashcard-content";
 import { note } from "./note";
 import { chapter } from "./chapter";
@@ -19,7 +18,6 @@ export const queries = mergeQueryKeys(
   tags,
   discussion,
   subject,
-  flashcard,
   flashcardContent,
   note,
   chapter,
