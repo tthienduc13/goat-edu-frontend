@@ -37,8 +37,12 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { useSubjects } from "@/app/api/subject/subject.query";
-import { Check } from "lucide-react";
+import { Check, Upload, UploadCloud } from "lucide-react";
 import Image from "next/image";
+// import { LatexRenderer } from "@/lib/latex-render";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 type TagsInputType = {
   id: string;
@@ -46,9 +50,14 @@ type TagsInputType = {
 };
 
 export const CreateForm = () => {
+  const user = useCurrentUser();
+  const router = useRouter();
   const [htmlContent, setHtmlContent] = useState<string>("");
   const [jsonContent, setJsonContent] = useState<string>("");
   const [isPending, startTransition] = useTransition();
+  const handleBrowseImage = () => {
+    document.getElementById("imageImporter")?.click();
+  };
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const {
@@ -77,16 +86,44 @@ export const CreateForm = () => {
     },
   });
 
+  const handleOnchangeimage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files, displayUrl } = getImageData(event);
+    setPreview(displayUrl);
+    // onChange(files);
+    setUploadedFile(files[0]);
+  };
+
   const onSubmit = (values: z.infer<typeof NewDiscussionSchema>) => {
     const transformedTags = tags.map((tag) => ({ tagName: tag.text }));
     const formData: z.infer<typeof NewDiscussionSchema> = {
       ...values,
       discussionBodyHtml: htmlContent,
       discussionBody: jsonContent,
+      discussionImage: uploadedFile ?? null,
       tags: transformedTags,
     };
+    console.log(JSON.stringify(transformedTags));
     console.log(formData);
+    startTransition(async () => {
+      // CreateDiscussion(formData).then((data) => {
+      //   if (data.success) {
+      //     toast.success(data.success);
+      //   }
+      //   if (data.error) {
+      //     toast.error(data.error);
+      //   }
+      // });
+      // const response = await createDiscussion({
+      //   token: user?.token!,
+      //   values: formData,
+      // });
+      // console.log(response);
+    });
   };
+
+  if (error) {
+    Error();
+  }
 
   return (
     <Form {...form}>
@@ -113,6 +150,51 @@ export const CreateForm = () => {
                 </FormControl>
                 <FormMessage />
               </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="discussionImage"
+            render={({ field: { onChange, value, ...rest } }) => (
+              <>
+                <FormItem>
+                  <FormLabel>Image</FormLabel>
+                  <FormControl>
+                    <div>
+                      <Input
+                        id="imageImporter"
+                        type="file"
+                        {...rest}
+                        onChange={(event) => {
+                          handleOnchangeimage(event);
+                        }}
+                        className="hidden"
+                      />
+                      <div
+                        onClick={handleBrowseImage}
+                        className="w-full overflow-hidden relative h-[400px] hover:opacity-80 cursor-pointer flex justify-center items-center border-dashed border-4 border-secondary rounded-xl bg-[#a8b3cf14]"
+                      >
+                        {preview ? (
+                          <Image
+                            src={preview}
+                            alt="preview image"
+                            fill
+                            objectFit="cover"
+                          />
+                        ) : (
+                          <div className="flex flex-col justify-center items-center gap-y-4">
+                            <UploadCloud className="h-10 w-10" />
+                            <div className="text-base text-muted-foreground">
+                              Upload an image
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              </>
             )}
           />
           <FormField
@@ -229,43 +311,6 @@ export const CreateForm = () => {
                 </FormControl>
                 <FormMessage />
               </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="discussionImage"
-            render={({ field: { onChange, value, ...rest } }) => (
-              <>
-                <FormItem>
-                  <FormLabel>Circle Image</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      {...rest}
-                      onChange={(event) => {
-                        const { files, displayUrl } = getImageData(event);
-                        setPreview(displayUrl);
-                        onChange(files);
-                        setUploadedFile(files[0]);
-                      }}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Choose best image that bring spirits to your circle.
-                  </FormDescription>
-                  <FormMessage />
-                  {preview && (
-                    <div className="w-full min-h-[100px] relative">
-                      <Image
-                        src={preview}
-                        alt="preview image"
-                        fill
-                        objectFit="contain"
-                      />
-                    </div>
-                  )}
-                </FormItem>
-              </>
             )}
           />
           <Button className="w-fit" variant="default" type="submit">

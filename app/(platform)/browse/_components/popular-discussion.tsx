@@ -13,7 +13,7 @@ export const PopularDiscussion = () => {
       token: user?.token!,
       pageNumber: 1,
       pageSize: 3,
-      sort: "significant",
+      sort: "top",
       status: Status.Approved,
     })
   );

@@ -34,7 +34,7 @@ export const Discussion = ({ token, id }: DiscussionProps) => {
           <div className="flex-1 px-5  ">
             <BackButton />
             <DiscussedDetail data={data!} />
-            <Comment />
+            <Comment id={id} />
           </div>
           <SideNav />
         </div>
