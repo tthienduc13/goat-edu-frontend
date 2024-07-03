@@ -2,7 +2,6 @@
 
 import * as z from "zod";
 import { useState, useTransition } from "react";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -20,19 +19,58 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tag, TagInput } from "emblor";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getImageData } from "@/lib/get-image-data";
 import Editor from "@/components/novel/novel-editor";
 import { Tag as TagType } from "@/types/tag";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { useSubjects } from "@/app/api/subject/subject.query";
+import { Check, Upload, UploadCloud } from "lucide-react";
+import Image from "next/image";
+// import { LatexRenderer } from "@/lib/latex-render";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useCurrentUser } from "@/hooks/use-current-user";
+
+type TagsInputType = {
+  id: string;
+  text: string;
+};
 
 export const CreateForm = () => {
+  const user = useCurrentUser();
+  const router = useRouter();
+  const [htmlContent, setHtmlContent] = useState<string>("");
+  const [jsonContent, setJsonContent] = useState<string>("");
   const [isPending, startTransition] = useTransition();
+  const handleBrowseImage = () => {
+    document.getElementById("imageImporter")?.click();
+  };
+
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const {
+    data: subjectData,
+    isLoading,
+    error,
+  } = useSubjects({ search: searchQuery, pageSize: 10 });
 
   const [preview, setPreview] = useState("");
-  const [htmlContent, setHtmlContent] = useState<string>("");
+
   const [uploadedFile, setUploadedFile] = useState<File>();
 
-  const [tags, setTags] = useState<TagType[]>([]);
+  const [tags, setTags] = useState<TagsInputType[]>([]);
   const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
 
   const form = useForm<z.infer<typeof NewDiscussionSchema>>({
@@ -43,18 +81,49 @@ export const CreateForm = () => {
       discussionBody: "",
       discussionBodyHtml: "",
       discussionImage: null,
+      tags: [],
+      subjectId: "",
     },
   });
 
-  const { setValue } = form;
+  const handleOnchangeimage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files, displayUrl } = getImageData(event);
+    setPreview(displayUrl);
+    // onChange(files);
+    setUploadedFile(files[0]);
+  };
 
   const onSubmit = (values: z.infer<typeof NewDiscussionSchema>) => {
-    const formData = {
+    const transformedTags = tags.map((tag) => ({ tagName: tag.text }));
+    const formData: z.infer<typeof NewDiscussionSchema> = {
       ...values,
       discussionBodyHtml: htmlContent,
-      discussionBody: "asdfaf",
+      discussionBody: jsonContent,
+      discussionImage: uploadedFile ?? null,
+      tags: transformedTags,
     };
+    console.log(JSON.stringify(transformedTags));
+    console.log(formData);
+    startTransition(async () => {
+      // CreateDiscussion(formData).then((data) => {
+      //   if (data.success) {
+      //     toast.success(data.success);
+      //   }
+      //   if (data.error) {
+      //     toast.error(data.error);
+      //   }
+      // });
+      // const response = await createDiscussion({
+      //   token: user?.token!,
+      //   values: formData,
+      // });
+      // console.log(response);
+    });
   };
+
+  if (error) {
+    Error();
+  }
 
   return (
     <Form {...form}>
@@ -83,7 +152,120 @@ export const CreateForm = () => {
               </FormItem>
             )}
           />
-          {/* <FormField
+          <FormField
+            control={form.control}
+            name="discussionImage"
+            render={({ field: { onChange, value, ...rest } }) => (
+              <>
+                <FormItem>
+                  <FormLabel>Image</FormLabel>
+                  <FormControl>
+                    <div>
+                      <Input
+                        id="imageImporter"
+                        type="file"
+                        {...rest}
+                        onChange={(event) => {
+                          handleOnchangeimage(event);
+                        }}
+                        className="hidden"
+                      />
+                      <div
+                        onClick={handleBrowseImage}
+                        className="w-full overflow-hidden relative h-[400px] hover:opacity-80 cursor-pointer flex justify-center items-center border-dashed border-4 border-secondary rounded-xl bg-[#a8b3cf14]"
+                      >
+                        {preview ? (
+                          <Image
+                            src={preview}
+                            alt="preview image"
+                            fill
+                            objectFit="cover"
+                          />
+                        ) : (
+                          <div className="flex flex-col justify-center items-center gap-y-4">
+                            <UploadCloud className="h-10 w-10" />
+                            <div className="text-base text-muted-foreground">
+                              Upload an image
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              </>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="subjectId"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="px-4">Subject</FormLabel>
+                <div className="h-12 w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl className="w-full">
+                        <Button
+                          variant="ghost"
+                          role="combobox"
+                          className={cn(
+                            " justify-between hover:bg-none w-full",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value
+                            ? subjectData?.pages[0].find(
+                                (subject) => subject.id === field.value
+                              )?.subjectName
+                            : "Select a subject"}
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-full hover:bg-none">
+                      <Command className="w-full">
+                        <CommandInput
+                          className="w-full"
+                          value={searchQuery}
+                          onValueChange={setSearchQuery}
+                          placeholder="Search subject"
+                        ></CommandInput>
+                        <CommandEmpty>No Subject found</CommandEmpty>
+                        <CommandGroup className="w-full">
+                          <CommandList className="w-full">
+                            {subjectData?.pages &&
+                              subjectData.pages[0].map((subject) => (
+                                <CommandItem
+                                  className="w-full"
+                                  key={subject.id}
+                                  value={subject.id}
+                                  onSelect={() => {
+                                    form.setValue("subjectId", subject.id);
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      subject.id === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  {subject.subjectName}
+                                </CommandItem>
+                              ))}
+                          </CommandList>
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
             control={form.control}
             name="tags"
             render={({ field }) => (
@@ -103,7 +285,6 @@ export const CreateForm = () => {
                         minTags={4}
                         setTags={(newTags) => {
                           setTags(newTags);
-                          setValue("tags", newTags as [Tag, ...Tag[]]);
                         }}
                       />
                     </div>
@@ -112,10 +293,10 @@ export const CreateForm = () => {
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
           <FormField
             control={form.control}
-            name="discussionBody"
+            name="discussionBodyHtml"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Discussion Content</FormLabel>
@@ -125,41 +306,11 @@ export const CreateForm = () => {
                       setHtmlContent(content);
                       field.onChange(content);
                     }}
+                    setJsonContent={setJsonContent}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="discussionImage"
-            render={({ field: { onChange, value, ...rest } }) => (
-              <>
-                <FormItem>
-                  <FormLabel>Circle Image</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      {...rest}
-                      onChange={(event) => {
-                        const { files, displayUrl } = getImageData(event);
-                        setPreview(displayUrl);
-                        onChange(files);
-                        setUploadedFile(files[0]);
-                      }}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Choose best image that bring spirits to your circle.
-                  </FormDescription>
-                  <FormMessage />
-                  <Avatar className="w-24 h-24">
-                    <AvatarImage src={preview} />
-                    <AvatarFallback>BU</AvatarFallback>
-                  </Avatar>
-                </FormItem>
-              </>
             )}
           />
           <Button className="w-fit" variant="default" type="submit">

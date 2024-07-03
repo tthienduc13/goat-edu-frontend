@@ -5,11 +5,10 @@ import { useQuery } from "@tanstack/react-query";
 import { isToday, isYesterday } from "date-fns";
 
 import EmptyStudySet from "@/public/icons/empty/empty-study-set.svg";
-import { cn } from "@/lib/utils";
 import { Flashcard } from "@/types/flashcard";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { ChevronDown, Globe, LoaderCircle, PenLine } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { LoaderCircle, PenLine } from "lucide-react";
 import useCreateDialogStore from "@/stores/useCreateDialogStore";
 import { useUserFlashcards } from "@/app/api/flashcard/flashcard.query";
 import { ChangeVisibility } from "../../flashcards/new/_components/change-visibility";
@@ -90,13 +89,10 @@ export const StudySetContent = () => {
                     {flashcard.numberOfFlashcardContent > 1 ? "terms" : "term"}
                   </div>
                   <div className="flex flex-row items-center gap-x-5">
-                    <Link href={`/flashcards/edit?id=${flashcard.id}`}>
-                      <Button variant="destructive">
-                        <PenLine className="h-4 w-4 mr-2" />
-                        Edit
-                      </Button>
-                    </Link>
-                    <ChangeVisibility status={flashcard.status!} />
+                    <ChangeVisibility
+                      id={flashcard.id}
+                      status={flashcard.status!}
+                    />
                   </div>
                 </div>
                 <Link

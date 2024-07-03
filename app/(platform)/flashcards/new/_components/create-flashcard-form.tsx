@@ -202,7 +202,7 @@ export const CreateFlashcardForm = () => {
                         <SelectValue placeholder="Are you a student or teacher" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="rounded-xl p-2">
                       {Object.values(Status)
                         .filter((status) => status !== Status.Closed)
                         .map((status) => (

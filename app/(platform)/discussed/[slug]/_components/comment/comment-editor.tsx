@@ -15,105 +15,52 @@ import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
 import { handleImageDrop, handleImagePaste } from "novel/plugins";
-
 import { uploadFn } from "@/components/novel/image-upload";
 import {
   slashCommand,
   suggestionItems,
 } from "@/components/novel/slash-command";
 import { defaultExtensions } from "@/components/novel/extensions";
-import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
-import { MoreButton } from "../../custom/buttons/more-button";
-import { useDeleteNote, usePatchNoteContent } from "@/app/api/note/note.query";
-import { DropdownMenuGroup, DropdownMenuItem } from "../../ui/dropdown-menu";
-import { NoteCreateButton } from "../note-control/note-create-button";
-import { Note } from "@/types/note";
-import useSaveStatusStore from "@/stores/useSaveStatusStore";
+
 const extensions = [...defaultExtensions, slashCommand];
 
-interface TailwindAdvancedEditorProps {
-  selectedNoteId: string;
-  userId: string;
-  token: string;
-  data: Note;
+interface EditorProps {
+  setHtmlContent: React.Dispatch<React.SetStateAction<string>>;
+  setJsonContent: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const NoteEditor = ({
-  data,
-  selectedNoteId,
-  userId,
-  token,
-}: TailwindAdvancedEditorProps) => {
-  const { mutate: deleteNote } = useDeleteNote(token, selectedNoteId, userId);
-  const { mutate: patchNote } = usePatchNoteContent(
-    token,
-    selectedNoteId,
-    userId
+const CommentEditor = ({ setHtmlContent, setJsonContent }: EditorProps) => {
+  const [initialContent, setInitialContent] = useState<null | JSONContent>(
+    null
   );
-
-  const [initialContent, setInitialContent] = useState<null | JSONContent>();
-  const { saveStatus, setSaveStatus } = useSaveStatusStore();
+  const [saveStatus, setSaveStatus] = useState("Saved");
   const [charsCount, setCharsCount] = useState();
 
   const debouncedUpdates = useDebouncedCallback(
     async (editor: EditorInstance) => {
       const json = editor.getJSON();
       setCharsCount(editor.storage.characterCount.words());
-      console.log(editor.getHTML());
-      patchNote({
-        noteName: null,
-        noteBody: JSON.stringify(json),
-        noteBodyHtml: editor.getHTML(),
-      });
+      setHtmlContent(editor.getHTML());
+      setJsonContent(JSON.stringify(json));
       setSaveStatus("Saved");
     },
     500
   );
 
-  useEffect(() => {
-    if (data.noteBody) setInitialContent(JSON.parse(data.noteBody));
-    else setInitialContent(defaultEditorContent);
-  }, [data.noteBody]);
+  // useEffect(() => {
+  //   const content = window.localStorage.getItem("novel-content");
+  //   if (content) setInitialContent(JSON.parse(content));
+  //   else setInitialContent(defaultEditorContent);
+  // }, []);
 
-  if (!initialContent) return null;
+  // if (!initialContent) return null;
 
   return (
-    <div className="relative w-full ">
-      <div className="flex absolute items-center right-5 top-0 z-10  gap-2">
-        <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
-          {saveStatus}
-        </div>
-        <div
-          className={
-            charsCount
-              ? "rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground"
-              : "hidden"
-          }
-        >
-          {charsCount} Words
-        </div>
-        <NoteCreateButton />
-        <MoreButton>
-          <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <Button
-                onClick={() => deleteNote()}
-                variant="ghost"
-                className="hover:bg-destructive/30 hover:text-destructive w-full rounded-md"
-              >
-                <Trash className="h-4 w-4 mr-2" />
-                <span>Delete</span>
-              </Button>
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-        </MoreButton>
-      </div>
+    <div className=" w-full ">
       <EditorRoot>
         <EditorContent
-          initialContent={initialContent}
           extensions={extensions}
-          className="relative min-h-[500px] w-full px-5 py-10  bg-background  "
+          className="relative w-full min-h-[300px] p-5 border-muted bg-background  sm:rounded-2xl sm:border sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),
@@ -164,4 +111,4 @@ const NoteEditor = ({
   );
 };
 
-export default NoteEditor;
+export default CommentEditor;

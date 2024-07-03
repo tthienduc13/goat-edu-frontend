@@ -1,15 +1,39 @@
-import { queries } from "@/queries";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
+  getAllFlashcards,
   deleteFlashcard,
   getAllUserFlashcard,
   getFlashcardById,
   patchFlashcard,
 } from "./flashcard.api";
 import { toast } from "sonner";
+import { Status } from "@/types/flashcard";
 
-export const useFlashcards = (pageNumber: number, token: string) => {
-  return useQuery(queries.flashcard.all(pageNumber, token));
+export const useFlashcards = ({
+  token,
+  sort,
+  pageNumber,
+  pageSize,
+  status,
+}: {
+  token: string;
+  sort: string;
+  pageNumber: number;
+  pageSize: number;
+  status: Status;
+}) => {
+  const queryKey = ["flashcard", sort, pageNumber, pageSize, status];
+  const queryFn = async () => {
+    return getAllFlashcards({
+      token: token,
+      sort: sort,
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+      status: status,
+    });
+  };
+
+  return { queryKey, queryFn };
 };
 
 export const useUserFlashcards = ({
@@ -55,19 +79,22 @@ export const usePatchFlashcard = ({
     mutationFn: ({
       flashcardName,
       flashcardDescription,
+      status,
     }: {
       flashcardName?: string | null;
       flashcardDescription?: string | null;
+      status?: string | null;
     }) =>
       patchFlashcard({
         token: token,
         id: id,
         flashcardName: flashcardName,
         flashcardDescription: flashcardDescription,
+        status: status,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["flashcard", id],
+        queryKey: ["flashcard", id] && ["flashcard", "user"],
       });
     },
   });

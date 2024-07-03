@@ -19,19 +19,23 @@ export const UpvoteButton = ({
   id,
 }: UpvoteButtonProps) => {
   const user = useCurrentUser();
+  const [isUserVotedState, setIsUserVotedState] =
+    useState<boolean>(isUserVoted);
   const [voteCounter, setVoteCounter] = useState<number>(voteCount);
 
   const { mutationKey, mutationFn } = useVote({ token: user?.token!, id: id });
 
-  const { mutate, isSuccess, isError, error } = useMutation({
+  const { mutate, isSuccess, isError, error, isPending } = useMutation({
     mutationKey,
     mutationFn,
     onSuccess: (data) => {
       if (data.status === 200) {
-        if (!isUserVoted) {
+        if (!isUserVotedState) {
           setVoteCounter((prevCount) => prevCount + 1);
+          setIsUserVotedState(!isUserVotedState);
         } else {
           setVoteCounter((prevCount) => prevCount - 1);
+          setIsUserVotedState(!isUserVotedState);
         }
       }
     },
@@ -40,12 +44,13 @@ export const UpvoteButton = ({
   return (
     <div className="flex items-center gap-x-1 flex-row">
       <Button
+        disabled={isPending}
         onClick={() => mutate()}
         variant="ghost"
         size="icon"
         className={cn(
           "hover:bg-emerald-500/70 ",
-          isUserVoted && "bg-emerald-500/70"
+          isUserVotedState && "bg-emerald-500/70"
         )}
       >
         <UpvoteIcon />

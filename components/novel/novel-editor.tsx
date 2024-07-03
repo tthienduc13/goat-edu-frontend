@@ -25,40 +25,26 @@ const extensions = [...defaultExtensions, slashCommand];
 
 interface EditorProps {
   setHtmlContent: React.Dispatch<React.SetStateAction<string>>;
+  setJsonContent: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Editor = ({ setHtmlContent }: EditorProps) => {
+const Editor = ({ setHtmlContent, setJsonContent }: EditorProps) => {
   const [initialContent, setInitialContent] = useState<null | JSONContent>(
     null
   );
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [charsCount, setCharsCount] = useState();
 
-  //Apply Codeblock Highlighting on the HTML from editor.getHTML()
-  const highlightCodeblocks = (content: string) => {
-    const doc = new DOMParser().parseFromString(content, "text/html");
-    doc.querySelectorAll("pre code").forEach((el) => {
-      // @ts-ignore
-      // https://highlightjs.readthedocs.io/en/latest/api.html?highlight=highlightElement#highlightelement
-      hljs.highlightElement(el);
-    });
-    return new XMLSerializer().serializeToString(doc);
-  };
-
   const debouncedUpdates = useDebouncedCallback(
     async (editor: EditorInstance) => {
       const json = editor.getJSON();
       setCharsCount(editor.storage.characterCount.words());
-      window.localStorage.setItem(
-        "html-content",
-        highlightCodeblocks(editor.getHTML())
-      );
-      setHtmlContent(highlightCodeblocks(editor.getHTML()));
-      window.localStorage.setItem("novel-content", JSON.stringify(json));
-      window.localStorage.setItem(
-        "markdown",
-        editor.storage.markdown.getMarkdown()
-      );
+      setHtmlContent(editor.getHTML());
+      setJsonContent(JSON.stringify(json));
+      // window.localStorage.setItem(
+      //   "markdown",
+      //   editor.storage.markdown.getMarkdown()
+      // );
       setSaveStatus("Saved");
     },
     500

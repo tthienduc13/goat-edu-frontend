@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useDiscussions } from "@/app/api/discussion/discussion.query";
 import { Status } from "@/types/discussion";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import Link from "next/link";
 
 export const PopularDiscussion = () => {
   const user = useCurrentUser();
@@ -12,7 +13,7 @@ export const PopularDiscussion = () => {
       token: user?.token!,
       pageNumber: 1,
       pageSize: 3,
-      sort: "significant",
+      sort: "top",
       status: Status.Approved,
     })
   );
@@ -40,9 +41,12 @@ export const PopularDiscussion = () => {
             <div className="text-sm bg-secondary px-2 py-1 rounded-lg w-fit">
               {data.userAndSubject.subjectName}
             </div>
-            <div className="text-sm text-muted-foreground line-clamp-2">
+            <Link
+              href={`/discussed/${data.id}`}
+              className="text-sm text-muted-foreground line-clamp-2"
+            >
               {data.discussionName}
-            </div>
+            </Link>
             <div className="flex flex-row items-center gap-x-2">
               <Avatar>
                 <AvatarImage
