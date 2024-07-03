@@ -8,7 +8,7 @@ const END_POINT = {
 export const getTheoryByLesson = async (
   lessonId: string,
   token: string
-): Promise<Theory[]> => {
+): Promise<Theory> => {
   const response = await axiosClient.get(
     `${END_POINT.GET_THEORY_BY_LESSON}/${lessonId}`,
     {
@@ -17,5 +17,5 @@ export const getTheoryByLesson = async (
       },
     }
   );
-  return response.data;
+  return response.data[0];
 };

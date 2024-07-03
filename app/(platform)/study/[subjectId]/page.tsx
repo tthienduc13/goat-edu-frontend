@@ -7,6 +7,7 @@ import { getLessonByChapter } from "@/app/api/lesson/lesson.api";
 import StudySideMenu from "../_components/side-menu";
 import LessonQuiz from "../_components/quiz/lesson-quiz";
 import LessonTheory from "../_components/theory/lesson-theory";
+import LessonFlashCard from "../_components/theory-flashcard/lesson-flashcard";
 
 interface StudyPageProps {
   params: { subjectId: string };
@@ -62,21 +63,32 @@ const SubjectStudyPage = ({ params }: StudyPageProps) => {
     setsourceName(name);
   };
   return (
-    <div className="w-full">
-      <div className="w-full flex justify-center">
-        {display === source.theory ? (
-          <LessonTheory lessonId={sourceId} lessonName={sourceName} />
-        ) : display === source.quiz ? (
-          <LessonQuiz lessonId={sourceId} lessonName={sourceName} />
-        ) : (
-          "Flashcard"
-        )}
-      </div>
+    <div className="w-full  flex">
+      {display === source.theory ? (
+        <LessonTheory
+          lessonId={sourceId}
+          lessonName={sourceName}
+          token={user?.token as string}
+        />
+      ) : display === source.quiz ? (
+        <LessonQuiz
+          lessonId={sourceId}
+          lessonName={sourceName}
+          token={user?.token as string}
+        />
+      ) : (
+        <LessonFlashCard
+          lessonId={sourceId}
+          lessonName={sourceName}
+          token={user?.token as string}
+        />
+      )}
       <StudySideMenu
         chapters={data?.chapters}
         lessonsByChapter={lessonsByChapter}
         handleOnClick={handleOnClick}
         source={source}
+        isLoading={isLoading}
       />
     </div>
   );

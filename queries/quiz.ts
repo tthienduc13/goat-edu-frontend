@@ -1,7 +1,7 @@
 import { getQuizById, getQuizByType } from "@/app/api/quiz/quiz.api";
 import { createQueryKeys } from "@lukemorales/query-key-factory";
 
-export const Quiz = createQueryKeys("quiz", {
+export const quiz = createQueryKeys("quiz", {
   id: (id: string, token: string) => ({
     queryKey: [id],
     queryFn: () => getQuizById(id, token),

@@ -4,47 +4,15 @@ import sampleImage from "@/assets/sample2.png";
 
 import { Button } from "@/components/ui/button";
 import { Dot } from "lucide-react";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { useEffect, useState } from "react";
 import { useSubjectById } from "@/app/api/subject/subject.query";
 import { SubjectDetailLoading } from "../_components/subject-detail-loading";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { useChapterBySubject } from "@/app/api/chapter/chapter.query";
 import { getLessonByChapter } from "@/app/api/lesson/lesson.api";
-import { Lesson, LessonByChapter } from "@/types/lesson";
+import { LessonByChapter } from "@/types/lesson";
 import Image from "next/image";
 import Link from "next/link";
 import { ChapterList } from "../_components/chapter-list";
-
-// const subject = {
-//   id: "dde3365d-c247-4602-a217-54d8b9816da8",
-//   subjectName: "Assetto Corsa Competitivezone",
-//   image:
-//     "http://res.cloudinary.com/dni30h5dy/image/upload/v1716871883/lvof1qnvpihygsrs3yyi.png",
-//   subjectCode: "ACC2024",
-//   information: "Assetto Corsa Competitivezone",
-//   class: null,
-//   createdAt: "2024-05-28T02:07:31.180258",
-//   chapters: [
-//     {
-//       id: "b8e538e9-4380-411d-88f4-3e24cc764bb3",
-//       chapterName: "Become a Sim Racer",
-//       chapterLevel: 1,
-//     },
-//     {
-//       id: "645f0558-f9d1-4788-9a83-d46ab79cf1ca",
-//       chapterName: "testchangearchitech",
-//       chapterLevel: 3,
-//     },
-//   ],
-//   numberOfChapters: 2,
-// };
 
 interface SubjectDetailPageProps {
   params: { subjectId: string };
@@ -152,42 +120,6 @@ const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
           setOpenItems={setOpenItems}
           lessonsByChapter={lessonsByChapter}
         />
-        {/* <div className="chapter-list mt-3">
-          <Accordion
-            className="space-y-3"
-            type="multiple"
-            value={openItems}
-            onValueChange={setOpenItems}
-          >
-            {data?.chapters.map((chapter, index) => {
-              const thisChapterLesson = lessonsByChapter.find(
-                (item) => item.chapterid === chapter.id
-              );
-              return (
-                <AccordionItem key={chapter.id} value={`item-${index + 1}`}>
-                  <AccordionTrigger className=" px-2">
-                    <div className="flex flex-row w-full justify-between pr-4">
-                      <p>
-                        Chap {chapter.chapterLevel} : {chapter.chapterName}
-                      </p>
-                      <p> {thisChapterLesson?.lessonCount} lessons </p>
-                    </div>
-                  </AccordionTrigger>
-                  <div>
-                    {thisChapterLesson?.lessonList.map((lesson) => (
-                      <AccordionContent
-                        key={lesson.id}
-                        className="border-b-[0.8px]  pl-6 pt-4"
-                      >
-                        {lesson.lessonName}
-                      </AccordionContent>
-                    ))}
-                  </div>
-                </AccordionItem>
-              );
-            })}
-          </Accordion>
-        </div> */}
       </div>
       <div className="subjec-img mx-3 w-[500px]">
         <div className="ml-6 flex flex-col w-full space-y-4">
@@ -198,13 +130,7 @@ const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
             className="rounded-2xl object-cover w-full"
             alt="Subject Image"
           ></Image>
-          {/* <img
-            src={data?.image}
-            width="full"
-            height={218}
-            className="rounded-2xl object-cover"
-            alt="Subject Image"
-          /> */}
+
           <div className="flex flex-col items-center">
             <Link href={`/study/${data?.id}`}>
               <Button>Enroll</Button>

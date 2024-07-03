@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 
 import { useQuizByType } from "@/app/api/quiz/quiz.query";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { QuestionInQuizz } from "@/types/question-in-quiz";
 import { QuizCard } from "./quiz-card";
 import { SubmitSection } from "./submit-section";
 import { ResultSection } from "./result-section";
 import { QuizLoading } from "./quiz-loading";
+import Empty from "../empty-state";
 
 interface QuizDetailProps {
   lessonId: string;
   lessonName: string;
+  token: string;
 }
 
 type Correct = {
@@ -28,8 +29,7 @@ const mapQuizzesToCorrects = (quizzes: QuestionInQuizz[]): Correct[] => {
   }));
 };
 
-const LessonQuiz = ({ lessonId, lessonName }: QuizDetailProps) => {
-  const user = useCurrentUser();
+const LessonQuiz = ({ lessonId, lessonName, token }: QuizDetailProps) => {
   const [isPassed, setIsPassed] = useState<boolean>(false);
   const [totalQuestion, setTotalQuestion] = useState<number>(0);
 
@@ -37,7 +37,7 @@ const LessonQuiz = ({ lessonId, lessonName }: QuizDetailProps) => {
     data: quizData,
     isLoading: quizIsLoading,
     error: quizError,
-  } = useQuizByType(lessonId, "lesson", user?.token!);
+  } = useQuizByType(lessonId, "lesson", token);
 
   const [shuffledAnswers, setShuffledAnswers] = useState<
     { id: string; newAnswer: string[] }[] | undefined
@@ -104,40 +104,46 @@ const LessonQuiz = ({ lessonId, lessonName }: QuizDetailProps) => {
   if (quizIsLoading) {
     return <QuizLoading />;
   }
-  return (
-    <div className="w-[800px] mx-auto space-y-9">
-      <h1 className=" text-4xl font-medium"> {lessonName}</h1>
-      {isSubmitted && (
-        <ResultSection
-          isPassed={isPassed}
-          correctCount={correctCount}
-          totalQuestion={totalQuestion}
-        />
-      )}
-      {quizData?.questionInQuizzes.map((data) => {
-        const currentShuffled = shuffledAnswers?.find(
-          (item) => item.id === data.id
-        );
-        const correctAnswer = correctAnswers.find(
-          (item) => item.quizId === data.id
-        )?.quizCorrect;
-        const selectedAnswer = selectedAnswers.find(
-          (item) => item.quizId === data.id
-        )?.answer;
 
-        return (
-          <QuizCard
-            key={data.id}
-            correctAnswer={correctAnswer}
-            currentShuffled={currentShuffled}
-            selectedAnswer={selectedAnswer}
-            data={data}
-            isSubmitted={isSubmitted}
-            handleAnswerClick={handleAnswerClick}
+  if (!quizData) {
+    return <Empty />;
+  }
+  return (
+    <div className="w-full">
+      <div className="w-[800px] mx-auto space-y-9">
+        <h1 className=" text-4xl font-medium"> {lessonName}</h1>
+        {isSubmitted && (
+          <ResultSection
+            isPassed={isPassed}
+            correctCount={correctCount}
+            totalQuestion={totalQuestion}
           />
-        );
-      })}
-      {!isSubmitted && <SubmitSection submitAnswer={submitAnswer} />}
+        )}
+        {quizData?.questionInQuizzes.map((data) => {
+          const currentShuffled = shuffledAnswers?.find(
+            (item) => item.id === data.id
+          );
+          const correctAnswer = correctAnswers.find(
+            (item) => item.quizId === data.id
+          )?.quizCorrect;
+          const selectedAnswer = selectedAnswers.find(
+            (item) => item.quizId === data.id
+          )?.answer;
+
+          return (
+            <QuizCard
+              key={data.id}
+              correctAnswer={correctAnswer}
+              currentShuffled={currentShuffled}
+              selectedAnswer={selectedAnswer}
+              data={data}
+              isSubmitted={isSubmitted}
+              handleAnswerClick={handleAnswerClick}
+            />
+          );
+        })}
+        {!isSubmitted && <SubmitSection submitAnswer={submitAnswer} />}
+      </div>
     </div>
   );
 };
