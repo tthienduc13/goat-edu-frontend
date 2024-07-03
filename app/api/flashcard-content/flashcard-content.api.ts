@@ -33,8 +33,11 @@ export const getAllFlashcardContentById = async (
     const flashcardContent: FlashcardContent[] = response.data.map(
       (item: FlashcardContentResponse) => ({
         id: item.id,
-        frontHTML: `<div>${item.flashcardContentQuestion}</div>`,
-        backHTML: `<div>${item.flashcardContentAnswer}</div>`,
+        // frontHTML: `<div>${item.flashcardContentQuestion}</div>`,
+        // backHTML: `<div>${item.flashcardContentAnswer}</div>`,
+        // FUTURE FEAT: EDITOR AT FLASHCARD EDIT OR CREATE
+        frontHTML: item.flashcardContentQuestion,
+        backHTML: item.flashcardContentAnswer,
       })
     );
     return flashcardContent;

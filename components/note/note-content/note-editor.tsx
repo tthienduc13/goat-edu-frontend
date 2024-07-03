@@ -22,9 +22,8 @@ import {
   suggestionItems,
 } from "@/components/novel/slash-command";
 import { defaultExtensions } from "@/components/novel/extensions";
-import { Hint } from "../../custom/hint";
-import { Button } from "../../ui/button";
-import { SquarePen, Trash } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Trash } from "lucide-react";
 import { MoreButton } from "../../custom/buttons/more-button";
 import { useDeleteNote, usePatchNoteContent } from "@/app/api/note/note.query";
 import { DropdownMenuGroup, DropdownMenuItem } from "../../ui/dropdown-menu";
@@ -61,6 +60,7 @@ const NoteEditor = ({
     async (editor: EditorInstance) => {
       const json = editor.getJSON();
       setCharsCount(editor.storage.characterCount.words());
+      console.log(editor.getHTML());
       patchNote({
         noteName: null,
         noteBody: JSON.stringify(json),

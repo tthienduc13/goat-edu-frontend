@@ -55,19 +55,22 @@ export const usePatchFlashcard = ({
     mutationFn: ({
       flashcardName,
       flashcardDescription,
+      status,
     }: {
       flashcardName?: string | null;
       flashcardDescription?: string | null;
+      status?: string | null;
     }) =>
       patchFlashcard({
         token: token,
         id: id,
         flashcardName: flashcardName,
         flashcardDescription: flashcardDescription,
+        status: status,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["flashcard", id],
+        queryKey: ["flashcard", id] && ["flashcard", "user"],
       });
     },
   });

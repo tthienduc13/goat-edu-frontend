@@ -7,7 +7,7 @@ interface RelatedCardProps {
   data: Discussion;
 }
 
-export const RelatedCard = () => {
+export const RelatedCard = ({ data }: RelatedCardProps) => {
   return (
     <Link
       href={`/discussed`}
@@ -15,17 +15,19 @@ export const RelatedCard = () => {
     >
       <div className="flex flex-row items-center gap-x-1">
         <Avatar className="h-4 w-4  rounded-md">
-          {/* <AvatarImage src={data.userAndSubject?.userImage ?? ""} /> */}
+          <AvatarImage src={data.userAndSubject?.userImage} />
           <AvatarFallback className=" h-4 w-4 text-xs flex items-center justify-center bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]"></AvatarFallback>
         </Avatar>
-        <span className="text-xs">tthienduc</span>
+        <span className="text-xs">{data.userAndSubject.userName}</span>
       </div>
       <div className="text-sm font-semibold text-muted-foreground">
-        How high and fast could air-breathing engines fly?
+        {data.discussionName}
       </div>
       <div className="flex flex-row items-center gap-x-2">
-        <div className="text-muted-foreground text-xs">55 upvotes</div>
-        <div className="text-muted-foreground text-xs">68 comments</div>
+        <div className="text-muted-foreground text-xs">
+          {data.discussionVote} {data.discussionVote > 1 ? "upvotes" : "upvote"}
+        </div>
+        <div className="text-muted-foreground text-xs">1 comments</div>
       </div>
     </Link>
   );

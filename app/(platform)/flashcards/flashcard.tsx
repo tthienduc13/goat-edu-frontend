@@ -1,13 +1,8 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-
-import { useFlashcardContentById } from "@/app/api/flashcard-content/flascard-content.query";
-import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
-
 import { useEffect, useState } from "react";
 import { useOnborda } from "onborda";
-
 import { Shuffle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ArrayFlashcard } from "./[slug]/_components/array-flashcard/array-flashcard";
@@ -20,6 +15,9 @@ import { Options } from "./[slug]/_components/array-flashcard/options";
 import { FlashcardHeader } from "./[slug]/_components/flashcard-header/flashcard-header";
 import { FlashcardHeaderLoading } from "./[slug]/_components/flashcard-header/flashcard-header-loading";
 import { FlashcardContentLoading } from "./[slug]/_components/flashcard-content-loading";
+import { useFlashcardContentById } from "@/app/api/flashcard-content/flascard-content.query";
+import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
+
 interface FlashcardProps {
   token: string;
   id: string;
@@ -58,101 +56,111 @@ export const Flashcard = ({ token, id }: FlashcardProps) => {
       setShuffledData(flashcardContentData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [flashcardContentData]);
 
   const handleShuffle = () => {
-    setShuffledData(shuffleArray(shuffledData));
+    const newShuffledData = shuffleArray(shuffledData);
+    setShuffledData(newShuffledData);
   };
 
   useEffect(() => {
     if (!localStorage.getItem("firstVisited")) {
       handleStartOnboarda();
+      localStorage.setItem("firstVisited", "true");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   const down = (e: KeyboardEvent) => {
-  //     if (e.key === "s") {
-  //       e.preventDefault();
-  //       handleShuffle();
-  //     }
-  //   };
-  //   document.addEventListener("keydown", down);
-  //   return () => document.removeEventListener("keydown", down);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "h" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        handleShuffle();
+      }
+    };
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shuffledData]);
 
-  // TODO: ADD Reset flashcard
-
-  if (!flashcardContentData || !flashcardData || shuffledData.length === 0) {
-    return;
+  if (flashcardContentLoading || flashcardLoading) {
+    return (
+      <div className="max-w-[1300px] mx-auto flex flex-col gap-y-10 w-full h-full">
+        <FlashcardHeaderLoading />
+        <FlashcardContentLoading />
+      </div>
+    );
   }
+
+  if (flashcardContentError || flashcardError) {
+    return (
+      <div className="max-w-[1300px] mx-auto flex flex-col gap-y-10 w-full h-full">
+        <p>Error loading flashcard data.</p>
+      </div>
+    );
+  }
+
+  if (!flashcardContentData || !flashcardData) {
+    return (
+      <div className="max-w-[1300px] mx-auto flex flex-col gap-y-10 w-full h-full">
+        <p>No flashcard data available.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-[1300px] mx-auto flex flex-col gap-y-10 w-full h-full">
-      {flashcardLoading ? (
-        <FlashcardHeaderLoading />
-      ) : (
-        <FlashcardHeader
-          id={id}
-          data={flashcardData}
-          termsCount={flashcardContentData.length}
-        />
-      )}
-      <div className="w-full flex flex-col  gap-y-8">
-        {flashcardContentLoading ? (
-          <FlashcardContentLoading />
-        ) : (
-          <div className="flex flex-row gap-5">
-            <Options id={id} />
-            <div className="w-[1000px] h-[500px] ">
-              <ArrayFlashcard data={shuffledData} />
-            </div>
-            <div className=" flex flex-col gap-y-4">
-              <Button
-                id="onborda-step4"
-                onClick={handleShuffle}
-                size={"lg"}
-                variant={"outline"}
-              >
-                <Shuffle className="w-5 h-5 mr-2" />
-                <div className="text-base">Shuffle</div>
-              </Button>
-              <SettingButton />
-            </div>
+      <FlashcardHeader
+        id={id}
+        data={flashcardData}
+        termsCount={flashcardContentData.length}
+      />
+      <div className="w-full flex flex-col gap-y-8">
+        <div className="flex flex-row gap-5">
+          <Options id={id} />
+          <div className="w-[1000px] h-[500px]">
+            <ArrayFlashcard data={shuffledData} />
           </div>
-        )}
-        {!flashcardContentLoading && (
-          <div className="flex flex-col gap-y-5">
-            <div className="flex flex-row items-center gap-x-2">
-              <div className="h-12 w-12">
-                <Avatar>
-                  <AvatarImage src={flashcardData.userImage} />
-                  <AvatarFallback>GE</AvatarFallback>
-                </Avatar>
+          <div className="flex flex-col gap-y-4">
+            <Button
+              id="onborda-step4"
+              onClick={handleShuffle}
+              size={"lg"}
+              variant={"outline"}
+            >
+              <Shuffle className="w-5 h-5 mr-2" />
+              <div className="text-base">Shuffle</div>
+            </Button>
+            <SettingButton />
+          </div>
+        </div>
+        <div className="flex flex-col gap-y-5">
+          <div className="flex flex-row items-center gap-x-2">
+            <div className="h-12 w-12">
+              <Avatar>
+                <AvatarImage src={flashcardData.userImage} />
+                <AvatarFallback>GE</AvatarFallback>
+              </Avatar>
+            </div>
+            <div className="flex flex-col">
+              <div className="text-sm font-semibold">
+                {flashcardData.fullName}
               </div>
-              <div className="flex flex-col ">
-                <div className="text-sm font-semibold">
-                  {flashcardData.fullName}
-                </div>
-                <div className="text-sm font-medium text-muted-foreground">
-                  Last update:{" "}
-                  {new Date(flashcardData.updatedAt).toLocaleDateString()}
-                </div>
+              <div className="text-sm font-medium text-muted-foreground">
+                Last update:{" "}
+                {new Date(flashcardData.updatedAt).toLocaleDateString()}
               </div>
             </div>
-            <div className="text-muted-foreground text-sm">
-              {flashcardData.flashcardDescription}
-            </div>
           </div>
-        )}
+          <div className="text-muted-foreground text-sm">
+            {flashcardData.flashcardDescription}
+          </div>
+        </div>
       </div>
-      {!flashcardContentLoading && (
-        <Terms
-          termsCount={flashcardData.numberOfFlashcardContent}
-          data={flashcardContentData}
-        />
-      )}
+      <Terms
+        termsCount={flashcardData.numberOfFlashcardContent}
+        data={flashcardContentData}
+      />
     </div>
   );
 };

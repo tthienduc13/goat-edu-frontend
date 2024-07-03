@@ -6,9 +6,7 @@ export const NewDiscussionSchema = z.object({
   discussionName: z.string().nonempty({
     message: "Discussion name is required",
   }),
-  discussionBody: z.string().nonempty({
-    message: "Discussion content is required",
-  }),
+  discussionBody: z.string(),
   discussionBodyHtml: z.string().nonempty({
     message: "Discussion content is required",
   }),
@@ -18,13 +16,15 @@ export const NewDiscussionSchema = z.object({
     .refine(
       (file) => file[0]?.size <= MAX_UPLOAD_SIZE,
       "Max file size is 10MB."
-    ),
-  tags: z
-    .array(
-      z.object({
-        name: z.string({ required_error: "Tag name must be provided" }),
-      })
     )
-    .length(4, "Exactly 4 tags must be provided"),
-  // subjectId: z.string({ required_error: "Please select a related subject" }),
+    .nullable(),
+  tags: z.array(
+    z.object({
+      tagName: z.string({ required_error: "Tag name must be provided" }),
+    })
+  ),
+  // .length(4, "Exactly 4 tags must be provided"),
+  subjectId: z
+    .string({ required_error: "Please choose related subject" })
+    .nonempty("Please choose a related subject"),
 });
