@@ -4,7 +4,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { SubjectLoading } from "./_components/subject-loading";
 import { SubjectCard } from "./_components/subject-card";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Subject } from "@/types/subject";
 
 interface ClassData {
@@ -51,16 +51,6 @@ const SubjectPage = () => {
     { className: "Class 11", data: data11, isLoading: isLoading11 },
     { className: "Class 12", data: data12, isLoading: isLoading12 },
   ];
-
-  // if (isLoading10 || isLoading11 || isLoading12) {
-  //   return (
-  //     <div className="flex flex-col w-full gap-y-8">
-  //       <SubjectLoading />
-  //       <SubjectLoading />
-  //       <SubjectLoading />
-  //     </div>
-  //   );
-  // }
   return (
     <div className="flex flex-col w-full gap-y-8">
       {classes.map(({ className, data, isLoading }) => {

@@ -1,21 +1,9 @@
 "use client";
 
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
+import { Sheet, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Chapter } from "@/types/chapter";
 import { LessonByChapter } from "@/types/lesson";
+import SideLessonList from "./side-lesson-list";
 
 interface StudySideMenuProps {
   chapters: Chapter[] | undefined;
@@ -26,6 +14,7 @@ interface StudySideMenuProps {
     theoryFlashcard: string;
     quiz: string;
   };
+  isLoading: boolean;
 }
 
 const StudySideMenu = ({
@@ -33,66 +22,34 @@ const StudySideMenu = ({
   lessonsByChapter,
   handleOnClick,
   source,
+  isLoading,
 }: StudySideMenuProps) => {
+  if (isLoading) {
+    return;
+  }
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </SheetTrigger>
+    <div className="w-[400px] max-h-screen overflow-y-auto">
       {chapters?.map((chapter) => {
         const thisChapterLesson = lessonsByChapter.find(
           (item) => item.chapterid === chapter.id
         );
         return (
-          <SheetContent key={chapter.id} className="w-[600px]">
-            <SheetHeader>
-              <SheetTitle>
-                Chapter {chapter.chapterLevel} : {chapter.chapterName}
-              </SheetTitle>
-            </SheetHeader>
+          <div key={chapter.id} className="w-full">
+            <h4 className="font-bold">
+              Chapter {chapter.chapterLevel} : {chapter.chapterName}
+            </h4>
             {thisChapterLesson?.lessonList.map((lesson) => (
-              <Accordion
+              <SideLessonList
                 key={lesson.id}
-                type="single"
-                collapsible
-                className="w-full"
-              >
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>{lesson.lessonName}</AccordionTrigger>
-                  <AccordionContent>
-                    <Button
-                      onClick={() =>
-                        handleOnClick(
-                          source.theory,
-                          lesson.id,
-                          lesson.lessonName
-                        )
-                      }
-                      variant={"link"}
-                    >
-                      Theory
-                    </Button>
-                  </AccordionContent>
-                  <AccordionContent>
-                    <Button variant={"link"}>Flashcard</Button>
-                  </AccordionContent>
-                  <AccordionContent>
-                    <Button
-                      onClick={() =>
-                        handleOnClick(source.quiz, lesson.id, lesson.lessonName)
-                      }
-                      variant={"link"}
-                    >
-                      Quiz
-                    </Button>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
+                lesson={lesson}
+                handleOnClick={handleOnClick}
+                source={source}
+              />
             ))}
-          </SheetContent>
+          </div>
         );
       })}
-    </Sheet>
+    </div>
   );
 };
 export default StudySideMenu;
