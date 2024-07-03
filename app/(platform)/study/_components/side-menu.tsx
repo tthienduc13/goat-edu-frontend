@@ -74,17 +74,17 @@ const StudySideMenu = ({
                     </Button>
                   </AccordionContent>
                   <AccordionContent>
+                    <Button variant={"link"}>Flashcard</Button>
+                  </AccordionContent>
+                  <AccordionContent>
                     <Button
                       onClick={() =>
                         handleOnClick(source.quiz, lesson.id, lesson.lessonName)
                       }
                       variant={"link"}
                     >
-                      Flashcard
+                      Quiz
                     </Button>
-                  </AccordionContent>
-                  <AccordionContent>
-                    <Button variant={"link"}>Quiz</Button>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
