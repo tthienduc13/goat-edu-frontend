@@ -27,5 +27,5 @@ export const getQuizByType = async (
       },
     }
   );
-  return response.data;
+  return response.data[0];
 };

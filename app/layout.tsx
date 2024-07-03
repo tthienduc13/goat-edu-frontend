@@ -13,6 +13,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
+import "katex/dist/katex.min.css";
+
 export const metadata: Metadata = {
   metadataBase: new URL(`https://goatedu.vercel.app`),
   title: {

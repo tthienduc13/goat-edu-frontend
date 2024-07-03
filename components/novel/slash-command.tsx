@@ -152,6 +152,23 @@ export const suggestionItems = createSuggestionItems([
       input.click();
     },
   },
+  {
+    title: "Math",
+    description: "Input a math equation.",
+    searchTerms: ["math", "equation"],
+    icon: <Code size={18} />,
+    command: ({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .insertContentAt(range.from, {
+          type: "inlineMath",
+          attrs: { latex: "x^2 + y^2 = z^2" },
+        })
+        .run();
+    },
+  },
 ]);
 
 export const slashCommand = Command.configure({
