@@ -289,7 +289,12 @@ export const CreateForm = () => {
               </FormItem>
             )}
           />
-          <Button className="w-fit" variant="default" type="submit">
+          <Button
+            disabled={isPending}
+            className="w-fit"
+            variant="default"
+            type="submit"
+          >
             Publish
           </Button>
         </div>

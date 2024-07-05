@@ -19,12 +19,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useCreateDialogStore from "@/stores/useCreateDialogStore";
 
-import { MessageSquareMore, NotebookPen, Plus } from "lucide-react";
+import {
+  GalleryHorizontalEnd,
+  MessageSquareMore,
+  NotebookPen,
+  Plus,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export const CreateButton = () => {
+  const router = useRouter();
   const { setIsOpenCreateDialog } = useCreateDialogStore();
   const handleCreateDiscussion = () => {
-    alert("create discussion");
+    router.replace("/create/discussion");
   };
 
   return (
@@ -40,7 +47,7 @@ export const CreateButton = () => {
         <DropdownMenuContent sideOffset={10} align="end">
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => setIsOpenCreateDialog(true)}>
-              <NotebookPen className="h-4 w-4 mr-2" />
+              <GalleryHorizontalEnd className="h-4 w-4 mr-2" />
               <span> Flashcard</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleCreateDiscussion}>
