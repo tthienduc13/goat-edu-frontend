@@ -60,11 +60,11 @@ export const Main = ({ children }: MainProps) => {
       />
       <OnbordaProvider>
         <Onborda steps={steps} shadowOpacity="0.8" cardComponent={CustomCard}>
-          <div className="min-h-screen w-full flex relative ">
+          <div className="min-h-screen w-full h-full flex relative ">
             {!isExcludeNavbar && <Navbar />}
             <div
               className={cn(
-                "z-5 p-10 w-full mx-auto mt-16 max-w-[1440px] bg-inherit  transition-all duration-500 overflow-hidden flex"
+                "z-5 p-10 w-full h-full mx-auto mt-16 max-w-[1440px] bg-inherit  transition-all duration-500 overflow-x-hidden flex"
               )}
             >
               {children}

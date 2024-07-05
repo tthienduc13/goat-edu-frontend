@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/sortable";
 
 import { FileImage, LoaderCircle, PencilLine, Plus } from "lucide-react";
-import { NewFlashcardContentSchema } from "@/schemas/flashcard";
+import { FlashcardContentSchema } from "@/schemas/flashcard";
 import { useEffect, useState, useTransition } from "react";
 import { CreateFlashcardContent } from "@/actions/create-flashcard-content";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -47,8 +47,8 @@ export const CreateFlashcardContentForm = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
-  const form = useForm<z.infer<typeof NewFlashcardContentSchema>>({
-    resolver: zodResolver(NewFlashcardContentSchema),
+  const form = useForm<z.infer<typeof FlashcardContentSchema>>({
+    resolver: zodResolver(FlashcardContentSchema),
     mode: "onChange",
     defaultValues: {
       flashcardContent: [
@@ -79,7 +79,7 @@ export const CreateFlashcardContentForm = () => {
     });
   };
 
-  const onSubmit = (values: z.infer<typeof NewFlashcardContentSchema>) => {
+  const onSubmit = (values: z.infer<typeof FlashcardContentSchema>) => {
     startTransition(() => {
       CreateFlashcardContent({ values: values, id: id! }).then((data) => {
         if (data.success) {
@@ -87,7 +87,7 @@ export const CreateFlashcardContentForm = () => {
           queryClient.invalidateQueries({
             queryKey: ["flashcard", "user"],
           });
-          router.push(`${id}`);
+          router.replace(`/flashcards/${id}`);
         } else {
           toast.error(data.error);
         }

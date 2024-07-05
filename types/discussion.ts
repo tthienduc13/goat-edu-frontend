@@ -4,6 +4,7 @@ export type Discussion = {
   id: string;
   discussionName: string;
   discussionBody: string;
+  discussionBodyHtml: string;
   discussionImage: string;
   discussionVote: number;
   isSolved: boolean;

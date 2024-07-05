@@ -13,13 +13,13 @@ import { FlagIcon } from "@/components/custom-icons/flag-icon";
 import { Discussion } from "@/types/discussion";
 import { cn } from "@/lib/utils";
 import { UpvoteButton } from "../../_components/upvote-button";
+import { LatexRenderer } from "@/lib/latext-render";
 
 interface DiscussedCardProps {
   data: Discussion;
 }
 
 export const DiscussedDetail = ({ data }: DiscussedCardProps) => {
-  console.log(data);
   return (
     <Card className={cn("border-none shadow-none")}>
       <CardHeader>
@@ -43,7 +43,7 @@ export const DiscussedDetail = ({ data }: DiscussedCardProps) => {
       <CardContent className="flex flex-col gap-y-2">
         <div className="font-semibold text-base">{data.discussionName}</div>
         <div className="max-h-24 text-sm h-full overflow-hidden">
-          {data.discussionBody}
+          <LatexRenderer latex={data.discussionBodyHtml} />
         </div>
       </CardContent>
       <CardFooter className="flex flex-row justify-between items-center">

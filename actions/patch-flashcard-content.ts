@@ -4,9 +4,9 @@ import * as z from "zod";
 
 import { FlashcardContentSchema } from "@/schemas/flashcard";
 import { currentUser } from "@/lib/auth";
-import { createFlashcardContent } from "@/app/api/flashcard-content/flashcard-content.api";
+import { patchFlashcardContent } from "@/app/api/flashcard-content/flashcard-content.api";
 
-export const CreateFlashcardContent = async ({
+export const PatchFlashcardContent = async ({
   values,
   id,
 }: {
@@ -20,7 +20,7 @@ export const CreateFlashcardContent = async ({
     return { error: "Invalid fields!" };
   }
 
-  const response = await createFlashcardContent({
+  const response = await patchFlashcardContent({
     token: user?.token!,
     values: validatedFields.data,
     id: id,

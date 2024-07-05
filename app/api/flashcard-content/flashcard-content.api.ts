@@ -1,12 +1,13 @@
 import axiosClient from "@/lib/axiosClient";
 import * as z from "zod";
 
-import { NewFlashcardContentSchema } from "@/schemas/flashcard";
+import { FlashcardContentSchema } from "@/schemas/flashcard";
 import { FlashcardContent } from "@/types/flashcard";
 
 export const END_POINT = {
   CREATE: "/flashcard_content",
   GET_BY_ID: "/flashcard_content",
+  PATCH: "/flashcard_conntent",
 };
 
 type FlashcardContentResponse = {
@@ -54,10 +55,31 @@ export const createFlashcardContent = async ({
 }: {
   token: string;
   id: string;
-  values: z.infer<typeof NewFlashcardContentSchema>;
+  values: z.infer<typeof FlashcardContentSchema>;
 }) => {
   const response = await axiosClient.post(
     `${END_POINT.CREATE}/${id}`,
+    values.flashcardContent,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+
+export const patchFlashcardContent = async ({
+  token,
+  values,
+  id,
+}: {
+  token: string;
+  id: string;
+  values: z.infer<typeof FlashcardContentSchema>;
+}) => {
+  const response = await axiosClient.patch(
+    `${END_POINT.PATCH}/${id}`,
     values.flashcardContent,
     {
       headers: {

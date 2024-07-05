@@ -15,7 +15,7 @@ export const NewFlashcardSchema = z.object({
   status: z.string(),
 });
 
-export const NewFlashcardContentSchema = z.object({
+export const FlashcardContentSchema = z.object({
   flashcardContent: z
     .array(
       z.object({

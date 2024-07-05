@@ -1,10 +1,48 @@
-import axiosClient from "@/lib/axiosClient";
+import axiosClient, { axiosClientUpload } from "@/lib/axiosClient";
+import { NewDiscussionSchema } from "@/schemas/discussion";
 import { Discussion, Status } from "@/types/discussion";
+import { z } from "zod";
 
 export const END_POINT = {
   GET_BY_ID: "/discussion",
   GET_BY_USER: "/discussion/user",
   GET_ALL: "/discussion",
+  CREATE: "/discussion",
+};
+
+export const createDiscussion = async ({
+  token,
+  values,
+}: {
+  token: string;
+  values: z.infer<typeof NewDiscussionSchema>;
+}) => {
+  try {
+    const formData = new FormData();
+    formData.append("DiscussionName", values.discussionName);
+    formData.append("DiscussionBody", values.discussionBody);
+    formData.append("DiscussionBodyHtml", values.discussionBodyHtml);
+    formData.append("DiscussionImage", values.discussionImage ?? "");
+    formData.append("Tags", JSON.stringify(values.tags));
+    formData.append("SubjectId", values.subjectId);
+
+    // Log the form data
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+    const response = await axiosClientUpload.post(END_POINT.CREATE, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error creating discussion:", error);
+    throw error;
+  }
 };
 
 export const getAllDiscussionSitemap = async (

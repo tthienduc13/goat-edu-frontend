@@ -10,6 +10,11 @@ export const END_POINT = {
   GET_USER_ENROLL: "/user/enroll",
 };
 
+type UserEnrollmentResponse = {
+  subjectEnrollMent: Subject[];
+  numberOfSubjectEnroll: number;
+};
+
 export const patchNewUser = async ({ token }: { token: string }) => {
   try {
     const response = await axiosClient.patch(
@@ -99,7 +104,7 @@ export const getUserSubjects = async ({
   search?: string;
   pageNumber?: number;
   pageSize?: number;
-}): Promise<Subject[]> => {
+}): Promise<UserEnrollmentResponse> => {
   try {
     const queryParams = new URLSearchParams();
 

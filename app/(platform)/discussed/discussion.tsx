@@ -8,6 +8,7 @@ import { DiscussedDetail } from "./[slug]/_components/discussed-detail";
 import { Comment } from "./[slug]/_components/comment/comment";
 import { SideNav } from "./[slug]/_components/side-nav";
 import Error from "@/app/error";
+import { CommentList } from "./[slug]/_components/comment/comment-list";
 
 interface DiscussionProps {
   token: string;
@@ -35,6 +36,7 @@ export const Discussion = ({ token, id }: DiscussionProps) => {
             <BackButton />
             <DiscussedDetail data={data!} />
             <Comment id={id} />
+            <CommentList id={id} />
           </div>
           <SideNav />
         </div>
