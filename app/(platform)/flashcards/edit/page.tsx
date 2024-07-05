@@ -24,6 +24,10 @@ const EditFlashcardPage = () => {
     token: user?.token!,
   });
 
+  const handleDone = () => {
+    router.replace(`/flashcards/${id}`);
+  };
+
   if (!id) {
     notFound();
   }
@@ -42,7 +46,13 @@ const EditFlashcardPage = () => {
           <div className="text-sm text-muted-foreground">{saveStatus}</div>
         </div>
         <div className="flex flex-row items-center gap-x-2">
-          <Button className="w-fit"> Done</Button>
+          <Button
+            onClick={handleDone}
+            disabled={saveStatus !== "Saved"}
+            className="w-fit"
+          >
+            Done
+          </Button>
           <MoreButton>
             <DropdownMenuItem onClick={() => deleteFlashcard({ id: id })}>
               <Eraser className="h-4 w-4 mr-2" />

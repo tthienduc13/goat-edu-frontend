@@ -82,7 +82,7 @@ export const CreateFlashcardForm = () => {
           queryClient.invalidateQueries({
             queryKey: ["flashcard", "user"],
           });
-          router.push(`/flashcards/new?id=${data.data}`);
+          router.replace(`/flashcards/new?id=${data.data}`);
           setIsOpenCreateDialog(false);
         }
         if (data.error) toast.error(data.error);

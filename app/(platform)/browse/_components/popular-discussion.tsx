@@ -22,12 +22,12 @@ export const PopularDiscussion = () => {
     return <EmptyCard />;
   }
 
-  if (!data || data.length === 0) {
+  if (error) {
     return;
   }
 
-  if (error) {
-    return;
+  if (!data || data.length === 0) {
+    return null;
   }
   return (
     <div className="flex flex-col gap-y-5">

@@ -5,10 +5,8 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
-
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { DragHandleDots2Icon, TrashIcon } from "@radix-ui/react-icons";
-
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -25,15 +23,15 @@ import {
   SortableItem,
 } from "@/components/ui/sortable";
 import { FileImage, Plus } from "lucide-react";
-import { NewFlashcardContentSchema } from "@/schemas/flashcard";
-import { CreateFlashcardContent } from "@/actions/create-flashcard-content";
+import { FlashcardContentSchema } from "@/schemas/flashcard";
 import { toast } from "sonner";
 import { FormError } from "@/components/forms/form-error";
 import { ImportTerms } from "../../new/_components/import-terms";
-import { ChangeVisibility } from "../../new/_components/change-visibility";
 import { KeyBoardShorcuts } from "../../new/_components/keyboard-shorcuts";
 import useSaveStatusStore from "@/stores/useSaveStatusStore";
 import { useFlashcardContentById } from "@/app/api/flashcard-content/flascard-content.query";
+import { PatchFlashcardContent } from "@/actions/patch-flashcard-content";
+import { useDebouncedCallback } from "use-debounce";
 
 interface EditFlashcardContentFormProps {
   id: string;
@@ -44,16 +42,15 @@ export const EditFlashcardContentForm = ({
   id,
   token,
 }: EditFlashcardContentFormProps) => {
+  const queryClient = useQueryClient();
   const { setSaveStatus } = useSaveStatusStore();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const { data, isLoading } = useQuery(
-    useFlashcardContentById({ token: token, id: id })
-  );
+  const { data, isLoading } = useQuery(useFlashcardContentById({ token, id }));
   const [isOpenImage, setIsOpenImage] = useState<boolean>(false);
 
-  const form = useForm<z.infer<typeof NewFlashcardContentSchema>>({
-    resolver: zodResolver(NewFlashcardContentSchema),
+  const form = useForm<z.infer<typeof FlashcardContentSchema>>({
+    resolver: zodResolver(FlashcardContentSchema),
     mode: "onChange",
     defaultValues: {
       flashcardContent: [],
@@ -87,18 +84,28 @@ export const EditFlashcardContentForm = ({
     });
   };
 
-  const onSubmit = (values: z.infer<typeof NewFlashcardContentSchema>) => {
+  const onSubmit = (values: z.infer<typeof FlashcardContentSchema>) => {
     startTransition(() => {
-      CreateFlashcardContent({ values: values, id: id! }).then((data) => {
+      setSaveStatus("Unsaved");
+      PatchFlashcardContent({ values, id }).then((data) => {
         if (data.success) {
-          toast.success(data.success);
-          router.push(`${id}`);
+          queryClient.invalidateQueries({ queryKey: ["flashcard", id] });
+          router.replace(`/flashcard/${id}`);
+          setSaveStatus("Saved");
         } else {
           toast.error(data.error);
         }
       });
     });
   };
+
+  const debounceUpdate = useDebouncedCallback(
+    (values: z.infer<typeof FlashcardContentSchema>) => {
+      onSubmit(values);
+      setSaveStatus("Saved");
+    },
+    500
+  );
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -143,7 +150,7 @@ export const EditFlashcardContentForm = ({
               <KeyBoardShorcuts />
             </div>
           </div>
-          <div className="space-y-3 w-full ">
+          <div className="space-y-3 w-full">
             <Sortable
               value={fields}
               onMove={({ activeIndex, overIndex }) =>
@@ -184,7 +191,7 @@ export const EditFlashcardContentForm = ({
                             className="size-8 shrink-0"
                             onClick={() => remove(index)}
                           >
-                            <TrashIcon className="size-5 " aria-hidden="true" />
+                            <TrashIcon className="size-5" aria-hidden="true" />
                             <span className="sr-only">Remove</span>
                           </Button>
                         </div>
@@ -203,7 +210,7 @@ export const EditFlashcardContentForm = ({
                                   {...field}
                                 />
                               </FormControl>
-                              <div className=" border-primary border-[1px]"></div>
+                              <div className="border-primary border-[1px]"></div>
                               <div className="text-xs font-semibold text-muted-foreground">
                                 FLASHCARD QUESTION
                               </div>
@@ -223,7 +230,7 @@ export const EditFlashcardContentForm = ({
                                   {...field}
                                 />
                               </FormControl>
-                              <div className=" border-primary border-[1px]"></div>
+                              <div className="border-primary border-[1px]"></div>
                               <div className="text-xs font-semibold text-muted-foreground">
                                 FLASHCARD ANSWER
                               </div>
@@ -232,6 +239,7 @@ export const EditFlashcardContentForm = ({
                           )}
                         />
                         <button
+                          type="button"
                           onClick={handleOpenImage}
                           className="max-h-[74px] flex flex-col rounded-lg gap-y-1 px-6 py-3 items-center justify-center border-dashed border-[2px]"
                         >
@@ -243,7 +251,7 @@ export const EditFlashcardContentForm = ({
                       </div>
                       {isOpenImage && (
                         <div className="w-full border-t-[2px] py-4 flex justify-center items-center">
-                          <Button>Upgrade pro di thang lz 😏 </Button>
+                          <Button>Upgrade to pro 😏</Button>
                         </div>
                       )}
                     </div>

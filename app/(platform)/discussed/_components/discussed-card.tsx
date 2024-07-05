@@ -14,6 +14,7 @@ import { FlagIcon } from "@/components/custom-icons/flag-icon";
 import { Discussion } from "@/types/discussion";
 import { cn } from "@/lib/utils";
 import { UpvoteButton } from "./upvote-button";
+import { LatexRenderer } from "@/lib/latext-render";
 
 interface DiscussedCardProps {
   data: Discussion;
@@ -52,10 +53,10 @@ export const DiscussedCard = ({ data }: DiscussedCardProps) => {
           {data.discussionName}
         </Link>
         <Link
-          className="max-h-24 text-sm h-full overflow-hidden"
+          className="text-sm h-full overflow-hidden line-clamp-5"
           href={`/discussed/${data.id}`}
         >
-          {data.discussionBody}
+          <LatexRenderer latex={data.discussionBodyHtml} />
         </Link>
       </CardContent>
       <CardFooter className="flex flex-row gap-x-4">

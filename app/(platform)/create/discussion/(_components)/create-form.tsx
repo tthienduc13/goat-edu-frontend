@@ -21,7 +21,6 @@ import { Tag, TagInput } from "emblor";
 
 import { getImageData } from "@/lib/get-image-data";
 import Editor from "@/components/novel/novel-editor";
-import { Tag as TagType } from "@/types/tag";
 import {
   Popover,
   PopoverContent,
@@ -37,12 +36,14 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { useSubjects } from "@/app/api/subject/subject.query";
-import { Check, Upload, UploadCloud } from "lucide-react";
+import { Check, ImageUp, Upload, UploadCloud, X } from "lucide-react";
 import Image from "next/image";
-// import { LatexRenderer } from "@/lib/latex-render";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { createDiscussion } from "@/app/api/discussion/discussion.api";
+import { useQueryClient } from "@tanstack/react-query";
+import { TagField } from "./tag-field";
 
 type TagsInputType = {
   id: string;
@@ -52,9 +53,12 @@ type TagsInputType = {
 export const CreateForm = () => {
   const user = useCurrentUser();
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const [htmlContent, setHtmlContent] = useState<string>("");
   const [jsonContent, setJsonContent] = useState<string>("");
   const [isPending, startTransition] = useTransition();
+
   const handleBrowseImage = () => {
     document.getElementById("imageImporter")?.click();
   };
@@ -89,7 +93,6 @@ export const CreateForm = () => {
   const handleOnchangeimage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files, displayUrl } = getImageData(event);
     setPreview(displayUrl);
-    // onChange(files);
     setUploadedFile(files[0]);
   };
 
@@ -102,22 +105,19 @@ export const CreateForm = () => {
       discussionImage: uploadedFile ?? null,
       tags: transformedTags,
     };
-    console.log(JSON.stringify(transformedTags));
-    console.log(formData);
     startTransition(async () => {
-      // CreateDiscussion(formData).then((data) => {
-      //   if (data.success) {
-      //     toast.success(data.success);
-      //   }
-      //   if (data.error) {
-      //     toast.error(data.error);
-      //   }
-      // });
-      // const response = await createDiscussion({
-      //   token: user?.token!,
-      //   values: formData,
-      // });
-      // console.log(response);
+      const response = await createDiscussion({
+        token: user?.token!,
+        values: formData,
+      });
+      if (response.status === 200) {
+        toast.success(response.message);
+        queryClient.invalidateQueries({ queryKey: ["discussion", "user", 1] });
+        router.replace("/personal?tab=disucussions");
+      } else if (response.status === 400 || response.status === 404) {
+        toast.error(response.message);
+        form.reset();
+      }
     });
   };
 
@@ -182,8 +182,8 @@ export const CreateForm = () => {
                             objectFit="cover"
                           />
                         ) : (
-                          <div className="flex flex-col justify-center items-center gap-y-4">
-                            <UploadCloud className="h-10 w-10" />
+                          <div className="flex flex-col p-2 justify-center items-center gap-y-4">
+                            <ImageUp className="h-10 w-10" />
                             <div className="text-base text-muted-foreground">
                               Upload an image
                             </div>
@@ -268,31 +268,7 @@ export const CreateForm = () => {
           <FormField
             control={form.control}
             name="tags"
-            render={({ field }) => (
-              <FormItem className="flex flex-col items-start">
-                <FormLabel>Tags</FormLabel>
-                <FormControl className="w-full">
-                  <div className="h-12 rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
-                    <div className="flex flex-col w-full">
-                      <TagInput
-                        type="text"
-                        className="border-none outline-none text-muted-foreground shadow-none focus-visible:ring-0"
-                        placeholder="Choose tags"
-                        activeTagIndex={activeTagIndex}
-                        setActiveTagIndex={setActiveTagIndex}
-                        tags={tags}
-                        maxTags={4}
-                        minTags={4}
-                        setTags={(newTags) => {
-                          setTags(newTags);
-                        }}
-                      />
-                    </div>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field }) => <TagField tags={tags} setTags={setTags} />}
           />
           <FormField
             control={form.control}
