@@ -114,7 +114,7 @@ export const MobileNavbar = () => {
             <X className="h-5 w-5" />
           </Button>
         </DrawerHeader>
-        <div className="w-full flex flex-col gap-y-8 p-5">
+        <div className="w-full flex flex-col gap-y-8 px-5 overflow-y-scroll">
           <div className="flex relative flex-col gap-y-5 border-b py-5">
             <div
               className="absolute w-1 rounded-r-[10px] -left-5  top-0 bg-violet-500 transition-all duration-300"
@@ -194,7 +194,7 @@ export const MobileNavbar = () => {
             </Accordion>
           </div>
           <div className="flex flex-col gap-y-5 flex-1">
-            <div className="flex flex-row items-center py-5 gap-x-4">
+            <div className="flex flex-row items-center gap-x-4">
               <div className="h-12 w-12">
                 <UserAvatar shape="square" />
               </div>
