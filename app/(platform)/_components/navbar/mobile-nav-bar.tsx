@@ -101,7 +101,7 @@ export const MobileNavbar = () => {
       open={isPlatformOpenMobileNav}
       onOpenChange={setIsPlatformOpenMobileNav}
     >
-      <DrawerContent className="w-full">
+      <DrawerContent className="w-full overflow-y-scroll">
         <DrawerHeader className="flex items-center justify-between">
           <DrawerTitle>
             <Logo size="lg" />
