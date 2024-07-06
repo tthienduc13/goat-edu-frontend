@@ -1,4 +1,3 @@
-import { Logo } from "@/components/custom/logo";
 import {
   Accordion,
   AccordionContent,
@@ -9,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
@@ -103,6 +101,7 @@ export const MobileNavbar = () => {
             </Accordion>
 
             <Link
+              onClick={() => setIsOpenMobileNav(false)}
               href={"/pricing"}
               className="text-lg font-medium cursor-pointer"
             >
