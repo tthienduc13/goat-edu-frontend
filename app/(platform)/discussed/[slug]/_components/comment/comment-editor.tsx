@@ -60,7 +60,7 @@ const CommentEditor = ({ setHtmlContent, setJsonContent }: EditorProps) => {
       <EditorRoot>
         <EditorContent
           extensions={extensions}
-          className="relative w-full min-h-[300px] p-5 border-muted bg-background  sm:rounded-2xl sm:border sm:shadow-lg"
+          className="relative w-full border shadow-lg rounded-xl min-h-[300px] p-5 border-muted bg-background  sm:rounded-2xl sm:border sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {
               keydown: (_view, event) => handleCommandNavigation(event),

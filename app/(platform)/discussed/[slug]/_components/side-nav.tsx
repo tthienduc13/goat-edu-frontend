@@ -3,7 +3,7 @@ import { Realted } from "./related";
 
 export const SideNav = () => {
   return (
-    <div className="flex flex-col max-w-[300px] gap-y-4">
+    <div className="flex flex-col w-1/5 gap-y-4">
       <Recommend />
       <Realted />
     </div>

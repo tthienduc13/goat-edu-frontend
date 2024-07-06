@@ -30,7 +30,10 @@ export const DiscussedCard = ({ data }: DiscussedCardProps) => {
       <CardHeader>
         <div className="flex h-10 flex-row items-center gap-x-2">
           <Avatar className="h-10 w-10  rounded-md">
-            <AvatarImage src={data.userAndSubject?.userImage ?? ""} />
+            <AvatarImage
+              src={data.userAndSubject?.userImage}
+              className="object-cover"
+            />
             <AvatarFallback className="w-full text-sm h-full flex items-center justify-center bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]">
               GE
             </AvatarFallback>
@@ -47,13 +50,13 @@ export const DiscussedCard = ({ data }: DiscussedCardProps) => {
       </CardHeader>
       <CardContent className="flex flex-col gap-y-2">
         <Link
-          className="font-semibold text-base"
+          className="font-semibold text-base sm:text-xl"
           href={`/discussed/${data.id}`}
         >
           {data.discussionName}
         </Link>
         <Link
-          className="text-sm h-full overflow-hidden line-clamp-5"
+          className="sm:text-base text-sm h-full overflow-hidden line-clamp-5"
           href={`/discussed/${data.id}`}
         >
           <LatexRenderer latex={data.discussionBodyHtml} />

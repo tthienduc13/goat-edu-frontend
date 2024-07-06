@@ -24,7 +24,7 @@ export const NoteOptionButton = () => {
             </Button>
           </SheetTrigger>
         </Hint>
-        <SheetContent className="w-[800px] h-full">
+        <SheetContent className="max-w-[800px] w-full h-full">
           <SheetTitle className="text-xl font-bold">Notes</SheetTitle>
           <Note />
         </SheetContent>

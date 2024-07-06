@@ -78,7 +78,7 @@ const DiscussedPage = () => {
   return (
     <div className="flex flex-col w-full ">
       <div className="w-full flex flex-row justify-between">
-        <div className="max-w-[920px] w-full h-full grid grid-cols-1 divide-y-[1px]  ">
+        <div className=" w-full sm:w-[calc(70%-10px)] lg:w-[calc(75%-15px)] h-full grid grid-cols-1 divide-y-[1px]  ">
           {discussions &&
             discussions.map((discussion) => (
               <div
@@ -102,7 +102,7 @@ const DiscussedPage = () => {
             </div>
           )}
         </div>
-        <div className="max-w-[340px] w-full flex flex-col gap-y-4">
+        <div className=" hidden sm:w-[calc(30%-10px)] lg:w-[calc(25%-15px)] sm:flex flex-col gap-y-4">
           <div className="font-medium">🔥 Trending discussions</div>
           <div className="flex flex-col divide-y-[1px] gap-2">
             {topData?.map((data) => (

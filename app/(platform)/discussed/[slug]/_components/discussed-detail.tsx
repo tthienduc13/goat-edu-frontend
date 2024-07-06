@@ -14,6 +14,7 @@ import { Discussion } from "@/types/discussion";
 import { cn } from "@/lib/utils";
 import { UpvoteButton } from "../../_components/upvote-button";
 import { LatexRenderer } from "@/lib/latext-render";
+import Image from "next/image";
 
 interface DiscussedCardProps {
   data: Discussion;
@@ -25,7 +26,10 @@ export const DiscussedDetail = ({ data }: DiscussedCardProps) => {
       <CardHeader>
         <div className="flex h-10 flex-row items-center gap-x-2">
           <Avatar className="h-10 w-10  rounded-md">
-            <AvatarImage src={data.userAndSubject?.userImage ?? ""} />
+            <AvatarImage
+              className="object-cover"
+              src={data.userAndSubject?.userImage ?? ""}
+            />
             <AvatarFallback className="w-full text-sm h-full flex items-center justify-center bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]">
               GE
             </AvatarFallback>
@@ -40,9 +44,21 @@ export const DiscussedDetail = ({ data }: DiscussedCardProps) => {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-col gap-y-2">
-        <div className="font-semibold text-base">{data.discussionName}</div>
-        <div className="max-h-24 text-sm h-full overflow-hidden">
+      <CardContent className="flex flex-col gap-y-4">
+        <div className="font-semibold text-base sm:text-xl">
+          {data.discussionName}
+        </div>
+        {data.discussionImage && (
+          <div className=" w-full h-[300px]  sm:h-[400px] rounded-md overflow-hidden relative">
+            <Image
+              src={data.discussionImage}
+              objectFit="contain"
+              alt="discussionImage"
+              fill
+            />
+          </div>
+        )}
+        <div className="text-xs sm:text-base h-full overflow-hidden">
           <LatexRenderer latex={data.discussionBodyHtml} />
         </div>
       </CardContent>
