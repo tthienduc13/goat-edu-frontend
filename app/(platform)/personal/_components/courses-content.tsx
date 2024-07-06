@@ -22,7 +22,7 @@ export const CoursesContent = () => {
   }
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-5">
-      {data.subjectEnrollMent.map((data) => (
+      {data.subjectEnrollment.map((data) => (
         <SubjectCard type="continue" data={data} key={data.id} />
       ))}
     </div>

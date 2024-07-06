@@ -19,7 +19,7 @@ const components: { title: string; href: string; description: string }[] = [
   {
     title: "Note",
     href: "/",
-    description: "A quick note to open at all time and take not",
+    description: "A quick note to open at all time and take note",
   },
   {
     title: "Courses",

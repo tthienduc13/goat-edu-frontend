@@ -1,168 +1,18 @@
+import { SiteFooterData } from "@/constants/footer-data";
+
 export const SiteFooter = () => {
   return (
-    <div className=" flex flex-start justify-center mb-8">
-      <div className="flex flex-row w-full">
-        <div className="flex flex-col w-full">
-          <h4 className="scroll-m-20 text-base font-bold tracking-tight mb-5">
-            About us
-          </h4>
-          <ul className="space-y-4 font-semibold text-base text-gray-400">
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-          </ul>
+    <div className="w-full gap-y-8 flex flex-row justify-between flex-wrap  mb-8">
+      {SiteFooterData.map((item, index) => (
+        <div key={index} className="flex flex-col gap-y-4 md:w-1/4 w-1/2">
+          <h1 className="text-base font-semibold">{item.title}</h1>
+          <div className="flex flex-col gap-y-2 text-muted-foreground text-sm">
+            {item.content.map((item, index) => (
+              <span key={index}>{item.name}</span>
+            ))}
+          </div>
         </div>
-        <div className="flex flex-col w-full">
-          <h4 className="scroll-m-20 text-base font-bold tracking-tight mb-5">
-            About us
-          </h4>
-          <ul className="space-y-4 font-semibold text-base text-gray-400">
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className="flex flex-col w-full">
-          <h4 className="scroll-m-20 text-base font-bold tracking-tight mb-5">
-            About us
-          </h4>
-          <ul className="space-y-4 font-semibold text-base text-gray-400">
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className="flex flex-col w-full">
-          <h4 className="scroll-m-20 text-base font-bold tracking-tight mb-5">
-            About us
-          </h4>
-          <ul className="space-y-4 font-semibold text-base text-gray-400">
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className="flex flex-col w-full">
-          <h4 className="scroll-m-20 text-base font-bold tracking-tight mb-5">
-            About us
-          </h4>
-          <ul className="space-y-4 font-semibold text-base text-gray-400">
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-            <li>
-              <a className="text-sm" href="">
-                About Goat.edu
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

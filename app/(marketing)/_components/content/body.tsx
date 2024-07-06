@@ -9,7 +9,7 @@ const DynamicIpadScroll = dynamic(() =>
 
 export const Body = () => {
   return (
-    <div className="w-full">
+    <div className="w-full px-5 sm:px-10">
       <Banner />
       <DynamicIpadScroll />
       <Production />

@@ -28,7 +28,7 @@ export const Logo = ({ size, isLanding, href = "/" }: LogoProps) => {
         <div className="h-8 transition-all duration-500 w-full flex flex-col items-center justify-center  rounded-md">
           <div
             className={cn(
-              "hover:opacity-75 relative z-20 transition  gap-x-2 hidden md:flex",
+              "hover:opacity-75 relative z-20 transition  gap-x-2  md:flex",
               size === "lg" ? "items-end" : "items-center"
             )}
           >
