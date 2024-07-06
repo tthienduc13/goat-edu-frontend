@@ -89,7 +89,9 @@ export const UserButton = () => {
                 <Zap className="h-4 w-4" />
                 <div>Free</div>
               </div>
-              <UserAvatar shape="square" />
+              <div className="h-10 w-10 rounded-md overflow-hidden">
+                <UserAvatar shape="square" />
+              </div>{" "}
             </div>
           </Button>
         </DropdownMenuTrigger>

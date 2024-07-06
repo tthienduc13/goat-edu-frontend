@@ -3,13 +3,7 @@
 import { Hint } from "@/components/custom/hint";
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,7 +25,7 @@ export const CreateButton = () => {
   const router = useRouter();
   const { setIsOpenCreateDialog } = useCreateDialogStore();
   const handleCreateDiscussion = () => {
-    router.replace("/create/discussion");
+    router.replace("/discussed/new");
   };
 
   return (
