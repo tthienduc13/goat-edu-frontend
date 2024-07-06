@@ -19,6 +19,7 @@ interface ArrayFlashcardProps {
 export const ArrayFlashcard = ({ data }: ArrayFlashcardProps) => {
   const [progressWidth, setProgressWidth] = useState<number>(0);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  console.log(currentCardIndex);
   const controlRef = useRef<ControlRef>({
     nextCard: () => {},
     prevCard: () => {},
@@ -29,7 +30,6 @@ export const ArrayFlashcard = ({ data }: ArrayFlashcardProps) => {
   const handleNextCard = () => {
     if (controlRef.current) {
       if (currentCardIndex === data.length) {
-        setCurrentCardIndex(data.length - 1);
         setProgressWidth(100);
       } else if (currentCardIndex < data.length - 1) {
         setCurrentCardIndex((prev) => prev + 1);

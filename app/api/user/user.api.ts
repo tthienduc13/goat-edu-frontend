@@ -1,7 +1,8 @@
+import * as z from "zod";
+
 import axiosClient, { axiosClientUpload } from "@/lib/axiosClient";
 import { ChangePasswordSchema } from "@/schemas/account";
 import { Subject } from "@/types/subject";
-import * as z from "zod";
 
 export const END_POINT = {
   PATCH_NEW_USER: "/user/new_user",
@@ -11,7 +12,7 @@ export const END_POINT = {
 };
 
 type UserEnrollmentResponse = {
-  subjectEnrollMent: Subject[];
+  subjectEnrollment: Subject[];
   numberOfSubjectEnroll: number;
 };
 

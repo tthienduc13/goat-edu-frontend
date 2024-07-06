@@ -6,7 +6,7 @@ export const words = [
     text: "the",
   },
   {
-    text: "tests",
+    text: "exams",
   },
   {
     text: "with",

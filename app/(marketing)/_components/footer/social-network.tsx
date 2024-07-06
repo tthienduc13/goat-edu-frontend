@@ -14,7 +14,7 @@ import { Logo } from "@/components/custom/logo";
 
 export const SocialNetwork = () => {
   return (
-    <div className="w-full flex flex-row justify-between border-t-[1px] items-center py-4 ">
+    <div className="w-full gap-y-5 flex flex-col sm:flex-row justify-between border-t-[1px] sm:items-center py-4 ">
       <div className="flex flex-col">
         <div>
           <Button asChild size="icon" variant="ghost" className="rounded-full">
