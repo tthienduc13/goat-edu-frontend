@@ -9,6 +9,7 @@ import { Comment } from "./[slug]/_components/comment/comment";
 import { SideNav } from "./[slug]/_components/side-nav";
 import Error from "@/app/error";
 import { CommentList } from "./[slug]/_components/comment/comment-list";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface DiscussionProps {
   token: string;
@@ -16,6 +17,7 @@ interface DiscussionProps {
 }
 
 export const Discussion = ({ token, id }: DiscussionProps) => {
+  const isTablet = useMediaQuery("(min-width: 768px)");
   const { data, isLoading, error } = useQuery(
     useDiscussionById({ token: token, id: id })
   );
@@ -30,17 +32,19 @@ export const Discussion = ({ token, id }: DiscussionProps) => {
 
   return (
     <div className="w-full h-fit ">
-      <TracingBeam>
-        <div className="w-full flex flex-row items-start gap-x-5">
-          <div className="flex-1 px-5  ">
-            <BackButton />
-            <DiscussedDetail data={data!} />
+      {/* <TracingBeam>  */}
+      <div className="w-full flex flex-row items-start gap-x-5">
+        <div className="flex-1  ">
+          <BackButton />
+          <DiscussedDetail data={data!} />
+          <div className="flex flex-col gap-y-5">
             <Comment id={id} />
             <CommentList id={id} />
           </div>
-          <SideNav />
         </div>
-      </TracingBeam>
+        {isTablet && <SideNav />}
+      </div>
+      {/* </TracingBeam> */}
     </div>
   );
 };

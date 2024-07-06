@@ -1,6 +1,4 @@
-import Editor from "@/components/novel/novel-editor";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import CommentEditor from "./comment-editor";
 import useSaveStatusStore from "@/stores/useSaveStatusStore";
@@ -53,12 +51,14 @@ export const Comment = ({ id }: CommentProps) => {
           className="h-12 w-full rounded-xl border shadow-lg cursor-text"
         ></div>
       )}
-
       <div className="w-full flex justify-end gap-x-4">
         <Button onClick={() => setIsOpenComment(false)} variant={"secondary"}>
           Cancel
         </Button>
-        <Button onClick={handleCreateComment} disabled={saveStatus !== "Saved"}>
+        <Button
+          onClick={handleCreateComment}
+          disabled={saveStatus !== "Saved" || !isOpenComment}
+        >
           Comment
         </Button>
       </div>

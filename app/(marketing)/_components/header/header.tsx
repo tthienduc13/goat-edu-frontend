@@ -10,6 +10,7 @@ import { Hint } from "@/components/custom/hint";
 import { NavBar } from "./nav-bar";
 import { Menu } from "lucide-react";
 import useMobileNavStore from "@/stores/useMobileNavStore";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 const DynamicMobileNav = dynamic(
   () =>
@@ -22,6 +23,7 @@ const DynamicMobileNav = dynamic(
 );
 
 export const Header = () => {
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   const { isOpenMobileNav, setIsOpenMobileNav } = useMobileNavStore();
   return (
     <div className="h-16 z-50 bg-background fixed top-0 left-0 w-full  flex items-center px-5 sm:px-10 ">
@@ -29,10 +31,12 @@ export const Header = () => {
         <div className="w-fit">
           <Logo size="lg" />
         </div>
-        <Menu
-          onClick={() => setIsOpenMobileNav(!isOpenMobileNav)}
-          className="h-8 w-8 float-end block sm:hidden"
-        />
+        {!isDesktop && (
+          <Menu
+            onClick={() => setIsOpenMobileNav(!isOpenMobileNav)}
+            className="h-8 w-8 "
+          />
+        )}
       </div>
       <DynamicMobileNav />
       <div className="flex-1 px-0 sm:px-10 ">

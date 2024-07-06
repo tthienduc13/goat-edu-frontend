@@ -83,6 +83,7 @@ export const MobileNavbar = () => {
 
   const isActive = (href: string) => {
     if (href === "/browse" && pathName === "/browse") return true;
+    if (href === "/notification" && pathName === "/notification") return true;
     if (
       href === "/create" &&
       (pathName === "/discussed/new" || pathName.includes("/flashcards/new"))
@@ -124,7 +125,7 @@ export const MobileNavbar = () => {
                   ? "30px"
                   : isActive("/subjects")
                   ? "30px"
-                  : isActive("/create")
+                  : isActive("/notification")
                   ? "30px"
                   : "0",
                 top: isActive("/browse")
@@ -133,7 +134,7 @@ export const MobileNavbar = () => {
                   ? "calc(28px + 1.25rem + 20px)"
                   : isActive("/subjects")
                   ? "calc(56px + 2.5rem + 20px)"
-                  : isActive("/create")
+                  : isActive("/notification")
                   ? "calc(84px + 3.75rem + 20px)"
                   : "0",
               }}
@@ -158,6 +159,13 @@ export const MobileNavbar = () => {
               className=" text-lg font-semibold md:text-xl "
             >
               Courses
+            </Link>
+            <Link
+              onClick={() => setIsPlatformOpenMobileNav(false)}
+              href={"/notification"}
+              className=" text-lg font-semibold md:text-xl "
+            >
+              Notification
             </Link>
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem className="border-b-0" value="item-1">

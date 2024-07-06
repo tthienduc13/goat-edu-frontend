@@ -12,8 +12,11 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import dynamic from "next/dynamic";
-import { Menu } from "lucide-react";
+import { Menu, Table } from "lucide-react";
 import usePlatformMobileNavStore from "@/stores/usePlatformMobileNavStore";
+import { Button } from "@/components/ui/button";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const DynamicUserButton = dynamic(
   () => import("./user-button/user-button").then((res) => res.UserButton),
@@ -46,23 +49,27 @@ const DynamicMobileNav = dynamic(
 );
 
 export const Navbar = () => {
+  const user = useCurrentUser();
+  const isDesktop = useMediaQuery("(min-width: 1280px)");
+  const isTablet = useMediaQuery("(min-width: 1024px)");
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const { isPlatformOpenMobileNav, setIsPlatformOpenMobileNav } =
     usePlatformMobileNavStore();
   return (
     <div
       className={cn(
-        "h-16 bg-background fixed z-10 top-0 w-screen  flex justify-center items-center px-5 sm:px-10 "
+        "h-16 bg-background fixed z-10 top-0 w-screen  flex justify-center items-center px-5 lg:px-10 "
       )}
     >
       <div className="flex items-center gap-x-5">
-        <Menu
-          onClick={() => setIsPlatformOpenMobileNav(!isPlatformOpenMobileNav)}
-          className="h-8 w-8 xl:hidden block"
-        />
-        <div className="hidden md:block">
-          <Logo size="lg" href="/browse" />
-        </div>
-        <div className="xl:block hidden">
+        {!isDesktop && (
+          <Menu
+            onClick={() => setIsPlatformOpenMobileNav(!isPlatformOpenMobileNav)}
+            className="h-8 w-8 xl:hidden block "
+          />
+        )}
+        {isTablet && <Logo size="lg" href="/browse" />}
+        {isDesktop && (
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
@@ -104,17 +111,24 @@ export const Navbar = () => {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-        </div>
+        )}
       </div>
-      <SearchInput />
+      <div className="w-full px-5 lg:px-0">
+        <SearchInput />
+      </div>
       <div className="flex items-center gap-x-2">
-        <div className=" items-center xl:flex hidden gap-x-2">
-          <DynamicCreateButton />
-          <DynamicNotificationButton />
-        </div>
-        <DynamicUserButton />
+        {isDesktop && (
+          <div className=" flex items-center gap-x-2">
+            <DynamicCreateButton />
+            <DynamicNotificationButton />
+          </div>
+        )}
+        {isDesktop && <DynamicUserButton />}
+        {!isDesktop && !user?.subscription && !isMobile && (
+          <Button className="xl:hidden block">Upgrade to pro ✨</Button>
+        )}
       </div>
-      <DynamicMobileNav />
+      {!isDesktop && <DynamicMobileNav />}
     </div>
   );
 };

@@ -38,6 +38,7 @@ export const CommentList = ({ id }: CommentListProps) => {
             <AvatarImage
               src={item.userInformation.userImage}
               alt="user image"
+              className="object-cover"
             ></AvatarImage>
             <AvatarFallback>GE</AvatarFallback>
           </Avatar>
