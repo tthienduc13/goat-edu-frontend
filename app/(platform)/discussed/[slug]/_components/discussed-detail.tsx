@@ -45,7 +45,9 @@ export const DiscussedDetail = ({ data }: DiscussedCardProps) => {
         </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-y-4">
-        <div className="font-semibold text-xl">{data.discussionName}</div>
+        <div className="font-semibold text-base sm:text-xl">
+          {data.discussionName}
+        </div>
         {data.discussionImage && (
           <div className=" w-full h-[300px]  sm:h-[400px] rounded-md overflow-hidden relative">
             <Image
@@ -56,7 +58,7 @@ export const DiscussedDetail = ({ data }: DiscussedCardProps) => {
             />
           </div>
         )}
-        <div className="max-h-24 text-sm h-full overflow-hidden">
+        <div className="text-xs sm:text-base h-full overflow-hidden">
           <LatexRenderer latex={data.discussionBodyHtml} />
         </div>
       </CardContent>
