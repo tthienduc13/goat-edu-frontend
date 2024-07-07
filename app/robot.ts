@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: "",
       },
     ],
-    sitemap: `${process.env.NEXT_PUBLIC_URL}/sitemap.xml`,
+    sitemap: `https://www.goatedu.tech/sitemap.xml`,
   };
 }
