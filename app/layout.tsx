@@ -18,8 +18,8 @@ import "katex/dist/katex.min.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.goatedu.tech"),
   title: {
-    default: "GoatEdu - No.1 Learning Platform",
-    template: "%s | GoatEdu - No.1 Learning Platform",
+    default: "GoatEdu - No.1 Learning Platform Built For Generations",
+    template: "%s | GoatEdu - No.1 Learning Platform Built For Generations",
   },
   description:
     "GoatEdu offers a comprehensive and professional educational platform for students globally, with a special emphasis on helping students in Vietnam excel in the National High School Exam. Access expert guidance, practice tests, and tailored learning resources to achieve academic success.",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         url: "/images/opengraph-image.jpg",
       },
     ],
-    title: "GoatEdu - No.1 Learning Platform",
+    title: " GoatEdu - No.1 Learning Platform Built For Generations",
     description:
       "GoatEdu is a leading educational platform dedicated to helping students worldwide, with a special focus on students in Vietnam, succeed in their academic pursuits. Our comprehensive resources and expert guidance are tailored to support students in preparing for the National High School Exam, ensuring they achieve their highest potential. Discover professional courses, practice tests, and personalized learning tools designed to make exam preparation effective and accessible for every student.",
     type: "website",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     site: "@GoatEdu",
-    title: "GoatEdu - No.1 Learning Platform",
+    title: " GoatEdu - No.1 Learning Platform Built For Generations",
     description:
       "Welcome to GoatEdu, the leading educational platform for students worldwide. Explore our expert guidance and resources to achieve academic excellence.",
     images: "https://www.goatedu.tech/images/screenshot.jpg",
