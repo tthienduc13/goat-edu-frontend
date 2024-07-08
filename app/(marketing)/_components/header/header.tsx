@@ -34,7 +34,7 @@ export const Header = () => {
         {!isDesktop && (
           <Menu
             onClick={() => setIsOpenMobileNav(!isOpenMobileNav)}
-            className="h-8 w-8 "
+            className="h-8 w-8 md:hidden block"
           />
         )}
       </div>

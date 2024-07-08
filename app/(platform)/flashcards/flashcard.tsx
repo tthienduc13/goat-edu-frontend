@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useOnborda } from "onborda";
 import { Shuffle } from "lucide-react";
@@ -17,6 +17,7 @@ import { FlashcardHeaderLoading } from "./[slug]/_components/flashcard-header/fl
 import { FlashcardContentLoading } from "./[slug]/_components/flashcard-content-loading";
 import { useFlashcardContentById } from "@/app/api/flashcard-content/flascard-content.query";
 import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
+import Error from "@/app/error";
 
 interface FlashcardProps {
   token: string;
@@ -39,24 +40,22 @@ export const Flashcard = ({ token, id }: FlashcardProps) => {
     startOnborda();
   };
 
-  const {
-    data: flashcardContentData,
-    isLoading: flashcardContentLoading,
-    error: flashcardContentError,
-  } = useQuery(useFlashcardContentById({ token: token, id: id }));
+  const queriesResult = useQueries({
+    queries: [
+      useFlashcardById({ token: token, id: id }),
+      useFlashcardContentById({ token: token, id: id }),
+    ],
+  });
 
-  const {
-    data: flashcardData,
-    isLoading: flashcardLoading,
-    error: flashcardError,
-  } = useQuery(useFlashcardById({ token: token, id: id }));
+  const isLoading = queriesResult.some((query) => query.isLoading);
+  const isError = queriesResult.some((query) => query.error);
 
   useEffect(() => {
-    if (flashcardContentData) {
-      setShuffledData(flashcardContentData);
+    if (queriesResult[1].data) {
+      setShuffledData(queriesResult[1].data);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flashcardContentData]);
+  }, [queriesResult[1].data]);
 
   const handleShuffle = () => {
     const newShuffledData = shuffleArray(shuffledData);
@@ -83,7 +82,7 @@ export const Flashcard = ({ token, id }: FlashcardProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shuffledData]);
 
-  if (flashcardContentLoading || flashcardLoading) {
+  if (isLoading) {
     return (
       <div className="max-w-[1300px] mx-auto flex flex-col gap-y-10 w-full h-full">
         <FlashcardHeaderLoading />
@@ -92,28 +91,16 @@ export const Flashcard = ({ token, id }: FlashcardProps) => {
     );
   }
 
-  if (flashcardContentError || flashcardError) {
-    return (
-      <div className="max-w-[1300px] mx-auto flex flex-col gap-y-10 w-full h-full">
-        <p>Error loading flashcard data.</p>
-      </div>
-    );
-  }
-
-  if (!flashcardContentData || !flashcardData) {
-    return (
-      <div className="max-w-[1300px] mx-auto flex flex-col gap-y-10 w-full h-full">
-        <p>No flashcard data available.</p>
-      </div>
-    );
+  if (isError) {
+    Error();
   }
 
   return (
     <div className="max-w-[1300px] mx-auto flex flex-col gap-y-10 w-full h-full">
       <FlashcardHeader
         id={id}
-        data={flashcardData}
-        termsCount={flashcardContentData.length}
+        data={queriesResult[0].data}
+        termsCount={queriesResult[1].data?.length}
       />
       <div className="w-full flex flex-col gap-y-8">
         <div className="flex flex-row gap-5">
@@ -138,28 +125,30 @@ export const Flashcard = ({ token, id }: FlashcardProps) => {
           <div className="flex flex-row items-center gap-x-2">
             <div className="h-12 w-12">
               <Avatar>
-                <AvatarImage src={flashcardData.userImage} />
+                <AvatarImage src={queriesResult[0].data?.userImage} />
                 <AvatarFallback>GE</AvatarFallback>
               </Avatar>
             </div>
             <div className="flex flex-col">
               <div className="text-sm font-semibold">
-                {flashcardData.fullName}
+                {queriesResult[0].data?.fullName}
               </div>
               <div className="text-sm font-medium text-muted-foreground">
                 Last update:{" "}
-                {new Date(flashcardData.updatedAt).toLocaleDateString()}
+                {new Date(
+                  queriesResult[0].data?.updatedAt!
+                ).toLocaleDateString()}
               </div>
             </div>
           </div>
           <div className="text-muted-foreground text-sm">
-            {flashcardData.flashcardDescription}
+            {queriesResult[0].data?.flashcardDescription}
           </div>
         </div>
       </div>
       <Terms
-        termsCount={flashcardData.numberOfFlashcardContent}
-        data={flashcardContentData}
+        termsCount={queriesResult[0].data?.numberOfFlashcardContent}
+        data={queriesResult[1].data}
       />
     </div>
   );

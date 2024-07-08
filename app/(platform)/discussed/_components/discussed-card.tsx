@@ -62,7 +62,7 @@ export const DiscussedCard = ({ data }: DiscussedCardProps) => {
           <LatexRenderer latex={data.discussionBodyHtml} />
         </Link>
       </CardContent>
-      <CardFooter className="flex flex-row gap-x-4">
+      {/* <CardFooter className="flex flex-row gap-x-4">
         <UpvoteButton
           id={data.id}
           isUserVoted={data.isUserVoted}
@@ -77,7 +77,7 @@ export const DiscussedCard = ({ data }: DiscussedCardProps) => {
         <Button variant="ghost" size="icon" className="hover:bg-destructive/70">
           <FlagIcon />
         </Button>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 };

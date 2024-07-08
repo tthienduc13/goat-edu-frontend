@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { LatexRenderer } from "@/lib/latext-render";
 
 const groupDiscussions = (discussions: Discussion[]) => {
   const today: Discussion[] = [];
@@ -127,7 +128,7 @@ export const DiscussionsContent = () => {
                 </div>
                 <div className="flex flex-row justify-between">
                   <div className="text-sm w-full font-light text-muted-foreground line-clamp-4">
-                    {discussion.discussionBody}
+                    <LatexRenderer latex={discussion.discussionBodyHtml} />
                   </div>
                   {discussion.discussionImage && (
                     <div className="relative w-[calc(20%-30px)]">

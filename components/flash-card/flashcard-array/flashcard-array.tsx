@@ -64,6 +64,7 @@ function FlashcardArray({
 
   const numberOfCards = cards.length;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const resetArray = () => {
     setCardsInDisplay(!cycle ? [-1, 0, 1] : [cards.length - 1, 0, 1]);
     setCardNumber(0);

@@ -1,19 +1,28 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import dynamic from "next/dynamic";
 
 import { Button } from "@/components/ui/button";
-import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
 
 import { sampleArcs } from "@/data/globe-sample";
 import { globeConfig } from "@/data/globe-config";
 
 import { words } from "@/constants/banner-words";
-import Link from "next/link";
-import dynamic from "next/dynamic";
 
 const World = dynamic(
   () => import("@/components/ui/globe").then((m) => m.World),
+  {
+    ssr: false,
+  }
+);
+
+const TypeWriter = dynamic(
+  () =>
+    import("@/components/ui/typewriter-effect").then(
+      (m) => m.TypewriterEffectSmooth
+    ),
   {
     ssr: false,
   }
@@ -25,10 +34,10 @@ export function Banner() {
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-background bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
       <div className="max-w-[1320px] w-full h-full flex items-center justify-center md:justify-between flex-col-reverse gap-y-10 sm:flex-row">
         <div className="xl:max-w-[700px] md:max-w-[400px] lg:max-w-[500px] w-full flex flex-col items-center">
-          <div className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base ">
+          <h1 className="text-neutral-600 dark:text-neutral-200 text-xs sm:text-base ">
             The road to champion starts here
-          </div>
-          <TypewriterEffectSmooth words={words} />
+          </h1>
+          <TypeWriter words={words} />
           <Button>
             <Link href="/auth/login"> Join with us</Link>
           </Button>

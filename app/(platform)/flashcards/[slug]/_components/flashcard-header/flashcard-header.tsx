@@ -16,8 +16,8 @@ import { useDeleteFlashcard } from "@/app/api/flashcard/flashcard.query";
 
 interface FlashcardHeaderProps {
   id: string;
-  data: Flashcard;
-  termsCount: number;
+  data?: Flashcard;
+  termsCount?: number;
 }
 
 export const FlashcardHeader = ({
@@ -37,6 +37,10 @@ export const FlashcardHeader = ({
 
   if (isSuccess) {
     router.replace("/personal");
+  }
+
+  if (!data || !termsCount) {
+    return null;
   }
   return (
     <div id="onborda-step1" className="flex flex-col gap-y-4 w-full">

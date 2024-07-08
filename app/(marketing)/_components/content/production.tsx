@@ -13,10 +13,11 @@ export const Production = () => {
       >
         <div className="max-w-xs">
           <h2 className="text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-            More powerful search
+            More powerful search bar
           </h2>
           <p className="mt-4 text-left  text-base/6 text-neutral-200">
-            Find flashcards on any subject you need to learn, discuss about
+            Find flashcards on any subject you need to learn, any discussions to
+            solve your problems
           </p>
         </div>
         <Image

@@ -11,7 +11,7 @@ export const END_POINT = {
   GET_USER_ENROLL: "/user/enroll",
 };
 
-type UserEnrollmentResponse = {
+export type UserEnrollmentResponse = {
   subjectEnrollment: Subject[];
   numberOfSubjectEnroll: number;
 };

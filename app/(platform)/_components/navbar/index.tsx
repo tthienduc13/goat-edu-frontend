@@ -12,7 +12,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import dynamic from "next/dynamic";
-import { Menu, Table } from "lucide-react";
+import { Menu } from "lucide-react";
 import usePlatformMobileNavStore from "@/stores/usePlatformMobileNavStore";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -55,6 +55,7 @@ export const Navbar = () => {
   const isMobile = useMediaQuery("(max-width: 600px)");
   const { isPlatformOpenMobileNav, setIsPlatformOpenMobileNav } =
     usePlatformMobileNavStore();
+
   return (
     <div
       className={cn(

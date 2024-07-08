@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ArrowLeft, ArrowRight, Command, Settings } from "lucide-react";
@@ -18,7 +19,9 @@ export const SettingButton = () => {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-[600px]">
-        <DialogHeader>Settings</DialogHeader>
+        <DialogHeader>
+          <DialogTitle>Settings</DialogTitle>
+        </DialogHeader>
         <div className="flex flex-col  divide-y-[1px]">
           <div className="flex flex-row py-5">
             <div className="text-base font-semibold">Front</div>
