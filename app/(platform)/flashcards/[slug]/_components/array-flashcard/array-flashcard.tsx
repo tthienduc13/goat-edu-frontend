@@ -11,7 +11,7 @@ interface ControlRef {
 }
 
 interface ArrayFlashcardProps {
-  data: FlashcardContent[];
+  data?: FlashcardContent[];
 }
 
 // TODO: RESET FLASHCARD FUNCTION
@@ -19,7 +19,6 @@ interface ArrayFlashcardProps {
 export const ArrayFlashcard = ({ data }: ArrayFlashcardProps) => {
   const [progressWidth, setProgressWidth] = useState<number>(0);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  console.log(currentCardIndex);
   const controlRef = useRef<ControlRef>({
     nextCard: () => {},
     prevCard: () => {},
@@ -27,29 +26,36 @@ export const ArrayFlashcard = ({ data }: ArrayFlashcardProps) => {
   });
   const currentCardFlipRef = useRef<() => void>(() => {});
 
-  const handleNextCard = () => {
-    if (controlRef.current) {
-      if (currentCardIndex === data.length) {
-        setProgressWidth(100);
-      } else if (currentCardIndex < data.length - 1) {
-        setCurrentCardIndex((prev) => prev + 1);
-        setProgressWidth((prev) => prev + 100 / (data.length - 1));
-        controlRef.current.nextCard();
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      switch (event.key) {
+        case "ArrowRight":
+          handleNextCard();
+          break;
+        case "ArrowLeft":
+          handlePreviousCard();
+          break;
+        case "ArrowUp":
+        case "ArrowDown":
+        case " ":
+          event.preventDefault();
+          handleFlipCard();
+          break;
+        default:
+          break;
       }
-    }
-  };
-  const handlePreviousCard = () => {
-    if (controlRef.current) {
-      if (currentCardIndex === 0 || currentCardIndex < 0) {
-        setCurrentCardIndex(0);
-        setProgressWidth(0);
-      } else if (currentCardIndex > 0) {
-        setCurrentCardIndex((prev) => prev - 1);
-        controlRef.current.prevCard();
-        setProgressWidth((prev) => prev - 100 / (data.length - 1));
-      }
-    }
-  };
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentCardIndex]);
+
+  useEffect(() => {
+    // Focus on the window to ensure it captures key events
+    window.focus();
+  }, []);
+
   const handleReset = () => {
     if (controlRef.current) {
       controlRef.current.resetArray();
@@ -62,40 +68,25 @@ export const ArrayFlashcard = ({ data }: ArrayFlashcardProps) => {
     }
   };
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      switch (event.key) {
-        case "ArrowRight":
-          handleNextCard();
-          break;
-        case "ArrowLeft":
-          handlePreviousCard();
-          break;
-        case "ArrowUp":
-          event.preventDefault();
-          handleFlipCard();
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          handleFlipCard();
-          break;
-        case " ":
-          event.preventDefault();
-          handleFlipCard();
-          break;
-        // case "Escape":
-        //   event.preventDefault();
-        //   setIsFullScreen(false);
-        //   break;
+  const handleNextCard = () => {
+    if (controlRef.current && currentCardIndex < (data?.length ?? 1) - 1) {
+      setCurrentCardIndex((prev) => prev + 1);
+      setProgressWidth((prev) => prev + 100 / ((data?.length ?? 1) - 1));
+      controlRef.current.nextCard();
+    }
+  };
 
-        default:
-          break;
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentCardIndex]);
+  const handlePreviousCard = () => {
+    if (controlRef.current && currentCardIndex > 0) {
+      setCurrentCardIndex((prev) => prev - 1);
+      setProgressWidth((prev) => prev - 100 / ((data?.length ?? 1) - 1));
+      controlRef.current.prevCard();
+    }
+  };
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <div className="w-full h-full flex-col flex gap-y-4">

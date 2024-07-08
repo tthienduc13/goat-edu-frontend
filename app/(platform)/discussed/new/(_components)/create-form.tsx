@@ -127,7 +127,7 @@ export const CreateForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="w-full" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="w-full flex flex-col gap-y-2">
           <FormField
             control={form.control}
@@ -223,7 +223,7 @@ export const CreateForm = () => {
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-full hover:bg-none">
+                    <PopoverContent className="w-[1320px] animate-none hover:bg-none">
                       <Command className="w-full">
                         <CommandInput
                           className="w-full"

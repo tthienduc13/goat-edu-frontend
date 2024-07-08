@@ -26,6 +26,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       priority: 0.8,
     },
+    {
+      url: `${process.env.NEXT_PUBLIC_URL}/auth/login`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_URL}/auth/register`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
     ...flashcardsUrls,
     ...discussionsUrls,
   ];

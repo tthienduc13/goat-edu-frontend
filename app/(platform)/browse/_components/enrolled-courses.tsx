@@ -1,30 +1,17 @@
-import { useUserEnroll } from "@/app/api/user/user.query";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { useQuery } from "@tanstack/react-query";
-import { EmptyCard } from "./empty-card";
+import Link from "next/link";
+
 import { SubjectCard } from "../../subjects/_components/subject-card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
-import Error from "@/app/error";
+import { UserEnrollmentResponse } from "@/app/api/user/user.api";
 
-export const EnrollCourses = () => {
-  const user = useCurrentUser();
+interface EnrollCoursesPops {
+  data?: UserEnrollmentResponse;
+}
 
-  const { data, isLoading, error } = useQuery(
-    useUserEnroll({ token: user?.token!, pageNumber: 1, pageSize: 3 })
-  );
-
+export const EnrollCourses = ({ data }: EnrollCoursesPops) => {
   if (!data) {
     return null;
-  }
-
-  if (isLoading) {
-    return <EmptyCard />;
-  }
-
-  if (error) {
-    Error();
   }
 
   return (

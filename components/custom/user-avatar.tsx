@@ -13,7 +13,11 @@ export const UserAvatar = ({ shape }: AvatarProps) => {
         shape === "square" ? "rounded-md h-full w-full" : "rounded-full"
       )}
     >
-      <AvatarImage className="object-cover" src={user?.image!} />
+      <AvatarImage
+        className="object-cover"
+        src={user?.image!}
+        alt="user image"
+      />
       <AvatarFallback className="w-full  h-full flex items-center justify-center bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]">
         GE
       </AvatarFallback>

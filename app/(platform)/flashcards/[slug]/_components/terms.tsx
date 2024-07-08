@@ -2,11 +2,14 @@ import { FlashcardContent } from "@/types/flashcard";
 import { Layers } from "lucide-react";
 
 interface TermsProps {
-  data: FlashcardContent[];
-  termsCount: number;
+  data?: FlashcardContent[];
+  termsCount?: number;
 }
 
 export const Terms = ({ data, termsCount }: TermsProps) => {
+  if (!data || !termsCount) {
+    return null;
+  }
   return (
     <div className="flex flex-col gap-y-6">
       <div className="flex flex-row items-center gap-x-2">

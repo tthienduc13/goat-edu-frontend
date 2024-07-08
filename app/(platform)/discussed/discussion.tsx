@@ -2,7 +2,6 @@
 
 import { useDiscussionById } from "@/app/api/discussion/discussion.query";
 import { BackButton } from "@/components/custom/buttons/back-button";
-import { TracingBeam } from "@/components/ui/tracing-beam";
 import { useQuery } from "@tanstack/react-query";
 import { DiscussedDetail } from "./[slug]/_components/discussed-detail";
 import { Comment } from "./[slug]/_components/comment/comment";
@@ -32,7 +31,6 @@ export const Discussion = ({ token, id }: DiscussionProps) => {
 
   return (
     <div className="w-full h-fit ">
-      {/* <TracingBeam>  */}
       <div className="w-full flex flex-row items-start gap-x-5">
         <div className="flex-1  ">
           <BackButton />
@@ -44,7 +42,6 @@ export const Discussion = ({ token, id }: DiscussionProps) => {
         </div>
         {isTablet && <SideNav />}
       </div>
-      {/* </TracingBeam> */}
     </div>
   );
 };

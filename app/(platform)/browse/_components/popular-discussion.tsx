@@ -1,31 +1,13 @@
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { EmptyCard } from "./empty-card";
-import { useQuery } from "@tanstack/react-query";
-import { useDiscussions } from "@/app/api/discussion/discussion.query";
-import { Status } from "@/types/discussion";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
 
-export const PopularDiscussion = () => {
-  const user = useCurrentUser();
-  const { data, isLoading, error } = useQuery(
-    useDiscussions({
-      token: user?.token!,
-      pageNumber: 1,
-      pageSize: 3,
-      sort: "top",
-      status: Status.Approved,
-    })
-  );
+import { Discussion } from "@/types/discussion";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
-  if (isLoading) {
-    return <EmptyCard />;
-  }
+interface PopularDiscussionProps {
+  data?: Discussion[];
+}
 
-  if (error) {
-    return;
-  }
-
+export const PopularDiscussion = ({ data }: PopularDiscussionProps) => {
   if (!data || data.length === 0) {
     return null;
   }
@@ -50,6 +32,7 @@ export const PopularDiscussion = () => {
             <div className="flex flex-row items-center gap-x-2">
               <Avatar>
                 <AvatarImage
+                  className="object-cover"
                   src={data.userAndSubject.userImage}
                   alt="user image"
                 ></AvatarImage>

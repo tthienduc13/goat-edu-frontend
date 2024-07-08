@@ -1,20 +1,65 @@
 "use client";
 
+import { useQueries } from "@tanstack/react-query";
+
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { useUserEnroll } from "@/app/api/user/user.query";
+import { useFlashcards } from "@/app/api/flashcard/flashcard.query";
+import { useDiscussions } from "@/app/api/discussion/discussion.query";
+
+import { RecentView } from "./_components/recent";
 import { AppFeatures } from "./_components/app-features";
 import { EnrollCourses } from "./_components/enrolled-courses";
-import { Footer } from "./_components/footer";
 import { PopularDiscussion } from "./_components/popular-discussion";
 import { PopularFlashcard } from "./_components/popular-flashcard";
-import { RecentView } from "./_components/recent";
+import { PageLoading } from "./_components/page-loading";
+import { Footer } from "./_components/footer";
+
+import { Status as FlashcardStatus } from "@/types/flashcard";
+import { Status as DiscussionStatus } from "@/types/discussion";
+
+import Error from "@/app/error";
 
 const BrowsePage = () => {
+  const user = useCurrentUser();
+  const queriesResult = useQueries({
+    queries: [
+      useUserEnroll({ token: user?.token!, pageNumber: 1, pageSize: 3 }),
+      useFlashcards({
+        token: user?.token!,
+        sort: "top",
+        pageNumber: 1,
+        pageSize: 3,
+        status: FlashcardStatus.Open,
+      }),
+      useDiscussions({
+        token: user?.token!,
+        pageNumber: 1,
+        pageSize: 3,
+        sort: "top",
+        status: DiscussionStatus.Approved,
+      }),
+    ],
+  });
+
+  const isError = queriesResult.some((query) => query.error);
+  const isLoading = queriesResult.some((query) => query.isLoading);
+
+  if (isLoading) {
+    return <PageLoading />;
+  }
+
+  if (isError) {
+    Error();
+  }
+
   return (
     <div className="w-full  flex flex-col gap-y-12">
-      <RecentView />
-      <EnrollCourses />
+      <RecentView data={queriesResult[1].data} />
+      <EnrollCourses data={queriesResult[0].data} />
       <AppFeatures />
-      <PopularFlashcard />
-      <PopularDiscussion />
+      <PopularFlashcard data={queriesResult[1].data} />
+      <PopularDiscussion data={queriesResult[2].data} />
       <Footer />
     </div>
   );

@@ -83,7 +83,12 @@ export const UserButton = () => {
     <DropdownMenu>
       <Hint label="Profile settings" side="left" sideOffset={10}>
         <DropdownMenuTrigger asChild>
-          <Button asChild variant="custom" className="pr-0 h-10 cursor-pointer">
+          <Button
+            name="userController"
+            asChild
+            variant="custom"
+            className="pr-0 h-10 cursor-pointer"
+          >
             <div className="flex gap-x-4 h-10">
               <div className="flex gap-x-1 items-center">
                 <Zap className="h-4 w-4" />

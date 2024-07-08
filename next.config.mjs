@@ -11,6 +11,12 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/dni30h5dy/**",
+      },
+      {
+        protocol: "https",
         hostname: "camo.githubusercontent.com",
         port: "",
         pathname:

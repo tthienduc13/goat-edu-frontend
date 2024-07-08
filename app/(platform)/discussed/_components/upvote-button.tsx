@@ -4,7 +4,7 @@ import { UpvoteIcon } from "@/components/custom-icons/upvote-icon";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { cn } from "@/lib/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 interface UpvoteButtonProps {
@@ -18,6 +18,7 @@ export const UpvoteButton = ({
   isUserVoted,
   id,
 }: UpvoteButtonProps) => {
+  const queryClient = useQueryClient();
   const user = useCurrentUser();
   const [isUserVotedState, setIsUserVotedState] =
     useState<boolean>(isUserVoted);
@@ -37,6 +38,9 @@ export const UpvoteButton = ({
           setVoteCounter((prevCount) => prevCount - 1);
           setIsUserVotedState(!isUserVotedState);
         }
+        queryClient.invalidateQueries({
+          queryKey: ["discussion", id],
+        });
       }
     },
   });
