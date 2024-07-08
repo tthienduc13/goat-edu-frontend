@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     title: " GoatEdu - No.1 Learning Platform Built For Generations",
     description:
       "Welcome to GoatEdu, the leading educational platform for students worldwide. Explore our expert guidance and resources to achieve academic excellence.",
-    images: "https://www.goatedu.tech/images/screenshot.jpg",
+    images: "https://www.goatedu.tech/images/screenshot.jpeg",
   },
 };
 
