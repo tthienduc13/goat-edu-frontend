@@ -4,8 +4,6 @@ import localFont from "next/font/local";
 
 import { cn } from "@/lib/utils";
 
-import { SparklesCore } from "@/components/ui/sparkles";
-
 const headingFont = localFont({
   src: "../../public/fonts/font.woff2",
 });
@@ -17,11 +15,10 @@ const textFont = Poppins({
 
 interface LogoProps {
   size: "sm" | "lg";
-  isLanding?: boolean;
   href?: string;
 }
 
-export const Logo = ({ size, isLanding, href = "/" }: LogoProps) => {
+export const Logo = ({ size, href = "/" }: LogoProps) => {
   return (
     <Link href={href}>
       <div className="h-10 flex flex-row items-center">
@@ -32,15 +29,15 @@ export const Logo = ({ size, isLanding, href = "/" }: LogoProps) => {
               size === "lg" ? "items-end" : "items-center"
             )}
           >
-            <p
+            <h1
               className={cn(
                 " text-transparent bg-clip-text bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]",
                 headingFont.className,
-                size === "lg" ? "text-3xl" : "text-base"
+                size === "lg" ? "text-2xl" : "text-base"
               )}
             >
-              goat
-              <span
+              GoatEdu
+              {/* <span
                 className={cn(
                   " font-normal text-transparent bg-clip-text bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]",
                   textFont.className,
@@ -48,8 +45,8 @@ export const Logo = ({ size, isLanding, href = "/" }: LogoProps) => {
                 )}
               >
                 .edu
-              </span>
-            </p>
+              </span> */}
+            </h1>
           </div>
         </div>
       </div>

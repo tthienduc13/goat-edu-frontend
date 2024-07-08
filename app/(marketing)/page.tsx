@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: "Home",
     description:
       "Welcome to GoatEdu, the leading educational platform for students worldwide. Explore our expert guidance and resources to achieve academic excellence.",
-    images: "https://www.goatedu.tech/images/screenshot.jpg", // Ensure this image is 1200x628 pixels
+    images: "https://www.goatedu.tech/images/screenshot.jpeg",
   },
 };
 

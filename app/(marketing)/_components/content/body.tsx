@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import { Banner } from "./banner";
-// import { IpadScroll } from "./ipad-scroll";
 import { Production } from "./production";
 
 const DynamicIpadScroll = dynamic(() =>
