@@ -95,6 +95,8 @@ export const getAllDiscussion = async ({
       queryParams.append("page_number", pageNumber.toString());
     }
 
+    console.log(queryParams);
+
     const response = await axiosClient.get(
       `${END_POINT.GET_ALL}?${queryParams.toString()}`,
       {

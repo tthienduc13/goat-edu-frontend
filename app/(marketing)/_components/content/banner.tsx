@@ -38,7 +38,7 @@ export function Banner() {
             The road to champion starts here
           </h2>
           <TypeWriter words={words} />
-          <h2 className="text-neutral-600 text-center dark:text-neutral-200 text-base sm:text-lg ">
+          <h2 className="text-neutral-600 text-center dark:text-neutral-200 text-sm sm:text-base ">
             GoatEdu is a premier educational platform dedicated to supporting
             students globally, with a special emphasis on students in Vietnam.
             Access professional courses, practice tests, and tailored resources
