@@ -36,8 +36,11 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { Logout } from "@/actions/logout";
 import useReportDialogStore from "@/stores/useReportDialogStore";
 import useCommandStore from "@/stores/useCommandStore";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { cn } from "@/lib/utils";
 
 export const UserButton = () => {
+  const user = useCurrentUser();
   const router = useRouter();
   const { setIsOpenReportDialog } = useReportDialogStore();
   const { setIsOpenCommandMenu } = useCommandStore();
@@ -91,12 +94,24 @@ export const UserButton = () => {
           >
             <div className="flex gap-x-4 h-10">
               <div className="flex gap-x-1 items-center">
-                <Zap className="h-4 w-4" />
-                <div>Free</div>
+                <Zap
+                  className={cn(
+                    "h-4 w-4",
+                    user?.subscription && "text-[#ce3df3] "
+                  )}
+                />
+                <div
+                  className={cn(
+                    user?.subscription &&
+                      "text-transparent font-semibold bg-clip-text bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]"
+                  )}
+                >
+                  {user?.subscription ? "Pro" : "Free"}
+                </div>
               </div>
               <div className="h-10 w-10 rounded-md overflow-hidden">
                 <UserAvatar shape="square" />
-              </div>{" "}
+              </div>
             </div>
           </Button>
         </DropdownMenuTrigger>
