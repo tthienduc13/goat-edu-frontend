@@ -19,6 +19,7 @@ import { Status as FlashcardStatus } from "@/types/flashcard";
 import { Status as DiscussionStatus } from "@/types/discussion";
 
 import Error from "@/app/error";
+import { Metadata } from "next";
 
 const BrowsePage = () => {
   const user = useCurrentUser();

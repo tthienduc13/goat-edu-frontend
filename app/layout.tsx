@@ -50,6 +50,15 @@ export const metadata: Metadata = {
       "Welcome to GoatEdu, the leading educational platform for students worldwide. Explore our expert guidance and resources to achieve academic excellence.",
     images: "https://www.goatedu.tech/images/screenshot.jpeg",
   },
+  keywords: [
+    "goatedu",
+    "GoatEdu",
+    "goat",
+    "edu",
+    "flaschard",
+    "discussion",
+    "discussed",
+  ],
 };
 
 export default async function RootLayout({
