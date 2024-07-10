@@ -74,7 +74,7 @@ const NoteEditor = ({
   useEffect(() => {
     if (data.noteBody) setInitialContent(JSON.parse(data.noteBody));
     else setInitialContent(defaultEditorContent);
-  }, [data.noteBody]);
+  }, [data.noteBody, data.noteName]);
 
   if (!initialContent) return null;
 
