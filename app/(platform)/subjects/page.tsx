@@ -57,7 +57,6 @@ const SubjectPage = () => {
         if (isLoading) {
           return <SubjectLoading key={className} />;
         }
-
         return (
           <div key={className} className="flex flex-col gap-y-10">
             <div className="w-full flex flex-row justify-between items-center">

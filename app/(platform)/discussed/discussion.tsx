@@ -9,6 +9,13 @@ import { SideNav } from "./[slug]/_components/side-nav";
 import Error from "@/app/error";
 import { CommentList } from "./[slug]/_components/comment/comment-list";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useEffect, useState } from "react";
+import {
+  HubConnection,
+  HubConnectionBuilder,
+  LogLevel,
+} from "@microsoft/signalr";
+import { useConnectionStore } from "@/stores/useConnectionStore";
 
 interface DiscussionProps {
   token: string;
@@ -20,6 +27,10 @@ export const Discussion = ({ token, id }: DiscussionProps) => {
   const { data, isLoading, error } = useQuery(
     useDiscussionById({ token: token, id: id })
   );
+
+  const { connection } = useConnectionStore();
+
+  console.log(connection);
 
   if (!data || error) {
     Error();

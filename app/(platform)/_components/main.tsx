@@ -15,6 +15,8 @@ import { steps } from "@/constants/steps";
 import CustomCard from "@/components/custom/onboard-card";
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useConnectionStore } from "@/stores/useConnectionStore";
+import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 
 interface MainProps {
   children: React.ReactNode;
@@ -30,12 +32,34 @@ const DynamicModalProvider = dynamic(
 export const Main = ({ children }: MainProps) => {
   const [isLoading, setIsloading] = useState<boolean>(true);
   const pathName = usePathname();
+  const { setConnection } = useConnectionStore();
 
   const isMobile = useMediaQuery("max-width:600px");
 
   const excludeNavbar = ["/onboarding"];
 
   const isExcludeNavbar = excludeNavbar.includes(pathName);
+
+  useEffect(() => {
+    const connect = new HubConnectionBuilder()
+      .withUrl(process.env.NEXT_PUBLIC_API_HUB_URL!, {
+        withCredentials: true,
+      })
+      .withAutomaticReconnect()
+      .configureLogging(LogLevel.Information)
+      .build();
+    setConnection(connect);
+    connect
+      .start()
+      .then(() => {
+        console.log("Connected to SignalR Hub");
+      })
+
+      .catch((err) =>
+        console.error("Error while connecting to SignalR Hub:", err)
+      );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // useEffect(() => {
   //   const loadingTimeout = setTimeout(() => {

@@ -18,7 +18,6 @@ export default auth(async (req) => {
   }
   const isLoggedIn = !!req.auth;
   const isNewUser = !!req.auth.user?.isNewUser;
-  console.log("isNewUser:", isNewUser);
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
