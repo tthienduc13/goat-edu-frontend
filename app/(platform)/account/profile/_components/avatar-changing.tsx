@@ -60,7 +60,6 @@ export const AvatarChanging = ({ page = "profile" }: AvatarChangingProps) => {
             token: token,
             imageFile: imageState,
           });
-          console.log(response.data);
           if (response.status === 200) {
             toast.success("Image updated successfully!");
             await update({

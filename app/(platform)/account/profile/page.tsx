@@ -31,25 +31,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const ProfilePage = () => {
-  useEffect(() => {
-    const fetchAndReadDocx = async (url: string): Promise<void> => {
-      try {
-        const apiUrl = `/api/fetch-docx?url=${encodeURIComponent(url)}`;
-        const response = await fetch(apiUrl, { method: "GET" });
-        if (!response.ok) {
-          throw new Error(`Error fetching document: ${response.statusText}`);
-        }
-        const arrayBuffer = await response.arrayBuffer();
-        const result = await mammoth.extractRawText({ arrayBuffer });
-        console.log(result.value);
-      } catch (error) {
-        console.error("Error reading DOCX:", error);
-      }
-    };
-    fetchAndReadDocx(
-      "https://storage.googleapis.com/swd392/theory/.docx/5efc058a-00b0-4afc-86dc-37ec9749ccf31719857668"
-    );
-  }, []);
   return (
     <Wrapper title="Profile">
       <div className="flex pb-10 flex-col h-full overflow-y-scroll no-scrollbar w-full gap-y-10">
