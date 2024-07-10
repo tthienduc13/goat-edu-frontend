@@ -3,10 +3,7 @@ import { Body } from "@/app/(marketing)/_components/content/body";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.goatedu.tech"),
-  title: {
-    default: "Home",
-    template: "%s | GoatEdu - No.1 Learning Platform",
-  },
+  title: "Home",
   description:
     "Welcome to GoatEdu. Discover comprehensive resources and personalized learning tools to excel in academic pursuits prepare for National High School Exam.",
   openGraph: {
@@ -26,7 +23,7 @@ export const metadata: Metadata = {
     siteName: "GoatEdu",
   },
   icons: {
-    icon: "https://www.goatedu.tech/logo.png",
+    icon: "/logo.png",
   },
   twitter: {
     card: "summary_large_image",
