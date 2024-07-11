@@ -7,7 +7,8 @@ export type Subject = {
   subjectCode: string;
   information: string;
   class: string;
-  creatAt: Date;
+  createdAt: Date;
   chapters: Chapter[];
   numberOfChapters: number;
+  isEnroll: boolean;
 };

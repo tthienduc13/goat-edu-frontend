@@ -44,7 +44,7 @@ export const Main = ({ children }: MainProps) => {
   const user = useCurrentUser();
 
   useEffect(() => {
-    if (user?.isNewUser) {
+    if (user?.isNewUser === true) {
       router.replace("/onboarding?page=intro");
     }
     const connect = new HubConnectionBuilder()
@@ -83,6 +83,10 @@ export const Main = ({ children }: MainProps) => {
       clearTimeout(loadingTimeout);
     };
   }, []);
+
+  if (!user) {
+    return;
+  }
 
   return (
     <>

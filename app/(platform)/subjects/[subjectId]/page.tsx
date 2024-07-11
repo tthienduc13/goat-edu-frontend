@@ -2,8 +2,8 @@
 
 import sampleImage from "@/assets/sample2.png";
 
-import { Button } from "@/components/ui/button";
-import { Dot } from "lucide-react";
+import { Button } from "@/components/ui/enhanced-button";
+import { Dot, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSubjectById } from "@/app/api/subject/subject.query";
 import { SubjectDetailLoading } from "../_components/subject-detail-loading";
@@ -11,8 +11,10 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { getLessonByChapter } from "@/app/api/lesson/lesson.api";
 import { LessonByChapter } from "@/types/lesson";
 import Image from "next/image";
-import Link from "next/link";
 import { ChapterList } from "../_components/chapter-list";
+import { useEnrollCourse } from "@/app/api/user/user.query";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 interface SubjectDetailPageProps {
   params: { subjectId: string };
@@ -20,16 +22,20 @@ interface SubjectDetailPageProps {
 
 const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
   const user = useCurrentUser();
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
   const [totalLessons, setTotalLessons] = useState<number>(0);
+  const [lessonsByChapter, setLessonsByChapter] = useState<LessonByChapter[]>(
+    []
+  );
+  const [openItems, setOpenItems] = useState<string[]>([]);
 
   const { data, isLoading, error } = useSubjectById(
     params.subjectId,
     user?.token as string
   );
 
-  const [lessonsByChapter, setLessonsByChapter] = useState<LessonByChapter[]>(
-    []
-  );
   useEffect(() => {
     const fetchLessons = async () => {
       if (data?.chapters) {
@@ -58,7 +64,6 @@ const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
     fetchLessons();
   }, [data?.chapters, user?.token]);
 
-  const [openItems, setOpenItems] = useState<string[]>([]);
   const allItems = data?.chapters
     ? Array.from(
         { length: data?.chapters.length },
@@ -72,6 +77,24 @@ const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
       setOpenItems(allItems);
     }
   };
+
+  const {
+    mutate: enrollCourse,
+    isSuccess,
+    isPending,
+  } = useEnrollCourse({
+    token: user?.token!,
+  });
+
+  const handleEnrollCourse = (id: string) => {
+    enrollCourse({ id: id });
+    router.push(`/study/${data?.id}`);
+  };
+
+  if (isSuccess) {
+    queryClient.invalidateQueries({ queryKey: ["subject", "id", data?.id] });
+  }
+
   if (isLoading) {
     return (
       <div className="w-full h-full">
@@ -123,19 +146,26 @@ const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
       </div>
       <div className="subjec-img mx-3 w-[500px]">
         <div className="ml-6 flex flex-col w-full space-y-4">
-          <Image
-            src={sampleImage}
-            width="0"
-            height={218}
-            className="rounded-2xl object-cover w-full"
-            alt="Subject Image"
-          ></Image>
-
-          <div className="flex flex-col items-center">
-            <Link href={`/study/${data?.id}`}>
-              <Button>Enroll</Button>
-            </Link>
+          <div className="w-full h-[250px] shadow-lg relative">
+            <Image
+              src={data?.image ?? sampleImage}
+              fill
+              className="rounded-2xl "
+              alt="Subject Image"
+            ></Image>
           </div>
+
+          <Button
+            onClick={() => handleEnrollCourse(data?.id!)}
+            disabled={isPending}
+            variant={"gooeyLeft"}
+            className="w-full rounded-xl"
+          >
+            {isPending && (
+              <LoaderCircle className="h-4 w-4 animate-spin mr-2" />
+            )}
+            {data?.isEnroll ? "Continue studying" : " Enroll"}
+          </Button>
         </div>
       </div>
     </div>

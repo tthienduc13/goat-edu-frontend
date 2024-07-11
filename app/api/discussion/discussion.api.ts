@@ -8,6 +8,7 @@ export const END_POINT = {
   GET_BY_USER: "/discussion/user",
   GET_ALL: "/discussion",
   CREATE: "/discussion",
+  DELETE: "/discussion",
 };
 
 export const createDiscussion = async ({
@@ -94,9 +95,6 @@ export const getAllDiscussion = async ({
     if (pageNumber) {
       queryParams.append("page_number", pageNumber.toString());
     }
-
-    console.log(queryParams);
-
     const response = await axiosClient.get(
       `${END_POINT.GET_ALL}?${queryParams.toString()}`,
       {
@@ -199,4 +197,18 @@ export const getDiscussionById = async (
     },
   });
   return response.data.data;
+};
+
+export const deleteDiscussion = async (token: string, id: string) => {
+  try {
+    const response = await axiosClient.delete(`${END_POINT.DELETE}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting discussion:", error);
+    throw error;
+  }
 };

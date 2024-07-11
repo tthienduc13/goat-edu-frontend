@@ -1,5 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
-import { getUserSubjects, patchNewUser } from "./user.api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { enrollCourses, getUserSubjects, patchNewUser } from "./user.api";
+import { toast } from "sonner";
 
 export const usePatchNewUser = (token: string) => {
   return useMutation({
@@ -25,4 +26,23 @@ export const useUserEnroll = ({
     });
   };
   return { queryFn, queryKey };
+};
+
+export const useEnrollCourse = ({ token }: { token: string }) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id }: { id: string }) =>
+      enrollCourses({ token: token, id: id }),
+    onSuccess: (data) => {
+      if (data.status === 200) {
+        toast.success(data.message);
+        queryClient.invalidateQueries({
+          queryKey: ["subject", "user", 1, 100],
+        });
+      } else {
+        toast.error(data.message);
+      }
+    },
+  });
 };

@@ -1,6 +1,9 @@
 "use client";
 
-import { useDiscussionById } from "@/app/api/discussion/discussion.query";
+import {
+  useDeleteDiscussion,
+  useDiscussionById,
+} from "@/app/api/discussion/discussion.query";
 import { BackButton } from "@/components/custom/buttons/back-button";
 import { useQuery } from "@tanstack/react-query";
 import { DiscussedDetail } from "./[slug]/_components/discussed-detail";
@@ -13,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Pencil, Trash } from "lucide-react";
 import Error from "@/app/error";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface DiscussionProps {
   token: string;
@@ -22,10 +26,19 @@ interface DiscussionProps {
 
 export const Discussion = ({ token, id, userId }: DiscussionProps) => {
   const isTablet = useMediaQuery("(min-width: 768px)");
+  const user = useCurrentUser();
   const router = useRouter();
   const { data, isLoading, error } = useQuery(
     useDiscussionById({ token: token, id: id })
   );
+
+  const { mutate: deleteDiscussion, isSuccess } = useDeleteDiscussion({
+    token: user?.token!,
+  });
+
+  if (isSuccess) {
+    router.replace("/personal?tab=discussions");
+  }
 
   if (!data || error) {
     Error();
@@ -58,7 +71,7 @@ export const Discussion = ({ token, id, userId }: DiscussionProps) => {
                 </Hint>
                 <Hint label="Delete">
                   <Button
-                    // onClick={() => deleteFlashcard({ id: id })}
+                    onClick={() => deleteDiscussion({ id: id })}
                     variant={"secondary"}
                     size={"icon"}
                   >

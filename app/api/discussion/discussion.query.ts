@@ -1,12 +1,18 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 import {
+  deleteDiscussion,
   getAllDiscussion,
   getAllUserDisscusion,
   getDiscussionById,
 } from "./discussion.api";
 
 import { Status } from "@/types/discussion";
+import { toast } from "sonner";
 
 export const useDiscussionById = ({
   token,
@@ -90,4 +96,22 @@ export const useUserDiscussions = ({
   };
 
   return { queryKey, queryFn };
+};
+
+export const useDeleteDiscussion = ({ token }: { token: string }) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id }: { id: string }) => deleteDiscussion(token, id),
+    onSuccess: (data) => {
+      if (data.status === 200) {
+        toast.success(data.message);
+        queryClient.invalidateQueries({
+          queryKey: ["discussion", "user"],
+        });
+      } else {
+        toast.error(data.message);
+      }
+    },
+  });
 };

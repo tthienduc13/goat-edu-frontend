@@ -15,6 +15,10 @@ export const createSessionCheckout = async ({ token }: { token: string }) => {
         },
       }
     );
-    return response.headers;
-  } catch (error) {}
+
+    return response.headers.location;
+  } catch (error) {
+    console.error("Error creating session checkout:", error);
+    return null;
+  }
 };
