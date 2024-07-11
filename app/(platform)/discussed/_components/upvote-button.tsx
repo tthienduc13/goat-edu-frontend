@@ -20,7 +20,6 @@ export const UpvoteButton = ({
   const queryClient = useQueryClient();
   const user = useCurrentUser();
   const [voteCountState, setVoteCountState] = useState<number>(voteCount);
-  const [messs, setMess] = useState("");
 
   const { connection } = useConnectionStore();
 
@@ -36,7 +35,6 @@ export const UpvoteButton = ({
   };
 
   const handleVotedEvent = (message: string, votes: number) => {
-    setMess(message);
     setVoteCountState(votes);
   };
 
