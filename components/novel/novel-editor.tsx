@@ -19,16 +19,19 @@ import { uploadFn } from "./image-upload";
 import { slashCommand, suggestionItems } from "./slash-command";
 import { defaultExtensions } from "./extensions";
 
-const hljs = require("highlight.js");
-
 const extensions = [...defaultExtensions, slashCommand];
 
 interface EditorProps {
+  initialData?: string;
   setHtmlContent: React.Dispatch<React.SetStateAction<string>>;
   setJsonContent: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Editor = ({ setHtmlContent, setJsonContent }: EditorProps) => {
+const Editor = ({
+  setHtmlContent,
+  setJsonContent,
+  initialData,
+}: EditorProps) => {
   const [initialContent, setInitialContent] = useState<null | JSONContent>(
     null
   );
@@ -50,13 +53,12 @@ const Editor = ({ setHtmlContent, setJsonContent }: EditorProps) => {
     500
   );
 
-  // useEffect(() => {
-  //   const content = window.localStorage.getItem("novel-content");
-  //   if (content) setInitialContent(JSON.parse(content));
-  //   else setInitialContent(defaultEditorContent);
-  // }, []);
+  useEffect(() => {
+    if (initialData) setInitialContent(JSON.parse(initialData));
+    else setInitialContent(defaultEditorContent);
+  }, []);
 
-  // if (!initialContent) return null;
+  if (!initialContent) return null;
 
   return (
     <div className="relative w-full ">
@@ -76,7 +78,7 @@ const Editor = ({ setHtmlContent, setJsonContent }: EditorProps) => {
       </div>
       <EditorRoot>
         <EditorContent
-          initialContent={defaultEditorContent}
+          initialContent={initialContent}
           extensions={extensions}
           className="relative min-h-[500px] w-full p-10 border-muted bg-background  sm:rounded-lg sm:border sm:shadow-lg"
           editorProps={{

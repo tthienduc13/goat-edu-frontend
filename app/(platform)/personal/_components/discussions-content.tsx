@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import EmptyDiscussion from "@/public/icons/empty/empty-discussion.svg";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/enhanced-button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useUserDiscussions } from "@/app/api/discussion/discussion.query";
 import { useQuery } from "@tanstack/react-query";
@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { LatexRenderer } from "@/lib/latext-render";
+import { DiscussedStatus } from "../../discussed/_components/discussed-status";
 
 const groupDiscussions = (discussions: Discussion[]) => {
   const today: Discussion[] = [];
@@ -70,7 +71,9 @@ export const DiscussionsContent = () => {
       <div className="h-[500px] flex flex-col justify-center items-center gap-y-10">
         <Image src={EmptyDiscussion} alt="No discussions" width={350} />
         <Link href="/create-discussion">
-          <Button size="lg">Create your first discussion</Button>
+          <Button variant={"gooeyLeft"} size="lg">
+            Create your first discussion
+          </Button>
         </Link>
       </div>
     );
@@ -107,24 +110,16 @@ export const DiscussionsContent = () => {
               >
                 <div className="flex flex-row justify-between items-center">
                   <Link
-                    href={`/discussed/${discussion.id}`}
+                    href={
+                      discussion.status !== Status.Approved
+                        ? `/discussed/preview?id=${discussion.id}`
+                        : `/discussed/${discussion.id}`
+                    }
                     className="text-lg font-semibold w-4/5"
                   >
                     {discussion.discussionName}
                   </Link>
-                  <div
-                    className={cn(
-                      "font-semibold rounded-md px-3 py-2 text-sm",
-                      discussion.status === Status.Approved &&
-                        "text-emerald-500 bg-emerald-500/15",
-                      discussion.status === Status.Vac &&
-                        "text-destructive bg-destructive/15",
-                      discussion.status === Status.Unapproved &&
-                        "text-yellow-500 bg-yellow-500/15"
-                    )}
-                  >
-                    {discussion.status}
-                  </div>
+                  <DiscussedStatus status={discussion.status} />
                 </div>
                 <div className="flex flex-row justify-between">
                   <div className="text-sm w-full font-light text-muted-foreground line-clamp-4">
