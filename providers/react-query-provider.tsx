@@ -18,6 +18,7 @@ export const ReactQueryProvider = ({ children }: ReactQueryProviderProps) => {
             refetchOnMount: false,
             retry: 1,
             staleTime: 6 * 1000,
+            gcTime: 5 * 100000,
             // refetchInterval: 6 * 1000,
           },
         },

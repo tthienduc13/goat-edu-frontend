@@ -83,7 +83,7 @@ export const CreateFlashcardForm = () => {
             queryKey: ["flashcard", "user"],
           });
           router.replace(`/flashcards/new?id=${data.data}`);
-          setIsOpenCreateDialog(false);
+          // setIsOpenCreateDialog(false);
         }
         if (data.error) toast.error(data.error);
       });
@@ -91,7 +91,7 @@ export const CreateFlashcardForm = () => {
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full py-6  ">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full py-6  z-0">
         <div className="flex flex-col w-full gap-y-5">
           <FormField
             control={form.control}
@@ -144,7 +144,7 @@ export const CreateFlashcardForm = () => {
                         </FormControl>
                       </PopoverTrigger>
                       <PopoverContent className="w-full hover:bg-none">
-                        <Command className="w-full">
+                        <Command className="w-full z-50">
                           <CommandInput
                             className="w-full"
                             value={searchQuery}
@@ -152,8 +152,8 @@ export const CreateFlashcardForm = () => {
                             placeholder="Search subject"
                           ></CommandInput>
                           <CommandEmpty>No Subject found</CommandEmpty>
-                          <CommandGroup className="w-full">
-                            <CommandList className="w-full">
+                          <CommandList>
+                            <CommandGroup>
                               {subjectData?.pages &&
                                 subjectData.pages[0].map((subject) => (
                                   <CommandItem
@@ -175,8 +175,8 @@ export const CreateFlashcardForm = () => {
                                     {subject.subjectName}
                                   </CommandItem>
                                 ))}
-                            </CommandList>
-                          </CommandGroup>
+                            </CommandGroup>
+                          </CommandList>
                         </Command>
                       </PopoverContent>
                     </Popover>

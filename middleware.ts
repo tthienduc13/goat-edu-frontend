@@ -25,26 +25,13 @@ export default auth(async (req) => {
 
   if (isApiAuthRoute) return;
 
-  if (isAuthRoute || isPublicRoute) {
-    if (isLoggedIn) {
-      if (
-        isNewUser &&
-        nextUrl.pathname !== DEFAULT_ONBOARDING_REDIRECT &&
-        nextUrl.pathname === DEFAULT_LOGIN_REDIRECT
-      ) {
-        return Response.redirect(new URL(DEFAULT_ONBOARDING_REDIRECT, nextUrl));
-      } else if (
-        !isNewUser &&
-        nextUrl.pathname.startsWith(DEFAULT_ONBOARDING_REDIRECT)
-      ) {
-        return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
-      }
-      return;
-    }
+  if (isAuthRoute) {
+    if (isLoggedIn)
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     return;
   }
 
-  if (!isLoggedIn && !isPublicRoute) {
+  if (!isLoggedIn) {
     let callbackUrl = nextUrl.pathname;
     if (nextUrl.search) {
       callbackUrl += nextUrl.search;
@@ -57,7 +44,6 @@ export default auth(async (req) => {
   return;
 });
 
-// Optionally, don't invoke Middleware on some paths
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };

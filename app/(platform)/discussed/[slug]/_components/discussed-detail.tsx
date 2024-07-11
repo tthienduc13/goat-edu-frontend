@@ -24,23 +24,35 @@ export const DiscussedDetail = ({ data }: DiscussedCardProps) => {
   return (
     <Card className={cn("border-none shadow-none")}>
       <CardHeader>
-        <div className="flex h-10 flex-row items-center gap-x-2">
-          <Avatar className="h-10 w-10  rounded-md">
-            <AvatarImage
-              className="object-cover"
-              src={data.userAndSubject?.userImage ?? ""}
-            />
-            <AvatarFallback className="w-full text-sm h-full flex items-center justify-center bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]">
-              GE
-            </AvatarFallback>
-          </Avatar>
-          <div className="h-full flex flex-col justify-between flex-1">
-            <div className="font-bold">
-              {data.userAndSubject?.fullName ?? "No name"}
+        <div className="flex justify-between items-center">
+          <div className="flex h-10 flex-row items-center gap-x-2">
+            <Avatar className="h-10 w-10  rounded-md">
+              <AvatarImage
+                className="object-cover"
+                src={data.userAndSubject?.userImage ?? ""}
+              />
+              <AvatarFallback className="w-full text-sm h-full flex items-center justify-center bg-gradient-to-r from-[#fc538d]  to-[#ce3df3]">
+                GE
+              </AvatarFallback>
+            </Avatar>
+            <div className="h-full flex flex-col justify-between flex-1">
+              <div className="font-bold">
+                {data.userAndSubject?.fullName ?? "No name"}
+              </div>
+              <span className="text-xs text-muted-foreground">
+                @{data.userAndSubject?.userName ?? "No username"}
+              </span>
             </div>
-            <span className="text-xs text-muted-foreground">
-              @{data.userAndSubject?.userName ?? "No username"}
-            </span>
+          </div>
+          <div className="flex flex-row gap-x-3">
+            {data.tags.map((tag) => (
+              <div
+                key={tag.id}
+                className="text-sm bg-secondary px-3 py-1 rounded-lg"
+              >
+                #{tag.tagName}
+              </div>
+            ))}
           </div>
         </div>
       </CardHeader>

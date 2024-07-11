@@ -7,8 +7,6 @@ interface FeatureCardProps {
   data: Feature;
 }
 
-//TODO: add image
-
 export const FeatureCard = ({ data }: FeatureCardProps) => {
   return (
     <CardContainer className="inter-var max-w-lg w-full">
@@ -28,7 +26,7 @@ export const FeatureCard = ({ data }: FeatureCardProps) => {
         </CardItem>
         <CardItem translateZ="100" className="w-full mt-4">
           <Image
-            src={SampleImage}
+            src={data.image}
             height="1000"
             width="1000"
             className="h-40 w-full object-cover rounded-xl group-hover/card:shadow-xl"

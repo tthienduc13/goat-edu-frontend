@@ -9,7 +9,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
+} from "@/components/ui/command-extended";
 import { GalleryHorizontalEnd, Globe, Plus, Tablets, User } from "lucide-react";
 import useCreateDialogStore from "@/stores/useCreateDialogStore";
 import { cn } from "@/lib/utils";

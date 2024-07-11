@@ -1,11 +1,10 @@
-import { voteDiscussion } from "@/app/api/vote/vote.api";
-import { useVote } from "@/app/api/vote/vote.query";
-import { UpvoteIcon } from "@/components/custom-icons/upvote-icon";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { UpvoteIcon } from "@/components/custom-icons/upvote-icon";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { cn } from "@/lib/utils";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useConnectionStore } from "@/stores/useConnectionStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface UpvoteButtonProps {
   id: string;
@@ -20,46 +19,50 @@ export const UpvoteButton = ({
 }: UpvoteButtonProps) => {
   const queryClient = useQueryClient();
   const user = useCurrentUser();
-  const [isUserVotedState, setIsUserVotedState] =
-    useState<boolean>(isUserVoted);
-  const [voteCounter, setVoteCounter] = useState<number>(voteCount);
+  const [voteCountState, setVoteCountState] = useState<number>(voteCount);
+  const [messs, setMess] = useState("");
 
-  const { mutationKey, mutationFn } = useVote({ token: user?.token!, id: id });
+  const { connection } = useConnectionStore();
 
-  const { mutate, isSuccess, isError, error, isPending } = useMutation({
-    mutationKey,
-    mutationFn,
-    onSuccess: (data) => {
-      if (data.status === 200) {
-        if (!isUserVotedState) {
-          setVoteCounter((prevCount) => prevCount + 1);
-          setIsUserVotedState(!isUserVotedState);
-        } else {
-          setVoteCounter((prevCount) => prevCount - 1);
-          setIsUserVotedState(!isUserVotedState);
-        }
-        queryClient.invalidateQueries({
-          queryKey: ["discussion", id],
-        });
-      }
-    },
-  });
+  const handleVote = (userId: string, discussionId: string) => {
+    connection
+      ?.invoke("SendVoteDiscussion", userId, discussionId)
+      .then(() => {
+        queryClient.invalidateQueries({ queryKey: ["discussion", id] });
+      })
+      .catch((error) => {
+        console.error("Error sending vote:", error);
+      });
+  };
+
+  const handleVotedEvent = (message: string, votes: number) => {
+    setMess(message);
+    setVoteCountState(votes);
+  };
+
+  useEffect(() => {
+    connection?.on("Voted", handleVotedEvent);
+
+    return () => {
+      connection?.off("Voted");
+    };
+  }, [connection]);
 
   return (
     <div className="flex items-center gap-x-1 flex-row">
       <Button
-        disabled={isPending}
-        onClick={() => mutate()}
+        disabled={!connection}
+        onClick={() => handleVote(user?.id!, id)}
         variant="ghost"
         size="icon"
         className={cn(
-          "hover:bg-emerald-500/70 ",
-          isUserVotedState && "bg-emerald-500/70"
+          "hover:bg-emerald-500/70",
+          isUserVoted && "bg-emerald-500/70"
         )}
       >
         <UpvoteIcon />
       </Button>
-      <span>{voteCounter}</span>
+      <span>{voteCountState}</span>
     </div>
   );
 };

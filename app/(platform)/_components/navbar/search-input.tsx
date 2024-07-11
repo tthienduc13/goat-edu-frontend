@@ -19,7 +19,7 @@ export const SearchInput = () => {
     console.log("submitted");
   };
   return (
-    <div className="h-10 w-full">
+    <div className=" relative h-10 w-full">
       <PlaceholdersAndVanishInput
         placeholders={placeholders}
         onChange={handleChange}
