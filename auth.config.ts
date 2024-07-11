@@ -116,6 +116,10 @@ export default {
         token.picture = session.user.image;
       }
 
+      if (trigger === "update" && session.user.isNewUser) {
+        token.isNewUser = session.user.isNewUser;
+      }
+
       if (
         trigger === "update" &&
         session.user.name &&

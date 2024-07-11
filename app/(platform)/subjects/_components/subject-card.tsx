@@ -7,10 +7,9 @@ import Link from "next/link";
 
 interface SubjectCardProps {
   data: Subject;
-  type: "enroll" | "continue";
 }
 
-export const SubjectCard = ({ data, type }: SubjectCardProps) => {
+export const SubjectCard = ({ data }: SubjectCardProps) => {
   const colors = [
     "#DC2626",
     "#D97706",
@@ -60,16 +59,21 @@ export const SubjectCard = ({ data, type }: SubjectCardProps) => {
               </Button>
             </div>
           </div>
-          <h2 className="font-normal text-sm text-muted-foreground line-clamp-3">
+          <h2 className="font-normal h-[60px] text-sm text-muted-foreground line-clamp-3">
             {data.information}
           </h2>
           <div className="flex flex-row justify-between items-center ">
             <span className="text-sm text-muted-foreground">
-              {new Date(data.creatAt).toLocaleDateString()}
+              {new Date(data.createdAt).toLocaleDateString()}
             </span>
-            <Link href={`/subjects/${data.id}`}>
+
+            <Link
+              href={
+                data.isEnroll ? `/study/${data.id}` : `/subjects/${data.id}`
+              }
+            >
               <Button className="font-semibold">
-                {type === "enroll" ? "Enroll now" : "Continue learning"}
+                {data.isEnroll ? "Continue learning" : "Enroll now"}
               </Button>
             </Link>
           </div>

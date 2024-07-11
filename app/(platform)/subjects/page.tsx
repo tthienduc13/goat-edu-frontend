@@ -6,6 +6,8 @@ import { SubjectCard } from "./_components/subject-card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Subject } from "@/types/subject";
+import { useQueries } from "@tanstack/react-query";
+import Error from "@/app/error";
 
 interface ClassData {
   className: "Class 10" | "Class 11" | "Class 12";
@@ -24,6 +26,7 @@ const SubjectPage = () => {
     "Class 11": less,
     "Class 12": less,
   });
+
   const {
     data: data10 = [],
     isLoading: isLoading10,
@@ -51,6 +54,10 @@ const SubjectPage = () => {
     { className: "Class 11", data: data11, isLoading: isLoading11 },
     { className: "Class 12", data: data12, isLoading: isLoading12 },
   ];
+
+  if (error10 || error12 || error11) {
+    Error();
+  }
   return (
     <div className="flex flex-col w-full gap-y-8">
       {classes.map(({ className, data, isLoading }) => {
@@ -75,7 +82,7 @@ const SubjectPage = () => {
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {data!.map((data) => (
                 <div key={data.id}>
-                  <SubjectCard data={data} type="enroll" />
+                  <SubjectCard data={data} />
                 </div>
               ))}
             </div>

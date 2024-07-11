@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import confetti from "canvas-confetti";
 import { usePatchNewUser } from "@/app/api/user/user.query";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { useSession } from "next-auth/react";
 
 const ghost = {
   transition: {
@@ -25,6 +26,7 @@ const ghost = {
 };
 export const OnboardingDone = () => {
   const user = useCurrentUser();
+  const { update } = useSession();
   const router = useRouter();
   const { mutate: patchNewUser } = usePatchNewUser(user?.token!);
 
@@ -36,8 +38,11 @@ export const OnboardingDone = () => {
     });
   }, []);
 
-  const handleDone = () => {
+  const handleDone = async () => {
     patchNewUser();
+    await update({
+      user: { isNewUser: "false" },
+    });
     router.push("/browse");
   };
   return (

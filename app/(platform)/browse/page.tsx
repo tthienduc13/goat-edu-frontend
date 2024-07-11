@@ -19,7 +19,7 @@ import { Status as FlashcardStatus } from "@/types/flashcard";
 import { Status as DiscussionStatus } from "@/types/discussion";
 
 import Error from "@/app/error";
-import { Metadata } from "next";
+import { useSession } from "next-auth/react";
 
 const BrowsePage = () => {
   const user = useCurrentUser();

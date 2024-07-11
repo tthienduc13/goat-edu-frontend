@@ -1,41 +1,28 @@
 "use client";
 
-import { useState } from "react";
 import { Header } from "@/app/(platform)/account/_components/header";
 import { createSessionCheckout } from "@/app/api/payment/payment.api";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
-export const CurrentSubcription = () => {
-  const [loading, setLoading] = useState(false);
+export const CurrentSubscription: React.FC = () => {
   const user = useCurrentUser();
-
-  const handleEditPlan = async () => {
-    if (!user?.token!) return;
-
-    setLoading(true);
+  const handleCheckout = async () => {
     try {
-      const headers = await createSessionCheckout({ token: user?.token! });
-      const checkoutUrl = headers?.location || headers?.Location; // Check both lower and uppercase
-      if (typeof checkoutUrl === "string") {
-        window.location.href = checkoutUrl;
+      const url = await createSessionCheckout({ token: user?.token! });
+      if (url) {
+        window.location.href = url;
       } else {
-        console.error(
-          "Checkout URL not found in headers or not a string",
-          headers
-        );
-        setLoading(false);
+        console.error("Failed to retrieve checkout URL");
       }
     } catch (error) {
-      console.error("Error creating checkout session", error);
-      setLoading(false);
+      console.error("Error initiating checkout:", error);
     }
   };
-
   return (
     <div className="flex flex-col w-full gap-y-6">
       <Header
-        title="Current subcription"
+        title="Current Subscription"
         label="Information about your current plan and your next billing method"
       />
       <div className="w-full border-[2px] px-6 py-4 rounded-xl flex flex-row items-center justify-between">
@@ -51,8 +38,8 @@ export const CurrentSubcription = () => {
           <div className="text-muted-foreground text-sm">Next billing date</div>
           <div className="font-semibold">Mon, Jan 19 2024</div>
         </div>
-        <Button onClick={handleEditPlan} className="w-fit" disabled={loading}>
-          {loading ? "Processing..." : "Edit plan"}
+        <Button onClick={handleCheckout} className="w-fit">
+          Edit plan
         </Button>
       </div>
     </div>

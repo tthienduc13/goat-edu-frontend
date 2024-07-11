@@ -9,6 +9,7 @@ export const END_POINT = {
   PATCH_PROFILE: "/user/profile",
   PATCH_PASSWORD: "/user/password",
   GET_USER_ENROLL: "/user/enroll",
+  ENROLL_COURSE: "/user/subject",
 };
 
 export type UserEnrollmentResponse = {
@@ -132,5 +133,28 @@ export const getUserSubjects = async ({
   } catch (error) {
     console.error("Error fetching enrolled subjects:", error);
     throw error;
+  }
+};
+
+export const enrollCourses = async ({
+  token,
+  id,
+}: {
+  token: string;
+  id: string;
+}) => {
+  try {
+    const response = await axiosClient.post(
+      `${END_POINT.ENROLL_COURSE}/${id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Something went wrong with enrolling course");
   }
 };
