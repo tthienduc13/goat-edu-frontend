@@ -82,7 +82,7 @@ export const Main = ({ children }: MainProps) => {
     <>
       {/* {isLoading && !isExcludeNavbar ? <Reloading /> : null} */}
       <NextTopLoader
-        height={5}
+        height={2}
         color="linear-gradient(to right, #7ea6ff, #0042da 43%, #ffbf7d)"
       />
       <OnbordaProvider>

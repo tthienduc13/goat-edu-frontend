@@ -3,17 +3,24 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { Discussion, Status } from "@/types/discussion";
+import { useQuery } from "@tanstack/react-query";
+import { useDiscussions } from "@/app/api/discussion/discussion.query";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 export function PlaceholdersAndVanishInput({
   placeholders,
   onChange,
   onSubmit,
+  searchDataDiscussion,
 }: {
   placeholders: string[];
+  searchDataDiscussion?: Discussion[];
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
+  const user = useCurrentUser();
 
   useEffect(() => {
     const startAnimation = () => {
@@ -162,7 +169,7 @@ export function PlaceholdersAndVanishInput({
   return (
     <form
       className={cn(
-        "w-full relative max-w-xl mx-auto bg-white dark:bg-[#a8b3cf14] h-10 rounded-full overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
+        "w-full relative max-w-xl mx-auto bg-white dark:bg-[#a8b3cf14] h-10 rounded-full  shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
         value && "bg-gray-50"
       )}
       onSubmit={handleSubmit}

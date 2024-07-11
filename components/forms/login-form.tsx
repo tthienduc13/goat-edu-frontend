@@ -9,7 +9,7 @@ import { LoginSchema } from "@/schemas/auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/enhanced-button";
 
 import { FormError } from "@/components/forms/form-error";
 import { FormSuccess } from "@/components/forms/form-success";
@@ -19,7 +19,7 @@ import { CardWrapper } from "@/components/auth/card-wrapper";
 
 import { Login } from "@/actions/login";
 import { useSearchParams } from "next/navigation";
-
+import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { AtSign, Eye, EyeOff, LoaderCircle, Lock } from "lucide-react";
 import {
   Form,
@@ -180,8 +180,10 @@ export const LoginForm = () => {
               </div>
               <Button
                 disabled={isPending}
-                variant="default"
-                size="lg"
+                variant={"expandIcon"}
+                iconPlacement="right"
+                Icon={ArrowRightIcon}
+                // size="lg"
                 type="submit"
                 className="max-w-[150px] w-full"
               >
