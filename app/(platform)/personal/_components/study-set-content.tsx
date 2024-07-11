@@ -7,7 +7,7 @@ import { isToday, isYesterday } from "date-fns";
 import EmptyStudySet from "@/public/icons/empty/empty-study-set.svg";
 import { Flashcard } from "@/types/flashcard";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/enhanced-button";
 import { LoaderCircle, PenLine } from "lucide-react";
 import useCreateDialogStore from "@/stores/useCreateDialogStore";
 import { useUserFlashcards } from "@/app/api/flashcard/flashcard.query";
@@ -60,7 +60,11 @@ export const StudySetContent = () => {
     return (
       <div className="h-[500px] flex flex-col justify-center items-center gap-y-10">
         <Image src={EmptyStudySet} alt="No study sets" width={350} />
-        <Button onClick={() => setIsOpenCreateDialog(true)} size="lg">
+        <Button
+          variant={"gooeyLeft"}
+          onClick={() => setIsOpenCreateDialog(true)}
+          size="lg"
+        >
           Create your first study set
         </Button>
       </div>

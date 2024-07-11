@@ -18,12 +18,13 @@ export const NewDiscussionSchema = z.object({
       "Max file size is 10MB."
     )
     .nullable(),
-  tags: z.array(
-    z.object({
-      tagName: z.string({ required_error: "Tag name must be provided" }),
-    })
-  ),
-  // .length(4, "Exactly 4 tags must be provided"),
+  tags: z
+    .array(
+      z.object({
+        tagName: z.string({ required_error: "Tag name must be provided" }),
+      })
+    )
+    .length(4, "Exactly 4 tags must be provided"),
   subjectId: z
     .string({ required_error: "Please choose related subject" })
     .nonempty("Please choose a related subject"),

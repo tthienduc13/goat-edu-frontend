@@ -9,7 +9,7 @@ import Reloading from "@/components/reloading";
 import { NoteOptionButton } from "@/components/note/note-control/note-option-button";
 // import { ModalProvider } from "@/providers/modal-provider";
 import NextTopLoader from "nextjs-toploader";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Onborda, OnbordaProvider } from "onborda";
 import { steps } from "@/constants/steps";
 import CustomCard from "@/components/custom/onboard-card";
@@ -17,6 +17,7 @@ import dynamic from "next/dynamic";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useConnectionStore } from "@/stores/useConnectionStore";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface MainProps {
   children: React.ReactNode;
@@ -31,6 +32,7 @@ const DynamicModalProvider = dynamic(
 
 export const Main = ({ children }: MainProps) => {
   const [isLoading, setIsloading] = useState<boolean>(true);
+  const router = useRouter();
   const pathName = usePathname();
   const { setConnection } = useConnectionStore();
 
@@ -39,8 +41,12 @@ export const Main = ({ children }: MainProps) => {
   const excludeNavbar = ["/onboarding"];
 
   const isExcludeNavbar = excludeNavbar.includes(pathName);
+  const user = useCurrentUser();
 
   useEffect(() => {
+    if (user?.isNewUser) {
+      router.replace("/onboarding?page=intro");
+    }
     const connect = new HubConnectionBuilder()
       .withUrl(process.env.NEXT_PUBLIC_API_HUB_URL!, {
         withCredentials: true,
@@ -60,27 +66,27 @@ export const Main = ({ children }: MainProps) => {
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    const loadingTimeout = setTimeout(() => {
+      setIsloading(false);
+    }, 1000);
 
-  // useEffect(() => {
-  //   const loadingTimeout = setTimeout(() => {
-  //     setIsloading(false);
-  //   }, 1000);
+    const minimumLoadingTime = 1000;
+    const additionalTime = minimumLoadingTime - 1000;
+    if (additionalTime > 0) {
+      setTimeout(() => {
+        setIsloading(false);
+      }, additionalTime);
+    }
 
-  //   const minimumLoadingTime = 1000;
-  //   const additionalTime = minimumLoadingTime - 1000;
-  //   if (additionalTime > 0) {
-  //     setTimeout(() => {
-  //       setIsloading(false);
-  //     }, additionalTime);
-  //   }
+    return () => {
+      clearTimeout(loadingTimeout);
+    };
+  }, []);
 
-  //   return () => {
-  //     clearTimeout(loadingTimeout);
-  //   };
-  // }, []);
   return (
     <>
-      {/* {isLoading && !isExcludeNavbar ? <Reloading /> : null} */}
+      {isLoading && !isExcludeNavbar ? <Reloading /> : null}
       <NextTopLoader
         height={2}
         color="linear-gradient(to right, #7ea6ff, #0042da 43%, #ffbf7d)"

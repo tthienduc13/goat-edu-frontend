@@ -1,5 +1,4 @@
 import Image from "next/image";
-import SampleImage from "@/assets/sample2.png";
 import { Feature } from "@/types/features";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 
@@ -24,14 +23,19 @@ export const FeatureCard = ({ data }: FeatureCardProps) => {
         >
           {data.des}
         </CardItem>
-        <CardItem translateZ="100" className="w-full mt-4">
-          <Image
-            src={data.image}
-            height="1000"
-            width="1000"
-            className="h-40 w-full object-cover rounded-xl group-hover/card:shadow-xl"
-            alt="thumbnail"
-          />
+        <CardItem
+          translateZ="100"
+          className={`w-full mt-4 rounded-xl overflow-hidden`}
+        >
+          <div style={{ backgroundColor: `#${data.backgroundColor}` }}>
+            <Image
+              src={data.image}
+              height="1000"
+              width="1000"
+              className="h-48 w-full object-fit rounded-xl group-hover/card:shadow-xl"
+              alt="thumbnail"
+            />
+          </div>
         </CardItem>
       </CardBody>
     </CardContainer>

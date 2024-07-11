@@ -16,6 +16,7 @@ const ENDPOINT = {
   REGISTER: "/auth/register",
   REGISTER_GOOGLE: "/auth/register/google",
   LOGIN_GOOGLE: "/auth/login/google",
+  VERIFY: "/auth/mail",
 };
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
@@ -59,4 +60,23 @@ export const googleLogin = async (email: string) => {
     `${ENDPOINT.LOGIN_GOOGLE}?email=${email}`
   );
   return response.data;
+};
+
+export const verifyEmail = async ({
+  token,
+  userId,
+  id,
+}: {
+  token: string;
+  userId: string;
+  id: string;
+}) => {
+  try {
+    const response = axiosClient.get(
+      `${ENDPOINT.VERIFY}?token=${token}&userId=${userId}&id=${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log("error", error);
+  }
 };

@@ -24,9 +24,13 @@ export default async function DiscussedDetailPage({
     useDiscussionById({ token: user?.token!, id: params.slug })
   );
 
+  if (!user) {
+    return;
+  }
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Discussion token={user?.token!} id={params.slug} />
+      <Discussion userId={user?.id!} token={user?.token!} id={params.slug} />
     </HydrationBoundary>
   );
 }

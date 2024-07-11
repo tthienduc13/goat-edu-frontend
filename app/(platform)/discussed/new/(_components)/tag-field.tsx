@@ -1,5 +1,5 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useController, useFormContext } from "react-hook-form";
 import {
   FormControl,
   FormItem,
@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/form";
 import { TagInput } from "emblor";
 import { X } from "lucide-react";
+import { Tag } from "@/types/tag";
+
 type TagsInputType = {
   id: string;
   text: string;
@@ -16,18 +18,39 @@ type TagsInputType = {
 interface TagFieldProps {
   tags: TagsInputType[];
   setTags: React.Dispatch<React.SetStateAction<TagsInputType[]>>;
+  setDiscussionTags: React.Dispatch<React.SetStateAction<Omit<Tag, "id">[]>>;
 }
 
-export const TagField = ({ tags, setTags }: TagFieldProps) => {
-  const [isXVisible, setIsXVisible] = useState<boolean>(false);
+export const TagField = ({
+  tags,
+  setTags,
+  setDiscussionTags,
+}: TagFieldProps) => {
   const [hoveredTag, setHoveredTag] = useState<string | null>(null);
   const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
+
+  const { control } = useFormContext();
+  const { field } = useController({
+    name: "tags",
+    control,
+  });
+
   const handleDeleteTag = (id: string) => {
     const newTags = tags.filter((tag) => tag.id !== id);
     setTags(newTags);
+    const newDiscussionTags = newTags.map((tag) => ({ tagName: tag.text }));
+    setDiscussionTags(newDiscussionTags);
   };
+
+  useEffect(() => {
+    const discussionTags = tags.map((tag) => ({ tagName: tag.text }));
+    setDiscussionTags(discussionTags);
+    field.onChange(discussionTags);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tags]);
+
   return (
-    <FormItem className="flex flex-col items-start">
+    <FormItem className="w-full">
       <FormLabel>Tags</FormLabel>
       <FormControl className="w-full">
         <div className="h-12 rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">

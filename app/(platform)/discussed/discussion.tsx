@@ -6,19 +6,23 @@ import { useQuery } from "@tanstack/react-query";
 import { DiscussedDetail } from "./[slug]/_components/discussed-detail";
 import { Comment } from "./[slug]/_components/comment/comment";
 import { SideNav } from "./[slug]/_components/side-nav";
-import Error from "@/app/error";
 import { CommentList } from "./[slug]/_components/comment/comment-list";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { useConnectionStore } from "@/stores/useConnectionStore";
-import { useEffect } from "react";
+import { Hint } from "@/components/custom/hint";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { Pencil, Trash } from "lucide-react";
+import Error from "@/app/error";
 
 interface DiscussionProps {
   token: string;
   id: string;
+  userId: string;
 }
 
-export const Discussion = ({ token, id }: DiscussionProps) => {
+export const Discussion = ({ token, id, userId }: DiscussionProps) => {
   const isTablet = useMediaQuery("(min-width: 768px)");
+  const router = useRouter();
   const { data, isLoading, error } = useQuery(
     useDiscussionById({ token: token, id: id })
   );
@@ -35,7 +39,35 @@ export const Discussion = ({ token, id }: DiscussionProps) => {
     <div className="w-full h-fit ">
       <div className="w-full flex flex-row items-start gap-x-5">
         <div className="flex-1  ">
-          <BackButton />
+          <div className="flex flex-row justify-between items-center">
+            <BackButton />
+            {data?.userAndSubject.userId === userId && (
+              <div className="flex flex-row items-center gap-x-2">
+                <Hint label="Edit">
+                  <Button
+                    onClick={() =>
+                      router.push(
+                        `/discussed/edit?data=${JSON.stringify(data)}`
+                      )
+                    }
+                    variant={"secondary"}
+                    size={"icon"}
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                </Hint>
+                <Hint label="Delete">
+                  <Button
+                    // onClick={() => deleteFlashcard({ id: id })}
+                    variant={"secondary"}
+                    size={"icon"}
+                  >
+                    <Trash className="h-4 w-4" />
+                  </Button>
+                </Hint>
+              </div>
+            )}
+          </div>
           <DiscussedDetail data={data!} />
           <div className="flex flex-col gap-y-5">
             <Comment id={id} />
