@@ -5,10 +5,13 @@ const END_POINT = {
   GET_THEORY_FLASHCARD_CONTENT: "theory_flashcard/theory",
 };
 
-export const getTheoryFlashcardContentByTheory = async (
-  id: string,
-  token: string
-): Promise<TheoryFlashCardContent[]> => {
+export const getTheoryFlashcardContentByTheory = async ({
+  id,
+  token,
+}: {
+  id: string;
+  token: string;
+}): Promise<TheoryFlashCardContent[]> => {
   const response = await axiosClient.get(
     `${END_POINT.GET_THEORY_FLASHCARD_CONTENT}/${id}`,
     {

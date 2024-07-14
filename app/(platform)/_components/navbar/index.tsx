@@ -13,6 +13,8 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useConnectionStore } from "@/stores/useConnectionStore";
+import { toast } from "sonner";
 
 const DynamicUserButton = dynamic(
   () => import("./user-button/user-button").then((res) => res.UserButton),
@@ -46,6 +48,7 @@ const DynamicMobileNav = dynamic(
 
 export const Navbar = () => {
   const user = useCurrentUser();
+  const { connection } = useConnectionStore();
   const pathName = usePathname();
   const isDesktop = useMediaQuery("(min-width: 1280px)");
   const isTablet = useMediaQuery("(min-width: 1024px)");
@@ -81,6 +84,22 @@ export const Navbar = () => {
       borderRef.current.style.left = `${offsetLeft}px`;
     }
   }, [activeElement]);
+
+  const handleGetNoti = (mess: string) => {
+    console.log(mess);
+    toast.success(mess);
+  };
+
+  useEffect(() => {
+    if (connection) {
+      connection.on("SendNotification", handleGetNoti);
+      console.log("connecteddddd");
+
+      return () => {
+        connection.off("SendNotification");
+      };
+    }
+  }, [connection]);
 
   return (
     <div

@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 import { Circle } from "lucide-react";
@@ -22,8 +22,15 @@ export const NotificationList = () => {
 
   const observer = useRef<IntersectionObserver>();
 
-  const { data, error, fetchNextPage, hasNextPage, isFetching, isLoading } =
-    useNotificationByUser(user?.token!);
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isLoading,
+    refetch,
+  } = useNotificationByUser(user?.token!);
 
   const lastElementRef = useCallback(
     (node: HTMLDivElement) => {
@@ -54,6 +61,10 @@ export const NotificationList = () => {
 
   if (notifications?.length === 0) {
     return <EmptyNotification />;
+  }
+
+  if (error) {
+    return;
   }
   return (
     <DropdownMenuGroup className="flex flex-col gap-y-2">

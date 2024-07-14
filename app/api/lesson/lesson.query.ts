@@ -1,16 +1,28 @@
-import { queries } from "@/queries";
-import { useQuery } from "@tanstack/react-query";
+import { getLessonByChapter } from "./lesson.api";
 
 export const useLessonByChapter = ({
-  chapter,
   token,
+  chapterId,
   pageSize,
-  pageNum,
+  pageNumber,
+  isLoading,
 }: {
-  chapter: string;
+  chapterId: string;
   token: string;
   pageSize: number;
-  pageNum: number;
+  pageNumber: number;
+  isLoading: boolean;
 }) => {
-  return useQuery(queries.Lesson.Chapter(chapter, token, pageSize, pageNum));
+  const queryKey = ["lesson", "chapter", chapterId, pageSize, pageNumber];
+  const queryFn = async () => {
+    return getLessonByChapter({
+      token: token,
+      id: chapterId,
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+    });
+  };
+  const enabled = !isLoading;
+
+  return { queryKey, queryFn, enabled };
 };

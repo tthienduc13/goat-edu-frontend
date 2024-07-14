@@ -8,10 +8,7 @@ import { subject } from "./subject";
 import { flashcardContent } from "./flashcard-content";
 import { note } from "./note";
 import { chapter } from "./chapter";
-import { lesson } from "./lesson";
 import { quiz } from "./quiz";
-import { theory } from "./theory";
-import { theoryFlashCardContent } from "./theory-flashcard-content";
 
 export const queries = mergeQueryKeys(
   roles,
@@ -22,8 +19,5 @@ export const queries = mergeQueryKeys(
   flashcardContent,
   note,
   chapter,
-  lesson,
-  quiz,
-  theory,
-  theoryFlashCardContent
+  quiz
 );

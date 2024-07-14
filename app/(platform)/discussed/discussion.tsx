@@ -58,11 +58,7 @@ export const Discussion = ({ token, id, userId }: DiscussionProps) => {
               <div className="flex flex-row items-center gap-x-2">
                 <Hint label="Edit">
                   <Button
-                    onClick={() =>
-                      router.push(
-                        `/discussed/edit?data=${JSON.stringify(data)}`
-                      )
-                    }
+                    onClick={() => router.push(`/discussed/edit?id=${data.id}`)}
                     variant={"secondary"}
                     size={"icon"}
                   >

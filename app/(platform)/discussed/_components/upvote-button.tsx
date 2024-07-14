@@ -34,7 +34,8 @@ export const UpvoteButton = ({
       });
   };
 
-  const handleVotedEvent = (message: string, votes: number) => {
+  const handleVotedEvent = (mess: string, votes: number) => {
+    console.log(mess);
     setVoteCountState(votes);
   };
 

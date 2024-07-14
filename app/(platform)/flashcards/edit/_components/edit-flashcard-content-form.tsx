@@ -22,7 +22,7 @@ import {
   SortableDragHandle,
   SortableItem,
 } from "@/components/ui/sortable";
-import { FileImage, Plus } from "lucide-react";
+import { FileImage, Loader2, Plus } from "lucide-react";
 import { FlashcardContentSchema } from "@/schemas/flashcard";
 import { toast } from "sonner";
 import { FormError } from "@/components/forms/form-error";
@@ -86,26 +86,17 @@ export const EditFlashcardContentForm = ({
 
   const onSubmit = (values: z.infer<typeof FlashcardContentSchema>) => {
     startTransition(() => {
-      setSaveStatus("Unsaved");
       PatchFlashcardContent({ values, id }).then((data) => {
         if (data.success) {
-          queryClient.invalidateQueries({ queryKey: ["flashcard", id] });
+          queryClient.invalidateQueries({ queryKey: ["flashcardContent", id] });
           router.replace(`/flashcard/${id}`);
-          setSaveStatus("Saved");
         } else {
           toast.error(data.error);
         }
       });
     });
+    console.log(values);
   };
-
-  const debounceUpdate = useDebouncedCallback(
-    (values: z.infer<typeof FlashcardContentSchema>) => {
-      onSubmit(values);
-      setSaveStatus("Saved");
-    },
-    500
-  );
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -148,6 +139,15 @@ export const EditFlashcardContentForm = ({
             <ImportTerms onImport={handleImport} />
             <div className="flex flex-row items-center gap-x-2">
               <KeyBoardShorcuts />
+              <Button disabled={isPending} type="submit">
+                {isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" /> Saving
+                  </>
+                ) : (
+                  "Save"
+                )}
+              </Button>
             </div>
           </div>
           <div className="space-y-3 w-full">

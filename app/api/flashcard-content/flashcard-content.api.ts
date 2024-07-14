@@ -7,7 +7,7 @@ import { FlashcardContent } from "@/types/flashcard";
 export const END_POINT = {
   CREATE: "/flashcard_content",
   GET_BY_ID: "/flashcard_content",
-  PATCH: "/flashcard_conntent",
+  PATCH: "/flashcard_content",
 };
 
 type FlashcardContentResponse = {

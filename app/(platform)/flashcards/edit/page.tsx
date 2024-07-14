@@ -35,6 +35,7 @@ const EditFlashcardPage = () => {
   if (isSuccess) {
     router.push("/personal");
   }
+
   return (
     <div className="flex  relative w-full  flex-col gap-y-10 p-8 min-h-[calc(100vh-64px)]">
       <div className="left-0 px-5 py-4 rounded-lg border-[2px] shadow-lg w-full justify-between flex items-center">

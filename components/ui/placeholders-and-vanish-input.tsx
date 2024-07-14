@@ -14,6 +14,9 @@ import Image from "next/image";
 import EmptySearch from "@/public/icons/empty/empty-search.svg";
 import { DiscussionResult } from "@/app/(platform)/_components/navbar/search/discussion-result";
 import { SubjectResult } from "@/app/(platform)/_components/navbar/search/subject-result";
+import useOutsideClick from "@/hooks/use-outside-click";
+import { Button } from "./button";
+import Link from "next/link";
 
 export function PlaceholdersAndVanishInput({
   placeholders,
@@ -48,6 +51,8 @@ export function PlaceholdersAndVanishInput({
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
   const [animating, setAnimating] = useState(false);
+
+  const searchListRef = useRef<HTMLDivElement>(null);
 
   const draw = useCallback(() => {
     if (!inputRef.current) return;
@@ -181,6 +186,13 @@ export function PlaceholdersAndVanishInput({
   const isDataAvailable = queriesResult.some(
     (query) => query.data?.length !== 0
   );
+
+  const handleClose = () => {
+    setValue("");
+  };
+
+  useOutsideClick(searchListRef, handleClose);
+
   return (
     <form
       className={cn(
@@ -277,7 +289,10 @@ export function PlaceholdersAndVanishInput({
         </AnimatePresence>
       </div>
       {value && (
-        <div className="absolute z-50 bg-white  border-[0.5] shadow-xl rounded-b-xl  left-1/2 w-[95%] -translate-x-1/2  top-[110%]">
+        <div
+          ref={searchListRef}
+          className="absolute max-h-[500px] overflow-y-scroll no-scrollbar z-50 bg-white  border-[0.5] shadow-xl rounded-b-xl  left-1/2 w-[95%] -translate-x-1/2  top-[110%]"
+        >
           {isLoading ? (
             <div className="w-full h-[100px] flex items-center justify-center ">
               <Loader2 className="h-6 w-6 animate-spin" />
@@ -298,6 +313,13 @@ export function PlaceholdersAndVanishInput({
                     setValue={setValue}
                     result={queriesResult[2]}
                   />
+                  <div className="w-full px-2">
+                    <Link href={`/search?query=${value}`}>
+                      <Button className="w-full" variant={"secondary"}>
+                        View all
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               ) : (
                 <div className="flex py-4 px-4 flex-col w-full h-full justify-center items-center  ">

@@ -21,15 +21,7 @@ export const SubjectDetailLoading = () => {
       <div className="subjec-img mx-3 w-[500px]">
         <div className="ml-6 flex flex-col w-full">
           <Skeleton className="w-full h-[218px]" />
-          <div className="flex flex-col items-center">
-            <Skeleton className="mt-4 w-[104px] h-[38px]" />
-            <div className="flex flex-col space-y-[10px] pt-6">
-              <Skeleton className="w-[100px] h-7" />
-              <Skeleton className="w-[100px] h-7" />
-              <Skeleton className="w-[100px] h-7" />
-              <Skeleton className="w-[100px] h-7" />
-            </div>
-          </div>
+          <Skeleton className="mt-4 w-full h-[38px]" />
         </div>
       </div>
     </div>
