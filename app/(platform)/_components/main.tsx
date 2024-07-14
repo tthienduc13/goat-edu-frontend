@@ -7,8 +7,6 @@ import { Navbar } from "./navbar";
 
 import Reloading from "@/components/reloading";
 import { NoteOptionButton } from "@/components/note/note-control/note-option-button";
-// import { ModalProvider } from "@/providers/modal-provider";
-import NextTopLoader from "nextjs-toploader";
 import { usePathname, useRouter } from "next/navigation";
 import { Onborda, OnbordaProvider } from "onborda";
 import { steps } from "@/constants/steps";
@@ -92,10 +90,6 @@ export const Main = ({ children }: MainProps) => {
   return (
     <>
       {isLoading && !isExcludeNavbar ? <Reloading /> : null}
-      <NextTopLoader
-        height={2}
-        color="linear-gradient(to right, #7ea6ff, #0042da 43%, #ffbf7d)"
-      />
       <OnbordaProvider>
         <Onborda steps={steps} shadowOpacity="0.8" cardComponent={CustomCard}>
           <div className="min-h-screen w-full h-full flex relative ">
