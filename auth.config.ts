@@ -69,9 +69,14 @@ export default {
             const loginResponse = await googleLogin(accountRegisterData.email!);
 
             if (loginResponse.status === 200) {
-              const token = loginResponse.data.data;
-              user.token = token;
-              user.isNewUser = loginResponse.data.data.isNewUser;
+              const response = loginResponse.data;
+              user.id = response.userId;
+              user.isNewUser = response.isNewUser;
+              // user.image = response.image;
+              user.token = response.token;
+              user.subscription = response.subscription;
+              user.fullname = response.fullName;
+              user.phoneNumber = response.phoneNumber;
 
               return true;
             } else {
@@ -85,8 +90,14 @@ export default {
             const loginResponse = await googleLogin(accountRegisterData.email!);
 
             if (loginResponse.status === 200) {
-              const token = loginResponse.data;
-              user.token = token;
+              const response = loginResponse.data;
+              user.id = response.userId;
+              user.isNewUser = response.isNewUser;
+              // user.image = response.image;
+              user.token = response.token;
+              user.subscription = response.subscription;
+              user.fullname = response.fullName;
+              user.phoneNumber = response.phoneNumber;
 
               return true;
             } else {
