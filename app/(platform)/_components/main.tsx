@@ -49,7 +49,8 @@ export const Main = ({ children }: MainProps) => {
     }
     const connect = new HubConnectionBuilder()
       .withUrl(process.env.NEXT_PUBLIC_API_HUB_URL!, {
-        withCredentials: true,
+        // withCredentials: true,
+        accessTokenFactory: () => user?.token!,
       })
       .withAutomaticReconnect()
       .configureLogging(LogLevel.Information)

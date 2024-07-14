@@ -3,14 +3,8 @@ import Link from "next/link";
 
 import { Logo } from "@/components/custom/logo";
 
-import { SearchInput } from "./search-input";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+import { SearchInput } from "./search/search-input";
+
 import dynamic from "next/dynamic";
 import { Menu } from "lucide-react";
 import usePlatformMobileNavStore from "@/stores/usePlatformMobileNavStore";

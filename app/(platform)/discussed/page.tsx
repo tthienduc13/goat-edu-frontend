@@ -22,6 +22,7 @@ const DiscussedPage = () => {
   const { data: topData } = useQuery(
     useDiscussions({
       token: user?.token!,
+      search: "",
       pageNumber: 1,
       pageSize: 6,
       sort: "significant",
