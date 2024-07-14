@@ -59,21 +59,24 @@ export const useInifiniteDiscussion = ({
 export const useDiscussions = ({
   token,
   sort,
+  search,
   pageNumber,
   pageSize,
   status,
 }: {
   token: string;
   sort: string;
+  search: string;
   pageNumber: number;
   pageSize: number;
   status: Status;
 }) => {
-  const queryKey = ["discussion", sort, pageNumber, pageSize, status];
+  const queryKey = ["discussion", sort, search, pageNumber, pageSize, status];
   const queryFn = async () => {
     return getAllDiscussion({
       token: token,
       sort: sort,
+      search: search,
       pageNumber: pageNumber,
       pageSize: pageSize,
       status: status,
@@ -81,6 +84,34 @@ export const useDiscussions = ({
   };
 
   return { queryKey, queryFn };
+};
+
+export const useSearchDiscussion = ({
+  token,
+  search,
+  pageNumber,
+  pageSize,
+  status,
+}: {
+  token: string;
+  search: string;
+  pageNumber: number;
+  pageSize: number;
+  status: Status;
+}) => {
+  const queryKey = ["discussion", search, pageNumber, pageSize, status];
+  const queryFn = async () => {
+    return getAllDiscussion({
+      token: token,
+      search: search,
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+      status: status,
+    });
+  };
+  const enabled = !!search;
+
+  return { queryKey, queryFn, enabled };
 };
 
 export const useUserDiscussions = ({

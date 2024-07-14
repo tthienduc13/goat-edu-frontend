@@ -9,20 +9,42 @@ export const END_POINT = {
   POST_ENROLL_SUBJECT: "/user/subject",
 };
 
-export const getAllSubjects = async (
-  search?: string,
-  pageNumber?: number,
-  pageSize?: number
-): Promise<Subject[]> => {
+export const getAllSubjects = async ({
+  token,
+  sort,
+  search,
+  pageNumber,
+  pageSize,
+}: {
+  token: string;
+  sort?: string;
+  search?: string;
+  pageNumber?: number;
+  pageSize?: number;
+}): Promise<Subject[]> => {
   try {
-    const queryParams = new URLSearchParams({
-      search: search?.toString() ?? "",
-      page_size: pageSize?.toString() ?? "",
-      page_number: pageNumber?.toString() ?? "",
-    });
+    const queryParams = new URLSearchParams();
+    if (sort) {
+      queryParams.append("sort", sort);
+    }
+    if (search) {
+      queryParams.append("search", search);
+    }
+    if (pageSize) {
+      queryParams.append("page_size", pageSize.toString());
+    }
+    if (pageNumber) {
+      queryParams.append("page_number", pageNumber.toString());
+    }
     const response = await axiosClient.get(
-      `${END_POINT.GET_ALL}?${queryParams.toString()}`
+      `${END_POINT.GET_ALL}?${queryParams.toString()}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
+
     return response.data;
   } catch (error) {
     console.error("Error fetching discussions:", error);

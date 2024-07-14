@@ -40,7 +40,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { createDiscussion } from "@/app/api/discussion/discussion.api";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { TagField } from "./tag-field";
 import { Tag } from "@/types/tag";
 
@@ -64,11 +64,20 @@ export const CreateForm = () => {
   };
 
   const [searchQuery, setSearchQuery] = useState<string>("");
+
   const {
     data: subjectData,
     isLoading,
     error,
-  } = useSubjects({ search: searchQuery, pageSize: 10 });
+  } = useQuery(
+    useSubjects({
+      token: user?.token!,
+      search: searchQuery,
+      sort: "",
+      pageNumber: 1,
+      pageSize: 100,
+    })
+  );
 
   const [preview, setPreview] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File>();
@@ -198,7 +207,7 @@ export const CreateForm = () => {
                             )}
                           >
                             {field.value
-                              ? subjectData?.pages[0].find(
+                              ? subjectData?.find(
                                   (subject) => subject.id === field.value
                                 )?.subjectName
                               : "Select a subject"}
@@ -216,8 +225,8 @@ export const CreateForm = () => {
                           <CommandEmpty>No Subject found</CommandEmpty>
                           <CommandList className="w-full">
                             <CommandGroup className="w-full">
-                              {subjectData?.pages &&
-                                subjectData.pages[0].map((subject) => (
+                              {subjectData &&
+                                subjectData.map((subject) => (
                                   <CommandItem
                                     className="w-full"
                                     key={subject.id}

@@ -29,6 +29,7 @@ const BrowsePage = () => {
       useFlashcards({
         token: user?.token!,
         sort: "top",
+        search: "",
         pageNumber: 1,
         pageSize: 3,
         status: FlashcardStatus.Open,
@@ -38,6 +39,7 @@ const BrowsePage = () => {
         pageNumber: 1,
         pageSize: 3,
         sort: "top",
+        search: "",
         status: DiscussionStatus.Approved,
       }),
     ],

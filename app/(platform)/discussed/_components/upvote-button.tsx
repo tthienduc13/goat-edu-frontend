@@ -23,9 +23,9 @@ export const UpvoteButton = ({
 
   const { connection } = useConnectionStore();
 
-  const handleVote = (userId: string, discussionId: string) => {
+  const handleVote = (discussionId: string) => {
     connection
-      ?.invoke("SendVoteDiscussion", userId, discussionId)
+      ?.invoke("SendVoteDiscussion", discussionId)
       .then(() => {
         queryClient.invalidateQueries({ queryKey: ["discussion", id] });
       })
@@ -50,7 +50,7 @@ export const UpvoteButton = ({
     <div className="flex items-center gap-x-1 flex-row">
       <Button
         disabled={!connection}
-        onClick={() => handleVote(user?.id!, id)}
+        onClick={() => handleVote(id)}
         variant="ghost"
         size="icon"
         className={cn(

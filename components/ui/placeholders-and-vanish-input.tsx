@@ -3,24 +3,34 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Discussion, Status } from "@/types/discussion";
-import { useQuery } from "@tanstack/react-query";
-import { useDiscussions } from "@/app/api/discussion/discussion.query";
-import { useCurrentUser } from "@/hooks/use-current-user";
+
+import { Flashcard } from "@/types/flashcard";
+import { UseQueryResult } from "@tanstack/react-query";
+import { Discussion } from "@/types/discussion";
+import { Subject } from "@/types/subject";
+import { FlashcardResult } from "@/app/(platform)/_components/navbar/search/flashcard-result";
+import { Loader2 } from "lucide-react";
+import Image from "next/image";
+import EmptySearch from "@/public/icons/empty/empty-search.svg";
+import { DiscussionResult } from "@/app/(platform)/_components/navbar/search/discussion-result";
+import { SubjectResult } from "@/app/(platform)/_components/navbar/search/subject-result";
 
 export function PlaceholdersAndVanishInput({
   placeholders,
   onChange,
   onSubmit,
-  searchDataDiscussion,
+  queriesResult,
 }: {
   placeholders: string[];
-  searchDataDiscussion?: Discussion[];
+  queriesResult: [
+    UseQueryResult<Discussion[], Error>,
+    UseQueryResult<Flashcard[], Error>,
+    UseQueryResult<Subject[], Error>
+  ];
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
-  const user = useCurrentUser();
 
   useEffect(() => {
     const startAnimation = () => {
@@ -166,10 +176,15 @@ export function PlaceholdersAndVanishInput({
 
     onSubmit && onSubmit(e);
   };
+
+  const isLoading = queriesResult.some((query) => query.isLoading);
+  const isDataAvailable = queriesResult.some(
+    (query) => query.data?.length !== 0
+  );
   return (
     <form
       className={cn(
-        "w-full relative max-w-xl mx-auto bg-white dark:bg-[#a8b3cf14] h-10 rounded-full  shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
+        "w-full relative max-w-3xl mx-auto bg-white dark:bg-[#a8b3cf14] h-10 rounded-full  shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200",
         value && "bg-gray-50"
       )}
       onSubmit={handleSubmit}
@@ -197,7 +212,6 @@ export function PlaceholdersAndVanishInput({
           animating && "text-transparent dark:text-transparent"
         )}
       />
-
       <button
         disabled={!value}
         type="submit"
@@ -234,7 +248,6 @@ export function PlaceholdersAndVanishInput({
           <path d="M13 6l6 6" />
         </motion.svg>
       </button>
-
       <div className="absolute inset-0 flex items-center rounded-full pointer-events-none">
         <AnimatePresence mode="wait">
           {!value && (
@@ -263,6 +276,41 @@ export function PlaceholdersAndVanishInput({
           )}
         </AnimatePresence>
       </div>
+      {value && (
+        <div className="absolute z-50 bg-white  border-[0.5] shadow-xl rounded-b-xl  left-1/2 w-[95%] -translate-x-1/2  top-[110%]">
+          {isLoading ? (
+            <div className="w-full h-[100px] flex items-center justify-center ">
+              <Loader2 className="h-6 w-6 animate-spin" />
+            </div>
+          ) : (
+            <div>
+              {isDataAvailable ? (
+                <div className="flex py-4 flex-col gap-y-4">
+                  <DiscussionResult
+                    setValue={setValue}
+                    result={queriesResult[0]}
+                  />
+                  <FlashcardResult
+                    setValue={setValue}
+                    result={queriesResult[1]}
+                  />
+                  <SubjectResult
+                    setValue={setValue}
+                    result={queriesResult[2]}
+                  />
+                </div>
+              ) : (
+                <div className="flex py-4 px-4 flex-col w-full h-full justify-center items-center  ">
+                  <div className="h-[150px] w-full relative">
+                    <Image src={EmptySearch} fill alt="empty search" />
+                  </div>
+                  <span> Looks like there is no result</span>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </form>
   );
 }

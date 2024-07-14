@@ -1,27 +1,58 @@
 import { queries } from "@/queries/index";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getAllSubjects } from "./subject.api";
 
 export const useSubjects = ({
-  search = "",
+  token,
+  sort,
+  search,
   pageNumber,
   pageSize,
 }: {
-  search?: string;
-  pageSize?: number;
-  pageNumber?: number;
+  token: string;
+  sort: string;
+  search: string;
+  pageNumber: number;
+  pageSize: number;
 }) => {
-  return useInfiniteQuery({
-    queryKey: ["subjects", pageSize, search],
-    initialPageParam: pageNumber ?? 1,
-    queryFn: ({ pageParam }) => getAllSubjects(search, pageParam, pageSize),
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length ? allPages.length + 1 : undefined;
-    },
-    enabled: !!search,
-  });
+  const queryKey = ["subject", sort, search, pageNumber, pageSize];
+  const queryFn = async () => {
+    return getAllSubjects({
+      token: token,
+      sort: sort,
+      search: search,
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+    });
+  };
+
+  return { queryKey, queryFn };
 };
 
+export const useSearchSubject = ({
+  token,
+  search,
+  pageNumber,
+  pageSize,
+}: {
+  token: string;
+  search: string;
+  pageNumber: number;
+  pageSize: number;
+}) => {
+  const queryKey = ["subject", search, pageNumber, pageSize];
+  const queryFn = async () => {
+    return getAllSubjects({
+      token: token,
+      search: search,
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+    });
+  };
+  const enabled = !!search;
+
+  return { queryKey, queryFn, enabled };
+};
 export const useSubjectById = (id: string, token: string) => {
   return useQuery(queries.subject.id(id, token));
 };

@@ -12,21 +12,24 @@ import { Status } from "@/types/flashcard";
 export const useFlashcards = ({
   token,
   sort,
+  search,
   pageNumber,
   pageSize,
   status,
 }: {
   token: string;
   sort: string;
+  search: string;
   pageNumber: number;
   pageSize: number;
   status: Status;
 }) => {
-  const queryKey = ["flashcard", sort, pageNumber, pageSize, status];
+  const queryKey = ["flashcard", sort, search, pageNumber, pageSize, status];
   const queryFn = async () => {
     return getAllFlashcards({
       token: token,
       sort: sort,
+      search: search,
       pageNumber: pageNumber,
       pageSize: pageSize,
       status: status,
@@ -34,6 +37,34 @@ export const useFlashcards = ({
   };
 
   return { queryKey, queryFn };
+};
+
+export const useSearchFlashcard = ({
+  token,
+  search,
+  pageNumber,
+  pageSize,
+  status,
+}: {
+  token: string;
+  search: string;
+  pageNumber: number;
+  pageSize: number;
+  status: Status;
+}) => {
+  const queryKey = ["flashcard", search, pageNumber, pageSize, status];
+  const queryFn = async () => {
+    return getAllFlashcards({
+      token: token,
+      search: search,
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+      status: status,
+    });
+  };
+  const enabled = !!search;
+
+  return { queryKey, queryFn, enabled };
 };
 
 export const useUserFlashcards = ({

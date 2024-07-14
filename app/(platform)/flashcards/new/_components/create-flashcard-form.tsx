@@ -39,7 +39,7 @@ import { CreateFlashcard } from "@/actions/create-flashcard";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import useCreateDialogStore from "@/stores/useCreateDialogStore";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Status } from "@/types/flashcard";
 import {
   Select,
@@ -48,8 +48,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 export const CreateFlashcardForm = () => {
+  const user = useCurrentUser();
   const { setIsOpenCreateDialog } = useCreateDialogStore();
   const queryClient = useQueryClient();
 
@@ -59,7 +61,15 @@ export const CreateFlashcardForm = () => {
     data: subjectData,
     isLoading,
     error,
-  } = useSubjects({ search: searchQuery, pageSize: 10 });
+  } = useQuery(
+    useSubjects({
+      token: user?.token!,
+      search: searchQuery,
+      sort: "",
+      pageNumber: 1,
+      pageSize: 100,
+    })
+  );
 
   const [isPending, startTransition] = useTransition();
 
@@ -136,7 +146,7 @@ export const CreateFlashcardForm = () => {
                             )}
                           >
                             {field.value
-                              ? subjectData?.pages[0].find(
+                              ? subjectData?.find(
                                   (subject) => subject.id === field.value
                                 )?.subjectName
                               : "Select a subject"}
@@ -154,8 +164,8 @@ export const CreateFlashcardForm = () => {
                           <CommandEmpty>No Subject found</CommandEmpty>
                           <CommandList>
                             <CommandGroup>
-                              {subjectData?.pages &&
-                                subjectData.pages[0].map((subject) => (
+                              {subjectData &&
+                                subjectData.map((subject) => (
                                   <CommandItem
                                     className="w-full"
                                     key={subject.id}
