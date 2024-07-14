@@ -52,10 +52,13 @@ export const getAllSubjects = async ({
   }
 };
 
-export const getSubjectById = async (
-  id: string,
-  token: string
-): Promise<Subject> => {
+export const getSubjectById = async ({
+  token,
+  id,
+}: {
+  token: string;
+  id: string;
+}): Promise<Subject> => {
   const response = await axiosClient.get(`${END_POINT.GET_BY_ID}/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,

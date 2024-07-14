@@ -4,6 +4,7 @@ import { useTheoryByLesson } from "@/app/api/theory/theory.query";
 import { FlashcardContent } from "@/types/flashcard";
 import FlashcardLoading from "./flashcard-loading";
 import Empty from "../empty-state";
+import { useQuery } from "@tanstack/react-query";
 
 interface LessonFlashCardProps {
   lessonName: string;
@@ -20,12 +21,17 @@ const LessonFlashCard = ({
     data: theoryData,
     isLoading: theoryLoading,
     error: theoryError,
-  } = useTheoryByLesson(lessonId, token);
+  } = useQuery(useTheoryByLesson({ token: token, lessonId: lessonId }));
   const {
     data: flashcardContentData,
     isLoading: flashcardLoading,
     error: flashcardError,
-  } = useTheoryFlashCardContentByTheory(theoryData?.id as string, token);
+  } = useQuery(
+    useTheoryFlashCardContentByTheory({
+      token: token,
+      theoryId: theoryData?.id!,
+    })
+  );
 
   if (theoryLoading || flashcardLoading) {
     return <FlashcardLoading />;
@@ -47,8 +53,10 @@ const LessonFlashCard = ({
   return (
     <div className="w-full space-y-4">
       <h1 className="text-3xl font-semibold">{lessonName}</h1>
-      <div className="w-[800px] h-[500px] ">
-        <ArrayFlashcard data={data} />
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="w-[800px] h-[500px] ">
+          <ArrayFlashcard data={data} />
+        </div>
       </div>
     </div>
   );

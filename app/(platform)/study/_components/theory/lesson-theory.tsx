@@ -6,6 +6,8 @@ import "katex/dist/katex.min.css";
 import Image from "next/image";
 import TheoryLoading from "./theory-loading";
 import Empty from "../empty-state";
+import { useQuery } from "@tanstack/react-query";
+import Error from "@/app/error";
 
 interface LatexRendererProps {
   latex: string;
@@ -22,7 +24,7 @@ const LessonTheory = ({ lessonId, lessonName, token }: LessonTheoryProps) => {
     data: theoryData,
     isLoading: theoryLoading,
     error: theoryError,
-  } = useTheoryByLesson(lessonId, token);
+  } = useQuery(useTheoryByLesson({ token: token, lessonId: lessonId }));
 
   const LatexRenderer: React.FC<LatexRendererProps> = ({ latex }) => {
     useEffect(() => {
@@ -47,16 +49,19 @@ const LessonTheory = ({ lessonId, lessonName, token }: LessonTheoryProps) => {
   if (!theoryData) {
     return <Empty />;
   }
+
+  if (theoryError) {
+    Error();
+  }
   return (
     <div className="space-y-8 w-full">
       <h1 className="text-3xl font-semibold">{lessonName}</h1>
-
-      <div key={theoryData?.id}>
-        <LatexRenderer latex={theoryData?.theoryContent as string} />
+      <div>
+        <LatexRenderer latex={theoryData?.theoryContent} />
         <div className="w-full flex justify-center">
-          {theoryData?.image && (
+          {theoryData.image && (
             <Image
-              src={sampleImage}
+              src={theoryData.image ?? ""}
               height={400}
               width={400}
               alt="theory image"

@@ -12,5 +12,6 @@ export const useFlashcardContentById = ({
   const queryFn = async () => {
     return getAllFlashcardContentById(token, id).then((response) => response);
   };
-  return { queryKey, queryFn };
+  const enabled = !!id;
+  return { queryKey, queryFn, enabled };
 };

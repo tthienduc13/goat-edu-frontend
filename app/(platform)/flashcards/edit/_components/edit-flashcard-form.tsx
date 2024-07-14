@@ -5,7 +5,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import useSaveStatusStore from "@/stores/useSaveStatusStore";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -15,12 +15,13 @@ interface EditFlashcardFormProps {
 }
 
 export const EditFlashcardForm = ({ id, token }: EditFlashcardFormProps) => {
+  const queryClient = useQueryClient();
   const { setSaveStatus } = useSaveStatusStore();
   const { data, isLoading, error } = useQuery(
     useFlashcardById({ token: token, id: id })
   );
 
-  const { mutate: patchFlashcard } = usePatchFlashcard({
+  const { mutate: patchFlashcard, isSuccess } = usePatchFlashcard({
     token: token,
     id: id,
   });
@@ -37,13 +38,17 @@ export const EditFlashcardForm = ({ id, token }: EditFlashcardFormProps) => {
 
   const debounceUpdateName = useDebouncedCallback((name: string) => {
     patchFlashcard({ flashcardName: name });
-    setSaveStatus("Saved");
+    if (isSuccess) {
+      setSaveStatus("Saved");
+    }
   }, 500);
 
   const debounceUpdateDescription = useDebouncedCallback(
     (description: string) => {
       patchFlashcard({ flashcardDescription: description });
-      setSaveStatus("Saved");
+      if (isSuccess) {
+        setSaveStatus("Saved");
+      }
     },
     500
   );

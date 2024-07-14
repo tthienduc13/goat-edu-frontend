@@ -16,6 +16,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useConnectionStore } from "@/stores/useConnectionStore";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { toast } from "sonner";
 
 interface MainProps {
   children: React.ReactNode;

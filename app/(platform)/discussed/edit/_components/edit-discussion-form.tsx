@@ -7,15 +7,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { NewDiscussionSchema } from "@/schemas/discussion";
-import { Discussion } from "@/types/discussion";
-import { useSearchParams } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -23,15 +21,21 @@ import { Button } from "@/components/ui/enhanced-button";
 
 import { ArrowUpFromLine, ImageUp, LoaderCircle } from "lucide-react";
 
-import NotFound from "@/app/not-found";
 import { getImageData } from "@/lib/get-image-data";
 import Editor from "@/components/novel/novel-editor";
+import { useDiscussionById } from "@/app/api/discussion/discussion.query";
+import { useQuery } from "@tanstack/react-query";
+import Error from "@/app/error";
 
 interface EditDiscussionFormProps {
   userId: string;
+  token: string;
 }
 
-export const EditDiscussionForm = ({ userId }: EditDiscussionFormProps) => {
+export const EditDiscussionForm = ({
+  userId,
+  token,
+}: EditDiscussionFormProps) => {
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
@@ -40,18 +44,22 @@ export const EditDiscussionForm = ({ userId }: EditDiscussionFormProps) => {
   const [htmlContent, setHtmlContent] = useState<string>("");
   const [jsonContent, setJsonContent] = useState<string>("");
 
-  const params = searchParams.get("data");
+  const params = searchParams.get("id");
 
-  const data: Discussion = JSON.parse(params!);
+  const {
+    data,
+    isLoading,
+    error: queryError,
+  } = useQuery(useDiscussionById({ token: token, id: params! }));
 
   const form = useForm<z.infer<typeof NewDiscussionSchema>>({
     resolver: zodResolver(NewDiscussionSchema),
     defaultValues: {
-      discussionName: data.discussionName,
-      discussionBody: data.discussionBody,
-      discussionBodyHtml: data.discussionImage,
-      discussionImage: data.discussionImage,
-      tags: data.tags,
+      discussionName: data?.discussionName!,
+      discussionBody: data?.discussionBody!,
+      discussionBodyHtml: data?.discussionBodyHtml!,
+      discussionImage: data?.discussionImage!,
+      tags: data?.tags!,
       subjectId: "",
     },
   });
@@ -84,8 +92,12 @@ export const EditDiscussionForm = ({ userId }: EditDiscussionFormProps) => {
     }
   }, [data]);
 
-  if (!data) {
-    NotFound();
+  if (!params) {
+    notFound();
+  }
+
+  if (!data || queryError || data == null) {
+    Error();
   }
 
   return (
@@ -98,11 +110,11 @@ export const EditDiscussionForm = ({ userId }: EditDiscussionFormProps) => {
           <div className="flex flex-col gap-y-2">
             <div className="w-full flex flex-row items-center gap-x-2">
               <h1 className="text-xl font-semibold px-2 py-1 rounded-lg bg-secondary">
-                {data.userAndSubject.subjectName}
+                {data?.userAndSubject.subjectName}
               </h1>
             </div>
             <div className="flex flex-row gap-x-2">
-              {data.tags.map((tag) => (
+              {data?.tags.map((tag) => (
                 <div
                   key={tag.id}
                   className="text-sm bg-secondary px-3 py-1 rounded-lg"
@@ -174,9 +186,9 @@ export const EditDiscussionForm = ({ userId }: EditDiscussionFormProps) => {
                       onClick={handleBrowseImage}
                       className="w-full overflow-hidden relative h-[400px] hover:opacity-80 cursor-pointer flex justify-center items-center border-dashed border-4 border-secondary rounded-xl bg-[#a8b3cf14]"
                     >
-                      {preview || data.discussionImage ? (
+                      {preview || data?.discussionImage! ? (
                         <Image
-                          src={preview || data.discussionImage}
+                          src={preview || data?.discussionImage!}
                           alt="preview image"
                           fill
                           objectFit="contain"
@@ -203,7 +215,7 @@ export const EditDiscussionForm = ({ userId }: EditDiscussionFormProps) => {
               <FormItem>
                 <FormControl>
                   <Editor
-                    initialData={data.discussionBody}
+                    initialData={data?.discussionBody!}
                     setHtmlContent={(content) => {
                       setHtmlContent(content);
                       field.onChange(content);

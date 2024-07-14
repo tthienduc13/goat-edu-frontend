@@ -1,13 +1,12 @@
 "use client";
 
-import { Sheet, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Chapter } from "@/types/chapter";
-import { LessonByChapter } from "@/types/lesson";
 import SideLessonList from "./side-lesson-list";
+import { Accordion } from "@/components/ui/accordion";
+import { useState } from "react";
 
 interface StudySideMenuProps {
   chapters: Chapter[] | undefined;
-  lessonsByChapter: LessonByChapter[];
   handleOnClick: (value: string, id: string, name: string) => void;
   source: {
     theory: string;
@@ -19,37 +18,42 @@ interface StudySideMenuProps {
 
 const StudySideMenu = ({
   chapters,
-  lessonsByChapter,
   handleOnClick,
   source,
   isLoading,
 }: StudySideMenuProps) => {
-  if (isLoading) {
-    return;
-  }
+  const [firstLessonSet, setFirstLessonSet] = useState(false);
+
   return (
-    <div className="w-[400px] max-h-screen overflow-y-auto">
-      {chapters?.map((chapter) => {
-        const thisChapterLesson = lessonsByChapter.find(
-          (item) => item.chapterid === chapter.id
-        );
+    <div className="w-[400px] max-h-screen overflow-y-scroll">
+      {chapters?.map((chapter, index) => {
         return (
           <div key={chapter.id} className="w-full">
             <h4 className="font-bold">
               Chapter {chapter.chapterLevel} : {chapter.chapterName}
             </h4>
-            {thisChapterLesson?.lessonList.map((lesson) => (
+            <Accordion
+              key={chapter.id}
+              type="single"
+              collapsible
+              className="w-full"
+            >
               <SideLessonList
-                key={lesson.id}
-                lesson={lesson}
+                isFirstChapter={index === 0}
+                firstLessonSet={firstLessonSet}
+                setFirstLessonSet={setFirstLessonSet}
+                isLoading={isLoading}
+                chapter={chapter}
+                chapterId={chapter.id}
                 handleOnClick={handleOnClick}
                 source={source}
               />
-            ))}
+            </Accordion>
           </div>
         );
       })}
     </div>
   );
 };
+
 export default StudySideMenu;
