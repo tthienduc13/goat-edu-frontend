@@ -14,6 +14,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const inter = Inter({ subsets: ["latin"] });
 
 import "katex/dist/katex.min.css";
+import NextTopLoader from "nextjs-toploader";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.goatedu.tech"),
@@ -82,6 +83,10 @@ export default async function RootLayout({
               defaultTheme={theme}
               enableSystem
             >
+              <NextTopLoader
+                height={2}
+                color="linear-gradient(to right, #7ea6ff, #0042da 43%, #ffbf7d)"
+              />
               {children}
               <Toaster position="bottom-right" richColors={false} />
               <SpeedInsights />
