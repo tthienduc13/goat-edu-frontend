@@ -19,10 +19,10 @@ import { Status as FlashcardStatus } from "@/types/flashcard";
 import { Status as DiscussionStatus } from "@/types/discussion";
 
 import Error from "@/app/error";
-import { useSession } from "next-auth/react";
 
 const BrowsePage = () => {
   const user = useCurrentUser();
+  console.log(user);
   const queriesResult = useQueries({
     queries: [
       useUserEnroll({ token: user?.token!, pageNumber: 1, pageSize: 3 }),

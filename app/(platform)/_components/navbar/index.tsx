@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useConnectionStore } from "@/stores/useConnectionStore";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 const DynamicUserButton = dynamic(
   () => import("./user-button/user-button").then((res) => res.UserButton),
@@ -48,6 +49,7 @@ const DynamicMobileNav = dynamic(
 
 export const Navbar = () => {
   const user = useCurrentUser();
+  const queryClient = useQueryClient();
   const { connection } = useConnectionStore();
   const pathName = usePathname();
   const isDesktop = useMediaQuery("(min-width: 1280px)");
@@ -86,19 +88,21 @@ export const Navbar = () => {
   }, [activeElement]);
 
   const handleGetNoti = (mess: string) => {
-    console.log(mess);
     toast.success(mess);
+    queryClient.refetchQueries({
+      queryKey: ["notifications"],
+    });
   };
 
   useEffect(() => {
     if (connection) {
-      connection.on("SendNotification", handleGetNoti);
-      console.log("connecteddddd");
+      connection.on("Notification", handleGetNoti);
 
       return () => {
-        connection.off("SendNotification");
+        connection.off("Notification");
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connection]);
 
   return (
