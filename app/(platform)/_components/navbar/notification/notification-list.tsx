@@ -16,6 +16,7 @@ import { EmptyNotification } from "./empty-notification";
 import { NotificationLoading } from "./notification-loading";
 
 import { useNotificationByUser } from "@/app/api/notification/notification.query";
+import { toast } from "sonner";
 
 export const NotificationList = () => {
   const user = useCurrentUser();
@@ -66,6 +67,12 @@ export const NotificationList = () => {
   if (error) {
     return;
   }
+
+  const handleGetNoti = (mess: string) => {
+    toast.success(mess);
+    refetch();
+  };
+
   return (
     <DropdownMenuGroup className="flex flex-col gap-y-2">
       {notifications &&

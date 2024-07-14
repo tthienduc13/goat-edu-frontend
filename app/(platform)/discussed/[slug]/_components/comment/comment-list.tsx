@@ -1,6 +1,4 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UpvoteButton } from "../../../_components/upvote-button";
-import { UpvoteIcon } from "@/components/custom-icons/upvote-icon";
 import { MoreButton } from "@/components/custom/buttons/more-button";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -9,6 +7,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { Answer } from "@/types/answer";
 import { formatTimeAgo } from "@/lib/utils";
 import { LatexRenderer } from "@/lib/latext-render";
+import { UpvoteButton } from "./upvote-button";
 
 interface CommentListProps {
   id: string;
@@ -53,7 +52,11 @@ export const CommentList = ({ id }: CommentListProps) => {
               <LatexRenderer latex={item.answerBodyHtml} />
             </div>
             <div className="flex flex-row items-center gap-x-4">
-              <UpvoteIcon />
+              <UpvoteButton
+                voteCount={item.answerVote}
+                isUserVoted={item.isUserVoted}
+                id={item.id}
+              />
               <MoreButton />
             </div>
           </div>
