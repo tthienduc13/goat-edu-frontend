@@ -38,7 +38,6 @@ import { Check, LoaderCircle, Lock, Globe } from "lucide-react";
 import { CreateFlashcard } from "@/actions/create-flashcard";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import useCreateDialogStore from "@/stores/useCreateDialogStore";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Status } from "@/types/flashcard";
 import {
@@ -49,11 +48,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import useCreateDialogStore from "@/stores/useCreateDialogStore";
 
 export const CreateFlashcardForm = () => {
   const user = useCurrentUser();
-  const { setIsOpenCreateDialog } = useCreateDialogStore();
   const queryClient = useQueryClient();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { setIsOpenCreateDialog } = useCreateDialogStore();
 
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -93,7 +94,7 @@ export const CreateFlashcardForm = () => {
             queryKey: ["flashcard", "user"],
           });
           router.replace(`/flashcards/new?id=${data.data}`);
-          // setIsOpenCreateDialog(false);
+          setIsOpenCreateDialog(false);
         }
         if (data.error) toast.error(data.error);
       });
@@ -134,7 +135,7 @@ export const CreateFlashcardForm = () => {
                 <FormItem className="w-full">
                   <FormLabel className="px-4">Subject</FormLabel>
                   <div className="h-12 w-full rounded-xl overflow-hidden flex flex-row items-center bg-[#a8b3cf14] px-4">
-                    <Popover>
+                    <Popover open={isOpen} onOpenChange={setIsOpen}>
                       <PopoverTrigger asChild>
                         <FormControl className="w-full">
                           <Button
@@ -171,7 +172,8 @@ export const CreateFlashcardForm = () => {
                                     key={subject.id}
                                     value={subject.id}
                                     onSelect={() => {
-                                      form.setValue("subjectId", subject.id);
+                                      field.onChange(subject.id);
+                                      setIsOpen(false);
                                     }}
                                   >
                                     <Check

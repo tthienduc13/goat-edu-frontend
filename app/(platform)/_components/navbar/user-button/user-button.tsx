@@ -82,7 +82,7 @@ export const UserButton = () => {
   }, [router]);
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <Hint label="Profile settings" side="left" sideOffset={10}>
         <DropdownMenuTrigger asChild>
           <Button
