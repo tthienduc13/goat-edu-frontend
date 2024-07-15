@@ -5,10 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useAnswerByDiscussion } from "@/app/api/answer/answer.query";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { Answer } from "@/types/answer";
-import { formatTimeAgo } from "@/lib/utils";
-import { LatexRenderer } from "@/lib/latext-render";
-import { UpvoteButton } from "./upvote-button";
 import { CommentItem } from "./comment-item";
+import { EmptyCommentList } from "./empty-comment-list";
 
 interface CommentListProps {
   id: string;
@@ -38,6 +36,10 @@ export const CommentList = ({ id }: CommentListProps) => {
 
   if (isLoading) {
     return;
+  }
+
+  if (commentList.length === 0) {
+    return <EmptyCommentList />;
   }
   return (
     <div className="flex flex-col w-full gap-y-5">

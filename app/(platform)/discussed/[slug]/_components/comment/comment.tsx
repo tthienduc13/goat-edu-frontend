@@ -52,9 +52,11 @@ export const Comment = ({ id }: CommentProps) => {
         ></div>
       )}
       <div className="w-full flex justify-end gap-x-4">
-        <Button onClick={() => setIsOpenComment(false)} variant={"secondary"}>
-          Cancel
-        </Button>
+        {isOpenComment && (
+          <Button onClick={() => setIsOpenComment(false)} variant={"secondary"}>
+            Cancel
+          </Button>
+        )}
         <Button
           onClick={handleCreateComment}
           disabled={saveStatus !== "Saved" || !isOpenComment}

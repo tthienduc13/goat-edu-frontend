@@ -84,6 +84,7 @@ export function CommandMenu() {
         className="text-base h-full"
         placeholder="Where would you like to go"
       />
+
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup className={cn("py-5", styles.card)} heading="Navigation">

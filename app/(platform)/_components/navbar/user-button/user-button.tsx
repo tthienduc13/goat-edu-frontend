@@ -26,7 +26,6 @@ import {
   Keyboard,
   LifeBuoy,
   LogOut,
-  Settings,
   Tablets,
   User,
   UserPlus,

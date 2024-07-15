@@ -3,6 +3,7 @@ import { Answer } from "@/types/answer";
 
 export const END_POINT = {
   CREATE: "/answer",
+  DELETE: "/answer",
   GET_BY_DISCUSSION: "/answer/discussion",
 };
 
@@ -54,6 +55,26 @@ export const createAnswer = async ({
         },
       }
     );
+    return response.data;
+  } catch (error) {
+    console.error("Error creating answer:", error);
+    throw error;
+  }
+};
+
+export const deleteAnswer = async ({
+  token,
+  id,
+}: {
+  token: string;
+  id: string;
+}) => {
+  try {
+    const response = await axiosClient.delete(`${END_POINT.DELETE}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error creating answer:", error);

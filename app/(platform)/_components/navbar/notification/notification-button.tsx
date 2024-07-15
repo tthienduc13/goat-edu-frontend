@@ -15,8 +15,22 @@ import {
 import { Bell } from "lucide-react";
 
 import { NotificationList } from "./notification-list";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { useMarkAllNotification } from "@/app/api/notification/notification.query";
+import { useState } from "react";
 
 export const NotificationButton = () => {
+  const user = useCurrentUser();
+  const [open, setOpen] = useState<boolean>(false);
+
+  const { mutate: markAsRead } = useMarkAllNotification({
+    token: user?.token!,
+  });
+
+  const handleMarkAsRead = () => {
+    setOpen(false);
+    markAsRead();
+  };
   return (
     <DropdownMenu>
       <Hint label="Notification" sideOffset={10}>
@@ -34,7 +48,16 @@ export const NotificationButton = () => {
       >
         <DropdownMenuLabel className="flex flex-row justify-between items-center">
           <p className="text-xl">Notifications</p>
-          <MoreButton />
+          <MoreButton open={open} setOpen={setOpen}>
+            <Button
+              onClick={() => handleMarkAsRead()}
+              size={"sm"}
+              variant={"ghost"}
+              className="w-full"
+            >
+              Mark as read
+            </Button>
+          </MoreButton>
         </DropdownMenuLabel>
         <DropdownMenuGroup>
           <NotificationList />
