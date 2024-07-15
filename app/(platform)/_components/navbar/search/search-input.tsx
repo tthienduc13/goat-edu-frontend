@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  useDiscussions,
-  useSearchDiscussion,
-} from "@/app/api/discussion/discussion.query";
+import { useSearchDiscussion } from "@/app/api/discussion/discussion.query";
 import { useSearchFlashcard } from "@/app/api/flashcard/flashcard.query";
 import { useSearchSubject, useSubjects } from "@/app/api/subject/subject.query";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";

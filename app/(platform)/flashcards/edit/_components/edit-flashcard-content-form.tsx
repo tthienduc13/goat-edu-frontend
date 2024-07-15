@@ -27,17 +27,13 @@ import { FlashcardContentSchema } from "@/schemas/flashcard";
 import { FormError } from "@/components/forms/form-error";
 import { ImportTerms } from "../../new/_components/import-terms";
 import { KeyBoardShorcuts } from "../../new/_components/keyboard-shorcuts";
-import useSaveStatusStore from "@/stores/useSaveStatusStore";
 import {
   useDeleteFlashcardContent,
   useFlashcardContentById,
   usePatchFlashcardContent,
 } from "@/app/api/flashcard-content/flashcard-content.query";
-// import { PatchFlashcardContent } from "@/actions/patch-flashcard-content";
-import { useDebouncedCallback } from "use-debounce";
-import { useCurrentUser } from "@/hooks/use-current-user";
+
 import { FlashcardContent } from "@/types/flashcard";
-import { usePatchFlashcard } from "@/app/api/flashcard/flashcard.query";
 
 interface EditFlashcardContentFormProps {
   id: string;
@@ -48,8 +44,6 @@ export const EditFlashcardContentForm = ({
   id,
   token,
 }: EditFlashcardContentFormProps) => {
-  const queryClient = useQueryClient();
-  const { setSaveStatus } = useSaveStatusStore();
   const router = useRouter();
   const { data, isLoading } = useQuery(useFlashcardContentById({ token, id }));
   const [isOpenImage, setIsOpenImage] = useState<boolean>(false);
@@ -128,7 +122,9 @@ export const EditFlashcardContentForm = ({
         image: "",
       }));
     };
+
     const sendValues = [...convertData(data!), ...newValues];
+    console.log(values);
     patchFlashcardContent({ values: sendValues });
     router.replace(`/flashcards/${id}`);
   };
@@ -172,7 +168,6 @@ export const EditFlashcardContentForm = ({
         >
           <div className="flex flex-row justify-between">
             <ImportTerms onImport={handleImport} />
-            <Button type="submit">Save</Button>
             <div className="flex flex-row items-center gap-x-2">
               <KeyBoardShorcuts />
               <Button disabled={isPending} type="submit">

@@ -194,7 +194,7 @@ export const CreateForm = () => {
                 </FormItem>
               )}
             />
-            <div className="flex flex-row gap-x-5 items-start">
+            <div className="flex flex-row gap-x-5 items-center">
               <FormField
                 control={form.control}
                 name="subjectId"
