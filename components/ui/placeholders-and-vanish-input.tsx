@@ -313,13 +313,13 @@ export function PlaceholdersAndVanishInput({
                     setValue={setValue}
                     result={queriesResult[2]}
                   />
-                  <div className="w-full px-2">
+                  {/* <div className="w-full px-2">
                     <Link href={`/search?query=${value}`}>
                       <Button className="w-full" variant={"secondary"}>
                         View all
                       </Button>
                     </Link>
-                  </div>
+                  </div> */}
                 </div>
               ) : (
                 <div className="flex py-4 px-4 flex-col w-full h-full justify-center items-center  ">
