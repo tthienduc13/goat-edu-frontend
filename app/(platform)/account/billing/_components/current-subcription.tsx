@@ -1,9 +1,12 @@
 "use client";
+
+import axios from 'axios';
 import { CreateCheckoutSession } from "@/actions/create-checkout-session";
 import { Header } from "@/app/(platform)/account/_components/header";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useEffect, useState } from "react";
+import { Console } from 'console';
 
 export const CurrentSubscription = () => {
   const user = useCurrentUser();
@@ -17,15 +20,31 @@ export const CurrentSubscription = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+  
     try {
-      await CreateCheckoutSession(token);
+      const response = await axios.post(
+        'https://goateduaspbackend.azurewebsites.net/api/payment/create-checkout-session',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+  
+      // Try accessing the header with different cases
+      const redirectUrl = response.data;
+      console.log('Redirect URL:', redirectUrl);
+  
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+      } else {
+        console.error("No redirect URL found in the response headers.");
+      }
     } catch (error) {
       console.error("Error creating checkout session:", error);
-      // Handle error as needed
     }
   };
-
   return (
     <div className="flex flex-col w-full gap-y-6">
       <Header
@@ -34,8 +53,6 @@ export const CurrentSubscription = () => {
       />
       <form
         onSubmit={handleSubmit}
-        action="/api/payment/create-checkout-session" // Point to your Next.js API endpoint
-        method="POST"
       >
         <div className="w-full border-[2px] px-6 py-4 rounded-xl flex flex-row items-center justify-between">
           <div className="flex flex-col gap-y-1">
