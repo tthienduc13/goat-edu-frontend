@@ -29,8 +29,8 @@ import { FormError } from "@/components/forms/form-error";
 import { ImportTerms } from "../../new/_components/import-terms";
 import { KeyBoardShorcuts } from "../../new/_components/keyboard-shorcuts";
 import useSaveStatusStore from "@/stores/useSaveStatusStore";
-import { useFlashcardContentById } from "@/app/api/flashcard-content/flascard-content.query";
-import { PatchFlashcardContent } from "@/actions/patch-flashcard-content";
+import { useFlashcardContentById } from "@/app/api/flashcard-content/flashcard-content.query";
+// import { PatchFlashcardContent } from "@/actions/patch-flashcard-content";
 import { useDebouncedCallback } from "use-debounce";
 
 interface EditFlashcardContentFormProps {
@@ -86,16 +86,15 @@ export const EditFlashcardContentForm = ({
 
   const onSubmit = (values: z.infer<typeof FlashcardContentSchema>) => {
     startTransition(() => {
-      PatchFlashcardContent({ values, id }).then((data) => {
-        if (data.success) {
-          queryClient.invalidateQueries({ queryKey: ["flashcardContent", id] });
-          router.replace(`/flashcard/${id}`);
-        } else {
-          toast.error(data.error);
-        }
-      });
+      // PatchFlashcardContent({ values, id }).then((data) => {
+      //   if (data.success) {
+      //     queryClient.invalidateQueries({ queryKey: ["flashcardContent", id] });
+      //     router.replace(`/flashcard/${id}`);
+      //   } else {
+      //     toast.error(data.error);
+      //   }
+      // });
     });
-    console.log(values);
   };
 
   useEffect(() => {

@@ -27,11 +27,6 @@ export const createDiscussion = async ({
     formData.append("Tags", JSON.stringify(values.tags));
     formData.append("SubjectId", values.subjectId);
 
-    // Log the form data
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
     const response = await axiosClientUpload.post(END_POINT.CREATE, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
