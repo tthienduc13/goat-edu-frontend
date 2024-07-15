@@ -31,10 +31,13 @@ import useSaveStatusStore from "@/stores/useSaveStatusStore";
 import {
   useDeleteFlashcardContent,
   useFlashcardContentById,
+  usePatchFlashcardContent,
 } from "@/app/api/flashcard-content/flashcard-content.query";
 // import { PatchFlashcardContent } from "@/actions/patch-flashcard-content";
 import { useDebouncedCallback } from "use-debounce";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { FlashcardContent } from "@/types/flashcard";
+import { usePatchFlashcard } from "@/app/api/flashcard/flashcard.query";
 
 interface EditFlashcardContentFormProps {
   id: string;
@@ -47,7 +50,6 @@ export const EditFlashcardContentForm = ({
 }: EditFlashcardContentFormProps) => {
   const queryClient = useQueryClient();
   const { setSaveStatus } = useSaveStatusStore();
-  const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { data, isLoading } = useQuery(useFlashcardContentById({ token, id }));
   const [isOpenImage, setIsOpenImage] = useState<boolean>(false);
@@ -59,6 +61,10 @@ export const EditFlashcardContentForm = ({
       flashcardContent: [],
     },
   });
+
+  const { mutate: patchFlashcardContent, isPending } = usePatchFlashcardContent(
+    { token: token, flashcardId: id }
+  );
 
   const { fields, append, move, remove, prepend } = useFieldArray({
     control: form.control,
@@ -89,7 +95,7 @@ export const EditFlashcardContentForm = ({
 
   const { mutate: deleteFlashcard, isSuccess } = useDeleteFlashcardContent({
     token: token,
-    id: id,
+    id: "",
   });
 
   const handleDelete = (index: number) => {
@@ -99,24 +105,32 @@ export const EditFlashcardContentForm = ({
         remove(index);
       } else {
         deleteFlashcard({ id: selectedId });
-        if (isSuccess) {
-          remove(index);
-        }
+        remove(index);
       }
     }
   };
 
   const onSubmit = (values: z.infer<typeof FlashcardContentSchema>) => {
-    startTransition(() => {
-      // PatchFlashcardContent({ values, id }).then((data) => {
-      //   if (data.success) {
-      //     queryClient.invalidateQueries({ queryKey: ["flashcardContent", id] });
-      //     router.replace(`/flashcard/${id}`);
-      //   } else {
-      //     toast.error(data.error);
-      //   }
-      // });
+    const startIndex = data?.length;
+    const newValues = values.flashcardContent.slice(startIndex).map((data) => {
+      return {
+        id: "",
+        flashcardContentQuestion: data.flashcardContentQuestion,
+        flashcardContentAnswer: data.flashcardContentAnswer,
+        image: "",
+      };
     });
+    const convertData = (data: FlashcardContent[]) => {
+      return data.map((item: FlashcardContent) => ({
+        id: item.id,
+        flashcardContentQuestion: item.frontHTML as string,
+        flashcardContentAnswer: item.backHTML as string,
+        image: "",
+      }));
+    };
+    const sendValues = [...convertData(data!), ...newValues];
+    patchFlashcardContent({ values: sendValues });
+    router.replace(`/flashcards/${id}`);
   };
 
   useEffect(() => {
@@ -158,6 +172,7 @@ export const EditFlashcardContentForm = ({
         >
           <div className="flex flex-row justify-between">
             <ImportTerms onImport={handleImport} />
+            <Button type="submit">Save</Button>
             <div className="flex flex-row items-center gap-x-2">
               <KeyBoardShorcuts />
               <Button disabled={isPending} type="submit">

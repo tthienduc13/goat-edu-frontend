@@ -1,6 +1,5 @@
 import { useTheoryByLesson } from "@/app/api/theory/theory.query";
 import React, { useEffect } from "react";
-import sampleImage from "@/assets/sample2.png";
 import katex from "katex";
 import "katex/dist/katex.min.css";
 import Image from "next/image";
@@ -57,7 +56,7 @@ const LessonTheory = ({ lessonId, lessonName, token }: LessonTheoryProps) => {
     <div className="space-y-8 w-full">
       <h1 className="text-3xl font-semibold">{lessonName}</h1>
       <div>
-        <LatexRenderer latex={theoryData?.theoryContent} />
+        <LatexRenderer latex={theoryData?.theoryContentHtml} />
         <div className="w-full flex justify-center">
           {theoryData.image && (
             <Image

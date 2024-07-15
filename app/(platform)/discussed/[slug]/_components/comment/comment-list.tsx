@@ -1,12 +1,11 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MoreButton } from "@/components/custom/buttons/more-button";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useAnswerByDiscussion } from "@/app/api/answer/answer.query";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { Answer } from "@/types/answer";
 import { CommentItem } from "./comment-item";
 import { EmptyCommentList } from "./empty-comment-list";
+import { useConnectionStore } from "@/stores/useConnectionStore";
 
 interface CommentListProps {
   id: string;
@@ -14,8 +13,9 @@ interface CommentListProps {
 
 export const CommentList = ({ id }: CommentListProps) => {
   const user = useCurrentUser();
+  const { connection } = useConnectionStore();
   const [commentList, setCommentList] = useState<Answer[]>([]);
-  const { data, isLoading, error } = useQuery(
+  const { data, isLoading, error, refetch } = useQuery(
     useAnswerByDiscussion({ token: user?.token!, id: id })
   );
 
@@ -25,14 +25,20 @@ export const CommentList = ({ id }: CommentListProps) => {
     }
   }, [data]);
 
-  const handleVoted = (mess: string, answerId: string, votes: number) => {
-    commentList.map((comment) => {
-      if (comment.id === answerId) {
-        comment.answerVote === votes;
-        console.log(votes);
-      }
-    });
+  const handleGetAnswer = (answerNew: string) => {
+    refetch();
   };
+
+  useEffect(() => {
+    if (connection) {
+      connection.on("Answer", handleGetAnswer);
+
+      return () => {
+        connection.off("Answer", handleGetAnswer);
+      };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connection]);
 
   if (isLoading) {
     return;
@@ -44,12 +50,7 @@ export const CommentList = ({ id }: CommentListProps) => {
   return (
     <div className="flex flex-col w-full gap-y-5">
       {commentList.map((comment) => (
-        <CommentItem
-          key={comment.id}
-          data={comment}
-          discussionId={id}
-          handleVoted={handleVoted}
-        />
+        <CommentItem key={comment.id} data={comment} discussionId={id} />
       ))}
     </div>
   );

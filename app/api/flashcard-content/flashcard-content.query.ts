@@ -2,8 +2,10 @@ import * as z from "zod";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
+  FlashcardContentResponse,
   deleteFlashcardContent,
   getAllFlashcardContentById,
+  patchFlashcardContent,
   patchFlashcardContentById,
 } from "./flashcard-content.api";
 import { toast } from "sonner";
@@ -67,6 +69,30 @@ export const usePatchFlashcardContentById = ({
       id: string;
       values: z.infer<typeof FlashcardContentItemSchema>;
     }) => patchFlashcardContentById({ token: token, id: id, values: values }),
+    onSuccess: (data) => {
+      if (data.status === 200) {
+        queryClient.invalidateQueries({
+          queryKey: ["flashcardContent", flashcardId],
+        });
+      } else {
+        toast.error(data.message);
+      }
+    },
+  });
+};
+
+export const usePatchFlashcardContent = ({
+  token,
+  flashcardId,
+}: {
+  token: string;
+  flashcardId: string;
+}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ values }: { values: FlashcardContentResponse[] }) =>
+      patchFlashcardContent({ token: token, id: flashcardId, values: values }),
     onSuccess: (data) => {
       if (data.status === 200) {
         queryClient.invalidateQueries({

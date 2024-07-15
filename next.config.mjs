@@ -2,6 +2,7 @@ import withBundleAnalyzer from "@next/bundle-analyzer";
 
 const nextConfig = {
   images: {
+    domains: ["cdn.getmidnight.com"],
     remotePatterns: [
       {
         protocol: "https",

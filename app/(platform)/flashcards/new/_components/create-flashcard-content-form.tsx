@@ -26,7 +26,7 @@ import { FileImage, LoaderCircle, PencilLine, Plus } from "lucide-react";
 import { FlashcardContentSchema } from "@/schemas/flashcard";
 import { useEffect, useState, useTransition } from "react";
 import { CreateFlashcardContent } from "@/actions/create-flashcard-content";
-import { useRouter, useSearchParams } from "next/navigation";
+import { notFound, useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { FormError } from "@/components/forms/form-error";
 import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
@@ -132,8 +132,7 @@ export const CreateFlashcardContentForm = () => {
   };
 
   if (!id) {
-    router.push("/not-found");
-    return null;
+    notFound();
   }
 
   if (flashcardLoading) {

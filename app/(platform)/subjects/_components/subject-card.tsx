@@ -31,7 +31,7 @@ export const SubjectCard = ({ data }: SubjectCardProps) => {
       <div className="relative  overflow-hidden shadow-lg h-full rounded-2xl transition duration-200 group bg-background hover:shadow-xl border border-zinc-100 dark:border-accent ">
         <div className=" w-full h-[180px] bg-gray-100 rounded-tr-lg rounded-tl-lg overflow-hidden  relative">
           <Image
-            src={sampleImage}
+            src={data.image ?? sampleImage}
             alt="thumbnail"
             fill
             sizes="100vw 100vh"
@@ -66,7 +66,6 @@ export const SubjectCard = ({ data }: SubjectCardProps) => {
             <span className="text-sm text-muted-foreground">
               {new Date(data.createdAt).toLocaleDateString()}
             </span>
-
             <Link
               href={
                 data.isEnroll ? `/study/${data.id}` : `/subjects/${data.id}`
