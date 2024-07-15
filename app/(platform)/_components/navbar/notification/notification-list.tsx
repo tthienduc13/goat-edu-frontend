@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 import { Circle } from "lucide-react";
@@ -15,8 +15,10 @@ import {
 import { EmptyNotification } from "./empty-notification";
 import { NotificationLoading } from "./notification-loading";
 
-import { useNotificationByUser } from "@/app/api/notification/notification.query";
-import { toast } from "sonner";
+import {
+  useMarkNotificationById,
+  useNotificationByUser,
+} from "@/app/api/notification/notification.query";
 
 export const NotificationList = () => {
   const user = useCurrentUser();
@@ -56,6 +58,18 @@ export const NotificationList = () => {
     }, []);
   }, [data]);
 
+  const { mutate: markAsRead } = useMarkNotificationById({
+    token: user?.token!,
+  });
+
+  const handleMarkAsRead = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    notiId: string
+  ) => {
+    e.preventDefault();
+    markAsRead({ notiId: notiId });
+  };
+
   if (isLoading) {
     return <NotificationLoading />;
   }
@@ -68,16 +82,12 @@ export const NotificationList = () => {
     return;
   }
 
-  const handleGetNoti = (mess: string) => {
-    toast.success(mess);
-    refetch();
-  };
-
   return (
     <DropdownMenuGroup className="flex flex-col gap-y-2">
       {notifications &&
         notifications.map((item) => (
           <DropdownMenuItem
+            onClick={(e) => handleMarkAsRead(e, item.id)}
             className={cn("h-25 flex flex-row items-center")}
             key={item.id}
             ref={lastElementRef}
@@ -88,9 +98,11 @@ export const NotificationList = () => {
               </p>
               <p className="notification-message">{item.notificationMessage}</p>
             </div>
-            <div className="h-full">
-              <Circle className="h-[10px] w-[10px] fill-blue-600 text-blue-500" />
-            </div>
+            {!item.readAt && (
+              <div className="h-full">
+                <Circle className="h-[10px] w-[10px] fill-blue-600 text-blue-500" />
+              </div>
+            )}
           </DropdownMenuItem>
         ))}
     </DropdownMenuGroup>

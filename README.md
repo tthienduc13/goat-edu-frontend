@@ -19,7 +19,7 @@ https://goatedu.vercel.app/
 
 **Client:** Next.js 14, Zustand, TailwindCSS, React-query, Next-auth v5
 
-**Server:** PostgresSQK, .Net 6.0, Clean Architecture, Redis
+**Server:** PostgresSQL, .Net 6.0, Clean Architecture, Redis
 
 ## Features
 

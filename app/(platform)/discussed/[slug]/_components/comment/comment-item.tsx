@@ -8,6 +8,8 @@ import { useConnectionStore } from "@/stores/useConnectionStore";
 import { useEffect, useState } from "react";
 import { UpvoteIcon } from "./upvote-icon";
 import { useQueryClient } from "@tanstack/react-query";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { useDeleteAnswer } from "@/app/api/answer/answer.query";
 
 interface CommentItemProps {
   data: Answer;
@@ -16,10 +18,21 @@ interface CommentItemProps {
 }
 
 export const CommentItem = ({ data, discussionId }: CommentItemProps) => {
-  const queryClient = useQueryClient();
+  const user = useCurrentUser();
+  const [open, setOpen] = useState<boolean>(false);
   const { connection } = useConnectionStore();
   const [voteCountState, setVoteCountState] = useState<number>(data.answerVote);
   const [userVote, setUserVote] = useState<boolean>(data.isUserVoted);
+
+  const { mutate: deleteComment } = useDeleteAnswer({
+    token: user?.token!,
+    discussionId: discussionId,
+  });
+
+  const handleDelete = (answerId: string) => {
+    setOpen(false);
+    deleteComment({ answerId: answerId });
+  };
 
   const handleVote = (answerId: string) => {
     connection
@@ -87,20 +100,20 @@ export const CommentItem = ({ data, discussionId }: CommentItemProps) => {
               <span>{voteCountState}</span>
             </div>
           </div>
-          <MoreButton />
+          {user?.id === data.userInformation.userId && (
+            <MoreButton open={open} setOpen={setOpen}>
+              <Button
+                onClick={() => handleDelete(data.id)}
+                className="w-full"
+                variant={"ghost"}
+                size={"sm"}
+              >
+                Delete
+              </Button>
+            </MoreButton>
+          )}
         </div>
       </div>
     </div>
   );
 };
-
-// const handleVote = (answerId: string) => {
-//   console.log("vote for", answerId);
-//   if (userVote) {
-//     setVoteCountState((prev) => prev - 1);
-//     setUserVote(false);
-//   } else {
-//     setVoteCountState((prev) => prev + 1);
-//     setUserVote(true);
-//   }
-// };

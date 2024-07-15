@@ -10,9 +10,11 @@ import useSaveStatusStore from "@/stores/useSaveStatusStore";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useDeleteFlashcard } from "@/app/api/flashcard/flashcard.query";
 import { notFound, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 const EditFlashcardPage = () => {
   const user = useCurrentUser();
+  const [open, setOpen] = useState<boolean>(false);
   const { saveStatus } = useSaveStatusStore();
 
   const router = useRouter();
@@ -54,8 +56,13 @@ const EditFlashcardPage = () => {
           >
             Done
           </Button>
-          <MoreButton>
-            <DropdownMenuItem onClick={() => deleteFlashcard({ id: id })}>
+          <MoreButton open={open} setOpen={setOpen}>
+            <DropdownMenuItem
+              onClick={() => {
+                setOpen(false);
+                deleteFlashcard({ id: id });
+              }}
+            >
               <Eraser className="h-4 w-4 mr-2" />
               Delete
             </DropdownMenuItem>

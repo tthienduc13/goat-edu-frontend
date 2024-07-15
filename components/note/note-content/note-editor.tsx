@@ -45,6 +45,7 @@ const NoteEditor = ({
   userId,
   token,
 }: TailwindAdvancedEditorProps) => {
+  const [open, setOpen] = useState<boolean>(false);
   const { mutate: deleteNote } = useDeleteNote(token, selectedNoteId, userId);
   const { mutate: patchNote } = usePatchNoteContent(
     token,
@@ -94,7 +95,7 @@ const NoteEditor = ({
           {charsCount} Words
         </div>
         <NoteCreateButton />
-        <MoreButton>
+        <MoreButton open={open} setOpen={setOpen}>
           <DropdownMenuGroup>
             <DropdownMenuItem>
               <Button

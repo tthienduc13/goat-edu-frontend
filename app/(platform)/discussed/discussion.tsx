@@ -56,7 +56,7 @@ export const Discussion = ({ token, id, userId }: DiscussionProps) => {
             <BackButton />
             {data?.userAndSubject.userId === userId && (
               <div className="flex flex-row items-center gap-x-2">
-                <Hint label="Edit">
+                {/* <Hint label="Edit">
                   <Button
                     onClick={() => router.push(`/discussed/edit?id=${data.id}`)}
                     variant={"secondary"}
@@ -64,7 +64,7 @@ export const Discussion = ({ token, id, userId }: DiscussionProps) => {
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>
-                </Hint>
+                </Hint> */}
                 <Hint label="Delete">
                   <Button
                     onClick={() => deleteDiscussion({ id: id })}
