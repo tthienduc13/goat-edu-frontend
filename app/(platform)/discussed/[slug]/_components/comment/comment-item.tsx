@@ -14,7 +14,6 @@ import { useDeleteAnswer } from "@/app/api/answer/answer.query";
 interface CommentItemProps {
   data: Answer;
   discussionId: string;
-  handleVoted: (mess: string, answerId: string, votes: number) => void;
 }
 
 export const CommentItem = ({ data, discussionId }: CommentItemProps) => {

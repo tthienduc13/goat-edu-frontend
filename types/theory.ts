@@ -1,9 +1,9 @@
 export type Theory = {
   id: string;
   theoryName: string;
-  file: string;
   image: string;
   theoryContent: string;
+  theoryContentHtml: string;
   lessonId: string;
   createdAt: Date;
   updatedAt: Date;

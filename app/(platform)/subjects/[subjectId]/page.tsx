@@ -1,7 +1,5 @@
 "use client";
 
-import sampleImage from "@/assets/sample2.png";
-
 import { Button } from "@/components/ui/enhanced-button";
 import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
@@ -41,6 +39,9 @@ const SubjectDetailPage = ({ params }: SubjectDetailPageProps) => {
 
   const handleEnrollCourse = (id: string) => {
     enrollCourse({ id: id });
+    queryClient.invalidateQueries({
+      queryKey: ["subject", "user", "enroll", 1, 3],
+    });
     router.push(`/study/${data?.id}`);
   };
 

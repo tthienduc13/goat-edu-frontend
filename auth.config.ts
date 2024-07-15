@@ -131,6 +131,10 @@ export default {
         token.isNewUser = session.user.isNewUser;
       }
 
+      if (trigger === "update" && session.user.subscription) {
+        token.subscription = session.user.subscription;
+      }
+
       if (
         trigger === "update" &&
         session.user.name &&

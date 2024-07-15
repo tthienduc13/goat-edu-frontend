@@ -1,14 +1,22 @@
 "use client";
 
 import axios from "axios";
-import { CreateCheckoutSession } from "@/actions/create-checkout-session";
 import { Header } from "@/app/(platform)/account/_components/header";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useEffect, useState } from "react";
 import { Console } from "console";
+import { useSession } from "next-auth/react";
+import { format } from "date-fns";
 
 export const CurrentSubscription = () => {
+  const { update } = useSession();
+
+  const currentDate = new Date();
+  const billingDate = new Date(
+    currentDate.setMonth(currentDate.getMonth() + 1)
+  );
+
   const user = useCurrentUser();
   const [token, setToken] = useState("");
 
@@ -32,10 +40,10 @@ export const CurrentSubscription = () => {
         }
       );
 
-      // Try accessing the header with different cases
       const redirectUrl = response.data;
-      console.log("Redirect URL:", redirectUrl);
-
+      await update({
+        user: { subscription: true },
+      });
       if (redirectUrl) {
         window.location.href = redirectUrl;
       } else {
@@ -55,7 +63,9 @@ export const CurrentSubscription = () => {
         <div className="w-full border-[2px] px-6 py-4 rounded-xl flex flex-row items-center justify-between">
           <div className="flex flex-col gap-y-1">
             <div className="text-muted-foreground text-sm">Your plan</div>
-            <div className="font-semibold">Free</div>
+            <div className="font-semibold">
+              {user?.subscription ? "Pro" : "Free"}
+            </div>
           </div>
           <div className="flex flex-col gap-y-1">
             <div className="text-muted-foreground text-sm">Cycle</div>
@@ -65,7 +75,11 @@ export const CurrentSubscription = () => {
             <div className="text-muted-foreground text-sm">
               Next billing date
             </div>
-            <div className="font-semibold">Mon, Jan 19 2024</div>
+            <div className="font-semibold">
+              {user?.subscription
+                ? format(billingDate, "EEE, MMM d yyyy")
+                : format(currentDate, "EEE, MMM d yyyy")}
+            </div>
           </div>
           <Button type="submit" className="w-fit">
             Edit plan

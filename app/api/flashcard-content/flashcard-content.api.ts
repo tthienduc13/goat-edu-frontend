@@ -10,11 +10,12 @@ import { FlashcardContent } from "@/types/flashcard";
 export const END_POINT = {
   CREATE: "/flashcard_content",
   GET_BY_ID: "/flashcard_content",
+  PATCH: "/flashcard_content/flashcard",
   PATCH_BY_ID: "/flashcard_content",
   DELETE_BY_ID: "/flashcard_content",
 };
 
-type FlashcardContentResponse = {
+export type FlashcardContentResponse = {
   id: string;
   image: string;
   flashcardContentQuestion: string;
@@ -97,6 +98,31 @@ export const patchFlashcardContentById = async ({
     }
   );
   return response.data;
+};
+
+export const patchFlashcardContent = async ({
+  token,
+  values,
+  id,
+}: {
+  token: string;
+  id: string;
+  values: FlashcardContentResponse[];
+}) => {
+  try {
+    const response = await axiosClient.patch(
+      `${END_POINT.PATCH}/${id}`,
+      values,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const deleteFlashcardContent = async ({
