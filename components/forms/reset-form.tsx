@@ -40,8 +40,6 @@ export const ResetForm = () => {
   const onSubmit = (values: z.infer<typeof ForgotPasswordSchema>) => {
     setError("");
     setSuccess("");
-
-    console.log(values);
   };
 
   return (

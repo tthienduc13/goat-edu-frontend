@@ -57,9 +57,6 @@ export const Main = ({ children }: MainProps) => {
     setConnection(connect);
     connect
       .start()
-      .then(() => {
-        console.log("Connected to SignalR Hub");
-      })
 
       .catch((err) =>
         console.error("Error while connecting to SignalR Hub:", err)

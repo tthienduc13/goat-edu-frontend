@@ -6,7 +6,7 @@ import { Hint } from "@/components/custom/hint";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { ArrayFlashcard } from "../../[slug]/_components/array-flashcard/array-flashcard";
 import { useQueries, useQuery } from "@tanstack/react-query";
-import { useFlashcardContentById } from "@/app/api/flashcard-content/flascard-content.query";
+import { useFlashcardContentById } from "@/app/api/flashcard-content/flashcard-content.query";
 import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
 import { PageLoading } from "./page-loading";
 import Error from "@/app/error";

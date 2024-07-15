@@ -1,6 +1,6 @@
 "use client";
 
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useOnborda } from "onborda";
 import { Shuffle } from "lucide-react";
@@ -10,14 +10,16 @@ import { FlashcardContent } from "@/types/flashcard";
 import { SettingButton } from "./[slug]/_components/control/setting-button";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
-import { Terms } from "./[slug]/_components/terms";
+import { Terms } from "./[slug]/_components/terms/terms";
 import { Options } from "./[slug]/_components/array-flashcard/options";
 import { FlashcardHeader } from "./[slug]/_components/flashcard-header/flashcard-header";
 import { FlashcardHeaderLoading } from "./[slug]/_components/flashcard-header/flashcard-header-loading";
 import { FlashcardContentLoading } from "./[slug]/_components/flashcard-content-loading";
-import { useFlashcardContentById } from "@/app/api/flashcard-content/flascard-content.query";
+import { useFlashcardContentById } from "@/app/api/flashcard-content/flashcard-content.query";
 import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
 import Error from "@/app/error";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { EmtpyFlashcardContent } from "./[slug]/_components/empty-flashcard-content";
 
 interface FlashcardProps {
   token: string;
@@ -34,6 +36,7 @@ const shuffleArray = (array: FlashcardContent[]) => {
 };
 
 export const Flashcard = ({ token, id }: FlashcardProps) => {
+  const user = useCurrentUser();
   const [shuffledData, setShuffledData] = useState<FlashcardContent[]>([]);
   const { startOnborda } = useOnborda();
   const handleStartOnboarda = () => {
@@ -102,54 +105,62 @@ export const Flashcard = ({ token, id }: FlashcardProps) => {
         data={queriesResult[0].data}
         termsCount={queriesResult[1].data?.length}
       />
-      <div className="w-full flex flex-col gap-y-8">
-        <div className="flex flex-row gap-5">
-          <Options id={id} />
-          <div className="w-[1000px] h-[500px]">
-            <ArrayFlashcard data={shuffledData} />
-          </div>
-          <div className="flex flex-col gap-y-4">
-            <Button
-              id="onborda-step4"
-              onClick={handleShuffle}
-              size={"lg"}
-              variant={"outline"}
-            >
-              <Shuffle className="w-5 h-5 mr-2" />
-              <div className="text-base">Shuffle</div>
-            </Button>
-            <SettingButton />
-          </div>
-        </div>
-        <div className="flex flex-col gap-y-5">
-          <div className="flex flex-row items-center gap-x-2">
-            <div className="h-12 w-12">
-              <Avatar>
-                <AvatarImage src={queriesResult[0].data?.userImage} />
-                <AvatarFallback>GE</AvatarFallback>
-              </Avatar>
+      {shuffledData.length !== 0 ? (
+        <div className="w-full flex flex-col gap-y-8">
+          <div className="flex flex-row gap-5">
+            <Options id={id} />
+            <div className="w-[1000px] h-[500px]">
+              <ArrayFlashcard data={shuffledData} />
             </div>
-            <div className="flex flex-col">
-              <div className="text-sm font-semibold">
-                {queriesResult[0].data?.fullName}
-              </div>
-              <div className="text-sm font-medium text-muted-foreground">
-                Last update:{" "}
-                {new Date(
-                  queriesResult[0].data?.updatedAt!
-                ).toLocaleDateString()}
-              </div>
+            <div className="flex flex-col gap-y-4">
+              <Button
+                id="onborda-step4"
+                onClick={handleShuffle}
+                size={"lg"}
+                variant={"outline"}
+              >
+                <Shuffle className="w-5 h-5 mr-2" />
+                <div className="text-base">Shuffle</div>
+              </Button>
+              <SettingButton />
             </div>
           </div>
-          <div className="text-muted-foreground text-sm">
-            {queriesResult[0].data?.flashcardDescription}
+          <div className="flex flex-col gap-y-5">
+            <div className="flex flex-row items-center gap-x-2">
+              <div className="h-12 w-12">
+                <Avatar>
+                  <AvatarImage src={queriesResult[0].data?.userImage} />
+                  <AvatarFallback>GE</AvatarFallback>
+                </Avatar>
+              </div>
+              <div className="flex flex-col">
+                <div className="text-sm font-semibold">
+                  {queriesResult[0].data?.fullName}
+                </div>
+                <div className="text-sm font-medium text-muted-foreground">
+                  Last update:{" "}
+                  {new Date(
+                    queriesResult[0].data?.updatedAt!
+                  ).toLocaleDateString()}
+                </div>
+              </div>
+            </div>
+            <div className="text-muted-foreground text-sm">
+              {queriesResult[0].data?.flashcardDescription}
+            </div>
           </div>
         </div>
-      </div>
-      <Terms
-        termsCount={queriesResult[0].data?.numberOfFlashcardContent}
-        data={queriesResult[1].data}
-      />
+      ) : (
+        <EmtpyFlashcardContent />
+      )}
+      {shuffledData.length !== 0 && (
+        <Terms
+          termsCount={shuffledData.length}
+          data={queriesResult[1].data}
+          isOwner={queriesResult[0].data?.userId === user?.id}
+          flashcardId={id}
+        />
+      )}
     </div>
   );
 };

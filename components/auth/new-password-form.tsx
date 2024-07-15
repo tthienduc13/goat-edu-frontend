@@ -46,8 +46,6 @@ export const NewPasswordForm = () => {
   const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
     setError("");
     setSuccess("");
-
-    console.log(values);
   };
 
   return (

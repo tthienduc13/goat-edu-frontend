@@ -22,7 +22,6 @@ import Error from "@/app/error";
 
 const BrowsePage = () => {
   const user = useCurrentUser();
-  console.log(user);
   const queriesResult = useQueries({
     queries: [
       useUserEnroll({ token: user?.token!, pageNumber: 1, pageSize: 3 }),

@@ -39,18 +39,18 @@ export const FlashcardHeader = ({
     router.replace("/personal");
   }
 
-  if (!data || !termsCount) {
-    return null;
-  }
+  // if (!data || !termsCount) {
+  //   return null;
+  // }
   return (
     <div id="onborda-step1" className="flex flex-col gap-y-4 w-full">
       <h1 className="px-2 py-1 bg-secondary w-fit text-sm font-semibold rounded-xl ">
-        {data.subjectName}
+        {data?.subjectName}
       </h1>
       <div className="flex flex-col gap-y-1">
         <div className="text-3xl font-bold">{data?.flashcardName}</div>
         <div id="onborda-step2" className="flex flex-row items-center gap-x-2">
-          {isRated || data.userId === user?.id! ? (
+          {isRated || data?.userId === user?.id! ? (
             <StarIcon className="h-5 w-5 text-[#FFB23F] fill-[#FFB23F]" />
           ) : (
             <Star id={id} />
@@ -66,10 +66,10 @@ export const FlashcardHeader = ({
           </div>
           <Separator orientation="vertical" />
           <div>
-            {termsCount} {""} {termsCount > 1 ? "terms" : "term"}
+            {termsCount} {""} {termsCount! > 1 ? "terms" : "term"}
           </div>
         </div>
-        {data.userId === user?.id! && (
+        {data?.userId === user?.id! && (
           <div className="flex flex-row items-center gap-x-2">
             <Hint label="Edit">
               <Button

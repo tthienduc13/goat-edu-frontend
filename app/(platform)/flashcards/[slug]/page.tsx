@@ -1,4 +1,4 @@
-import { useFlashcardContentById } from "@/app/api/flashcard-content/flascard-content.query";
+import { useFlashcardContentById } from "@/app/api/flashcard-content/flashcard-content.query";
 import { useFlashcardById } from "@/app/api/flashcard/flashcard.query";
 import { currentUser } from "@/lib/auth";
 import {
