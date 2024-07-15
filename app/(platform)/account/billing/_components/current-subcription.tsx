@@ -1,16 +1,16 @@
 "use client";
 
-import axios from 'axios';
+import axios from "axios";
 import { CreateCheckoutSession } from "@/actions/create-checkout-session";
 import { Header } from "@/app/(platform)/account/_components/header";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useEffect, useState } from "react";
-import { Console } from 'console';
+import { Console } from "console";
 
 export const CurrentSubscription = () => {
   const user = useCurrentUser();
-  const [token, setToken] = useState(""); // Replace with your actual token logic
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -20,22 +20,22 @@ export const CurrentSubscription = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  
+
     try {
       const response = await axios.post(
-        'https://goateduaspbackend.azurewebsites.net/api/payment/create-checkout-session',
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/payment/create-checkout-session`,
         {},
         {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
-  
+
       // Try accessing the header with different cases
       const redirectUrl = response.data;
-      console.log('Redirect URL:', redirectUrl);
-  
+      console.log("Redirect URL:", redirectUrl);
+
       if (redirectUrl) {
         window.location.href = redirectUrl;
       } else {
@@ -51,9 +51,7 @@ export const CurrentSubscription = () => {
         title="Current Subscription"
         label="Information about your current plan and your next billing method"
       />
-      <form
-        onSubmit={handleSubmit}
-      >
+      <form onSubmit={handleSubmit}>
         <div className="w-full border-[2px] px-6 py-4 rounded-xl flex flex-row items-center justify-between">
           <div className="flex flex-col gap-y-1">
             <div className="text-muted-foreground text-sm">Your plan</div>

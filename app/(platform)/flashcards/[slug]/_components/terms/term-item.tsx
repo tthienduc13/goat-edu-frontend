@@ -74,12 +74,6 @@ export const TermItem = ({ data, isOwner, flashcardId }: TermItemProps) => {
     500
   );
 
-  // useEffect(() => {
-  //   if (form.formState.isDirty) {
-  //     debounceUpdate(form.getValues());
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [form.formState.isDirty, form.getValues, debounceUpdate]);
   return (
     <div className={cn("flex flex-row w-full items-center")}>
       <Form {...form}>

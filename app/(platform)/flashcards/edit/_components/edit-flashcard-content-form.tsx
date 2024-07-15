@@ -24,14 +24,17 @@ import {
 } from "@/components/ui/sortable";
 import { FileImage, Loader2, Plus } from "lucide-react";
 import { FlashcardContentSchema } from "@/schemas/flashcard";
-import { toast } from "sonner";
 import { FormError } from "@/components/forms/form-error";
 import { ImportTerms } from "../../new/_components/import-terms";
 import { KeyBoardShorcuts } from "../../new/_components/keyboard-shorcuts";
 import useSaveStatusStore from "@/stores/useSaveStatusStore";
-import { useFlashcardContentById } from "@/app/api/flashcard-content/flashcard-content.query";
+import {
+  useDeleteFlashcardContent,
+  useFlashcardContentById,
+} from "@/app/api/flashcard-content/flashcard-content.query";
 // import { PatchFlashcardContent } from "@/actions/patch-flashcard-content";
 import { useDebouncedCallback } from "use-debounce";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface EditFlashcardContentFormProps {
   id: string;
@@ -82,6 +85,25 @@ export const EditFlashcardContentForm = ({
       flashcardContentQuestion: "",
       flashcardContentAnswer: "",
     });
+  };
+
+  const { mutate: deleteFlashcard, isSuccess } = useDeleteFlashcardContent({
+    token: token,
+    id: id,
+  });
+
+  const handleDelete = (index: number) => {
+    if (data) {
+      const selectedId = data[index]?.id;
+      if (!selectedId) {
+        remove(index);
+      } else {
+        deleteFlashcard({ id: selectedId });
+        if (isSuccess) {
+          remove(index);
+        }
+      }
+    }
   };
 
   const onSubmit = (values: z.infer<typeof FlashcardContentSchema>) => {
@@ -188,7 +210,7 @@ export const EditFlashcardContentForm = ({
                             variant="ghost"
                             size="icon"
                             className="size-8 shrink-0"
-                            onClick={() => remove(index)}
+                            onClick={() => handleDelete(index)}
                           >
                             <TrashIcon className="size-5" aria-hidden="true" />
                             <span className="sr-only">Remove</span>
