@@ -67,12 +67,17 @@ export const getSubjectById = async ({
   return response.data;
 };
 
-export const getSubjectByClass = async (
-  classes: string,
-  token: string,
-  pageSize?: number,
-  pageNumber?: number
-): Promise<Subject[]> => {
+export const getSubjectByClass = async ({
+  classes,
+  token,
+  pageSize,
+  pageNumber,
+}: {
+  classes: string;
+  token: string;
+  pageSize?: number;
+  pageNumber?: number;
+}): Promise<Subject[]> => {
   const response = await axiosClient.get(
     `${END_POINT.GET_BY_CLASS}page_size=${pageSize}&page_number=${pageNumber}&classes=${classes}`,
     {

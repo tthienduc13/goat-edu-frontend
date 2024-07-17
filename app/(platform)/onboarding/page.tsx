@@ -16,7 +16,6 @@ const OnboardingPage = () => {
 
   if (!page || !query.includes(page)) {
     notFound();
-    return null;
   }
   return (
     <div className="flex h-screen flex-col items-center justify-center max-w-3xl mx-auto overflow-x-hidden">

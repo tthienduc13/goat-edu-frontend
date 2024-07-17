@@ -44,13 +44,14 @@ import {
 } from "@/components/ui/form";
 
 import { Register } from "@/actions/register";
-import { useRoles } from "@/app/api/role/role.query";
 import { Role } from "@/types/role";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { useRole } from "@/app/api/role/role.query";
 
 export const RegisterForm = () => {
   const router = useRouter();
-  const { data, isLoading, error } = useRoles();
+  const { data, isLoading, error } = useQuery(useRole());
 
   const [formError, setFormError] = useState<string | undefined>("");
   const [formSuccess, setFormSuccess] = useState<string | undefined>("");

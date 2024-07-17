@@ -1,4 +1,3 @@
-import { queries } from "@/queries";
 import { useQuery } from "@tanstack/react-query";
 import { getTheoryFlashcardContentByTheory } from "./theory-flashcard-content.api";
 

@@ -1,7 +1,6 @@
 import React from "react";
 import { Meteors } from "@/components/ui/meteors";
 import { Flashcard } from "@/types/flashcard";
-import { flashcardContent } from "@/queries/flashcard-content";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";

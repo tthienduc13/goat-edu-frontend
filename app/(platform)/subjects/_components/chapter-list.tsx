@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { Chapter } from "@/types/chapter";
 import { useQuery } from "@tanstack/react-query";
@@ -24,6 +25,20 @@ export const ChapterList = ({ chapter, index }: ChapterListProps) => {
       isLoading: false,
     })
   );
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-full flex flex-col">
+        <div className="flex flex-col w-full gap-y-2 mt-2">
+          <Skeleton className="w-full h-[52px]" />
+          <div className="flex flex-col gap-y-1 w-full pl-4">
+            <Skeleton className="w-full h-8" />
+            <Skeleton className="w-full h-8" />
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="mt-3">
       <AccordionItem value={`item-${index + 1}`}>
@@ -45,7 +60,7 @@ export const ChapterList = ({ chapter, index }: ChapterListProps) => {
               key={lesson.id}
               className="border-b-[0.8px]  pl-6 pt-4"
             >
-              Lesson {lesson.displayOrder + 1}: {lesson.lessonName}
+              Lesson {lesson.displayOrder}: {lesson.lessonName}
             </AccordionContent>
           ))
         )}

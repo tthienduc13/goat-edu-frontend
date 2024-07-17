@@ -14,11 +14,15 @@ export const getQuizById = async (id: string, token: string): Promise<Quiz> => {
   return response.data;
 };
 
-export const getQuizByType = async (
-  typeId: string,
-  type: string,
-  token: string
-): Promise<Quiz> => {
+export const getQuizByType = async ({
+  typeId,
+  type,
+  token,
+}: {
+  typeId: string;
+  type: string;
+  token: string;
+}): Promise<Quiz> => {
   const response = await axiosClient.get(
     `${END_POINT.GET_QUIZ}?id=${typeId}&type=${type}`,
     {

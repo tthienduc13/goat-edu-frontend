@@ -1,4 +1,4 @@
-import { getLessonByChapter } from "./lesson.api";
+import { getLessonByChapter, getLessonById } from "./lesson.api";
 
 export const useLessonByChapter = ({
   token,
@@ -22,7 +22,28 @@ export const useLessonByChapter = ({
       pageSize: pageSize,
     });
   };
-  const enabled = !isLoading;
+  const enabled = !!chapterId;
 
   return { queryKey, queryFn, enabled };
+};
+
+export const useLessonById = ({
+  token,
+  lessonId,
+}: {
+  token: string;
+  lessonId: string;
+}) => {
+  const queryKey = ["lesson", lessonId];
+
+  const queryFn = async () => {
+    return getLessonById({ token: token, lessonId: lessonId });
+  };
+
+  const enabled = !!lessonId;
+  return {
+    queryFn,
+    queryKey,
+    enabled,
+  };
 };
