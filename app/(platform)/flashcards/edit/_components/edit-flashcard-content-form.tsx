@@ -122,9 +122,7 @@ export const EditFlashcardContentForm = ({
         image: "",
       }));
     };
-
     const sendValues = [...convertData(data!), ...newValues];
-    console.log(values);
     patchFlashcardContent({ values: sendValues });
     router.replace(`/flashcards/${id}`);
   };

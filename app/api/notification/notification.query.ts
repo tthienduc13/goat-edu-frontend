@@ -1,4 +1,3 @@
-import { queries } from "@/queries";
 import {
   useInfiniteQuery,
   useMutation,
@@ -11,10 +10,6 @@ import {
   markNotificationById,
 } from "./notification.api";
 import { toast } from "sonner";
-
-export const useNotificationById = (id: string, token: string) => {
-  return useQuery(queries.notifications.id(id, token));
-};
 
 export const useNotificationByUser = (token: string) => {
   return useInfiniteQuery({

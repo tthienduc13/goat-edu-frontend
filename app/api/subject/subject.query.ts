@@ -1,6 +1,9 @@
-import { queries } from "@/queries/index";
 import { useQuery } from "@tanstack/react-query";
-import { getAllSubjects, getSubjectById } from "./subject.api";
+import {
+  getAllSubjects,
+  getSubjectByClass,
+  getSubjectById,
+} from "./subject.api";
 
 export const useSubjects = ({
   token,
@@ -71,13 +74,27 @@ export const useSubjectById = ({
   return { queryKey, queryFn, enabled };
 };
 
-export const useSubjectByClasses = (
-  classes: string,
-  token: string,
-  pageSize: number,
-  pageNumber: number
-) => {
-  return useQuery(
-    queries.subject.classes(classes, token, pageSize, pageNumber)
-  );
+export const useSubjectByClasses = ({
+  classes,
+  token,
+  pageSize,
+  pageNumber,
+}: {
+  classes: string;
+  token: string;
+  pageSize: number;
+  pageNumber: number;
+}) => {
+  const queryKey = ["subject", "class", classes, pageNumber, pageSize];
+
+  const queryFn = async () => {
+    return getSubjectByClass({
+      classes: classes,
+      token: token,
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+    });
+  };
+
+  return { queryFn, queryKey };
 };

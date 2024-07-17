@@ -6,7 +6,7 @@ import { SubjectCard } from "./_components/subject-card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Subject } from "@/types/subject";
-import { useQueries } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Error from "@/app/error";
 
 interface ClassData {
@@ -31,17 +31,38 @@ const SubjectPage = () => {
     data: data10 = [],
     isLoading: isLoading10,
     error: error10,
-  } = useSubjectByClasses("Class 10", user?.token!, showAll["Class 10"], 1);
+  } = useQuery(
+    useSubjectByClasses({
+      classes: "Class 10",
+      token: user?.token!,
+      pageNumber: 1,
+      pageSize: showAll["Class 10"],
+    })
+  );
   const {
     data: data11 = [],
     isLoading: isLoading11,
     error: error11,
-  } = useSubjectByClasses("Class 11", user?.token!, showAll["Class 11"], 1);
+  } = useQuery(
+    useSubjectByClasses({
+      classes: "Class 11",
+      token: user?.token!,
+      pageNumber: 1,
+      pageSize: showAll["Class 11"],
+    })
+  );
   const {
     data: data12 = [],
     isLoading: isLoading12,
     error: error12,
-  } = useSubjectByClasses("Class 12", user?.token!, showAll["Class 12"], 1);
+  } = useQuery(
+    useSubjectByClasses({
+      classes: "Class 12",
+      token: user?.token!,
+      pageNumber: 1,
+      pageSize: showAll["Class 12"],
+    })
+  );
 
   const handleViewMore = (className: ClassData["className"], size: number) => {
     setShowAll((prevShowAll) => ({

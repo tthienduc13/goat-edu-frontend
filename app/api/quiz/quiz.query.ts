@@ -1,13 +1,25 @@
-import { queries } from "@/queries";
-import { useQuery } from "@tanstack/react-query";
+import { getQuizByType } from "./quiz.api";
 
-export const useQuizById = (id: string, token: string) => {
-  return useQuery(queries.quiz.id(id, token));
-};
+export const useQuizByType = ({
+  typeId,
+  typeName,
+  token,
+}: {
+  typeId: string;
+  typeName: string;
+  token: string;
+}) => {
+  const queryKey = ["quiz", typeName, typeId];
 
-export const useQuizByType = (typeId: string, type: string, token: string) => {
-  return useQuery({
-    ...queries.quiz.type(typeId, type, token),
-    enabled: !!typeId,
-  });
+  const queryFn = async () => {
+    return getQuizByType({ type: typeName, typeId: typeId, token: token });
+  };
+
+  const enabled = !!typeId;
+
+  return {
+    queryFn,
+    queryKey,
+    enabled,
+  };
 };
