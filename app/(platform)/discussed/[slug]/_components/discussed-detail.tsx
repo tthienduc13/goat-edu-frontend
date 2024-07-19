@@ -70,7 +70,7 @@ export const DiscussedDetail = ({ data }: DiscussedCardProps) => {
             />
           </div>
         )}
-        <div className="text-xs sm:text-base h-full overflow-hidden line-clamp-5">
+        <div className="text-xs sm:text-base h-full overflow-hidden">
           <LatexRenderer latex={data.discussionBodyHtml} />
         </div>
       </CardContent>
@@ -89,7 +89,7 @@ export const DiscussedDetail = ({ data }: DiscussedCardProps) => {
             >
               <CommentIcon />
             </Button>
-            <span>1</span>
+            <span>{data.commentCount}</span>
           </div>
           <Button
             variant="ghost"
