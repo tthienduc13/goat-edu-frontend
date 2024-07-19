@@ -12,6 +12,7 @@ export type Discussion = {
   tags: Tag[];
   createdAt: Date;
   userAndSubject: UserAndSubject;
+  commentCount: number;
   isUserVoted: boolean;
 };
 
