@@ -70,7 +70,7 @@ export const DiscussedDetail = ({ data }: DiscussedCardProps) => {
             />
           </div>
         )}
-        <div className="text-xs sm:text-base h-full overflow-hidden">
+        <div className="text-xs sm:text-base h-full overflow-hidden line-clamp-5">
           <LatexRenderer latex={data.discussionBodyHtml} />
         </div>
       </CardContent>
